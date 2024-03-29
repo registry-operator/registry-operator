@@ -1,0 +1,28 @@
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+kr8s = "^0.14.1"
+pytest = "^8.1.1"
+pytest-bdd = "^7.1.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.3.0"
+mypy = "^1.9.0"
+isort = "^5.13.2"
+
+[tool.mypy]
+disable_error_code = "import-untyped"
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
