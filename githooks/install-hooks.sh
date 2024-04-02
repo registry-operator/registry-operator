@@ -11,6 +11,5 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   fi
 fi
 
-pre-commit autoupdate
 pre-commit install --hook-type pre-commit
 pre-commit install --hook-type commit-msg
