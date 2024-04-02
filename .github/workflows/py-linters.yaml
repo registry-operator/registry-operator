@@ -1,0 +1,35 @@
+name: py-linters
+
+on:
+  pull_request:
+    branches: [ '*' ]
+    paths:
+      - tests/**
+  push:
+    branches:
+      - "main"
+    paths:
+      - tests/**
+
+jobs:
+  pylinters:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: fregante/setup-git-user@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          check-latest: true
+      - run: |
+          pip install poetry
+      - run: |
+          cd tests && poetry install
+      - run: |
+          cd tests && poetry run black --check .
+      - run: |
+          cd tests && poetry run isort --profile black --check .
+      - run: |
+          cd tests && poetry run mypy .

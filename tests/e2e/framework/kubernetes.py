@@ -1,7 +1,7 @@
 import kr8s
 from kr8s.objects import Namespace
 
-from e2e.framework.utils import random_name, LOG
+from e2e.framework.utils import LOG, random_name
 
 
 def kubernetes_cluster() -> None:
