@@ -46,14 +46,27 @@ ifeq ($(USE_IMAGE_DIGESTS), true)
 	BUNDLE_GEN_FLAGS += --use-image-digests
 endif
 
-# Set the Operator SDK version to use. By default, what is installed on the system is used.
-# This is useful for CI or a project to utilize a specific version of the operator-sdk toolkit.
-OPERATOR_SDK_VERSION ?= v1.34.1
-
 # Image URL to use all building/pushing image targets
 IMG ?= ghcr.io/registry-operator/controller:latest
-# ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
-ENVTEST_K8S_VERSION = 1.28.3
+
+
+## Tool Binaries
+KUBECTL ?= kubectl
+
+CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
+GOLANGCI_LINT ?= $(LOCALBIN)/golangci-lint
+ENVTEST ?= $(LOCALBIN)/setup-envtest
+KUSTOMIZE ?= $(LOCALBIN)/kustomize
+OPERATOR_SDK ?= $(LOCALBIN)/operator-sdk
+OPM ?= $(LOCALBIN)/opm
+
+## Tool Versions
+CONTROLLER_TOOLS_VERSION ?= $(shell grep 'sigs.k8s.io/controller-tools' ./hack/tools/go.mod | cut -d ' ' -f 2)
+GOLANGCI_LINT_VERSION ?= $(shell grep 'github.com/golangci/golangci-lint' ./hack/tools/go.mod | cut -d ' ' -f 2)
+KUSTOMIZE_VERSION ?= $(shell grep 'sigs.k8s.io/kustomize/kustomize/v5' ./hack/tools/go.mod | cut -d ' ' -f 2)
+OPERATOR_SDK_VERSION ?= $(shell grep 'github.com/operator-framework/operator-sdk' ./hack/tools/go.mod | cut -d ' ' -f 2)
+OPM_VERSION ?= $(shell grep 'github.com/operator-framework/operator-registry' ./hack/tools/go.mod | cut -d ' ' -f 2)
+ENVTEST_K8S_VERSION ?= $(shell grep 'k8s.io/kubelet' ./hack/tools/go.mod | cut -d ' ' -f 2 | sed 's/v0/v1/')
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -93,6 +106,93 @@ all: build
 help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
+##@ Tools
+
+.PHONY: versions
+versions:
+	@echo "$(CONTROLLER_GEN): $(CONTROLLER_TOOLS_VERSION)"
+	@echo "$(ENVTEST): $(ENVTEST_K8S_VERSION)"
+	@echo "$(KUSTOMIZE): $(KUSTOMIZE_VERSION)"
+	@echo "$(OPERATOR_SDK): $(OPERATOR_SDK_VERSION)"
+	@echo "$(OPM): $(OPM_VERSION)"
+
+.PHONY: tools
+tools: controller-gen golangci-lint kustomize envtest operator-sdk opm
+
+## Location to install dependencies to
+LOCALBIN ?= $(shell pwd)/bin
+$(LOCALBIN):
+	mkdir -p $(LOCALBIN)
+
+.PHONY: controller-gen
+controller-gen: $(CONTROLLER_GEN) ## Download controller-gen locally. If wrong version is installed, it will be overwritten.
+$(CONTROLLER_GEN): $(LOCALBIN)
+	@if test -s $(LOCALBIN)/controller-gen && ! $(LOCALBIN)/controller-gen --version | grep -q $(CONTROLLER_TOOLS_VERSION); then \
+		echo "$(LOCALBIN)/controller-gen version is not expected $(CONTROLLER_TOOLS_VERSION). Removing it before installing."; \
+		rm -rf $(LOCALBIN)/controller-gen; \
+	fi
+	test -s $(LOCALBIN)/controller-gen || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_TOOLS_VERSION)
+
+golangci-lint: $(GOLANGCI_LINT) ## Download golangci-lint locally. If wrong version is installed, it will be overwritten.
+$(GOLANGCI_LINT): $(LOCALBIN)
+	@if test -s $(LOCALBIN)/golangci-lint && ! $(LOCALBIN)/golangci-lint --version | grep -q $(GOLANGCI_LINT_VERSION); then \
+		echo "$(LOCALBIN)/golangci-lint version is not expected $(GOLANGCI_LINT_VERSION). Removing it before installing."; \
+		rm -rf $(LOCALBIN)/golangci-lint; \
+	fi
+	test -s $(LOCALBIN)/golangci-lint || GOBIN=$(LOCALBIN) go install github.com/golangci/golangci-lint/cmd/golangci-lint@$(GOLANGCI_LINT_VERSION)
+
+.PHONY: kustomize
+kustomize: ## Download kustomize locally.
+ifeq (,$(wildcard $(KUSTOMIZE)))
+ifeq (,$(shell which kustomize 2>/dev/null))
+	@{ \
+	set -e ;\
+	mkdir -p $(dir $(KUSTOMIZE)) ;\
+	KUSTOMIZE_VERSION="$(KUSTOMIZE_VERSION#v)" && \
+	curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -s -- $${KUSTOMIZE_VERSION} $(LOCALBIN);\
+	}
+else
+KUSTOMIZE = $(shell which kustomize)
+endif
+endif
+
+.PHONY: envtest
+envtest: $(ENVTEST) ## Download envtest-setup locally.
+$(ENVTEST): $(LOCALBIN)
+	test -s $(LOCALBIN)/setup-envtest || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+
+.PHONY: operator-sdk
+operator-sdk: ## Download operator-sdk locally. If wrong version is installed, it will be overwritten.
+ifeq (,$(wildcard $(OPERATOR_SDK)))
+ifeq (,$(shell which operator-sdk 2>/dev/null))
+	@{ \
+	set -e ;\
+	mkdir -p $(dir $(OPERATOR_SDK)) ;\
+	OS=$(shell go env GOOS) && ARCH=$(shell go env GOARCH) && \
+	curl -sSLo $(OPERATOR_SDK) https://github.com/operator-framework/operator-sdk/releases/download/$(OPERATOR_SDK_VERSION)/operator-sdk_$${OS}_$${ARCH} ;\
+	chmod +x $(OPERATOR_SDK) ;\
+	}
+else
+OPERATOR_SDK = $(shell which operator-sdk)
+endif
+endif
+
+.PHONY: opm
+opm: ## Download opm locally.
+ifeq (,$(wildcard $(OPM)))
+ifeq (,$(shell which opm 2>/dev/null))
+	@{ \
+	set -e ;\
+	mkdir -p $(dir $(OPM)) ;\
+	OS=$(shell go env GOOS) && ARCH=$(shell go env GOARCH) && \
+	curl -sSLo $(OPM) https://github.com/operator-framework/operator-registry/releases/download/$(OPM_VERSION)/$${OS}-$${ARCH}-opm ;\
+	chmod +x $(OPM) ;\
+	}
+else
+OPM = $(shell which opm)
+endif
+endif
+
 ##@ Development
 
 .PHONY: manifests
@@ -103,14 +203,6 @@ manifests: controller-gen ## Generate WebhookConfiguration, ClusterRole and Cust
 generate: controller-gen ## Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 
-.PHONY: fmt
-fmt: ## Run go fmt against code.
-	go fmt ./...
-
-.PHONY: vet
-vet: ## Run go vet against code.
-	go vet ./...
-
 .PHONY: test
 test: manifests generate fmt vet envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) --bin-dir $(LOCALBIN) -p path)" go test -race -covermode=atomic -coverprofile=coverage.out
@@ -119,14 +211,6 @@ test: manifests generate fmt vet envtest ## Run tests.
 .PHONY: test-e2e  # Run the e2e tests against a Kind k8s instance that is spun up.
 test-e2e:
 	go test ./test/e2e/ -v -ginkgo.v
-
-GOLANGCI_LINT = $(shell pwd)/bin/golangci-lint
-GOLANGCI_LINT_VERSION ?= v1.54.2
-golangci-lint:
-	@[ -f $(GOLANGCI_LINT) ] || { \
-	set -e ;\
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell dirname $(GOLANGCI_LINT)) $(GOLANGCI_LINT_VERSION) ;\
-	}
 
 .PHONY: lint
 lint: golangci-lint ## Run golangci-lint linter & yamllint
@@ -157,23 +241,6 @@ docker-build: ## Build docker image with the manager.
 docker-push: ## Push docker image with the manager.
 	$(CONTAINER_TOOL) push ${IMG}
 
-# PLATFORMS defines the target platforms for the manager image be built to provide support to multiple
-# architectures. (i.e. make docker-buildx IMG=myregistry/mypoperator:0.0.1). To use this option you need to:
-# - be able to use docker buildx. More info: https://docs.docker.com/build/buildx/
-# - have enabled BuildKit. More info: https://docs.docker.com/develop/develop-images/build_enhancements/
-# - be able to push the image to your registry (i.e. if you do not set a valid value via IMG=<myregistry/image:<tag>> then the export will fail)
-# To adequately provide solutions that are compatible with multiple platforms, you should consider using this option.
-PLATFORMS ?= linux/arm64,linux/amd64,linux/s390x,linux/ppc64le
-.PHONY: docker-buildx
-docker-buildx: ## Build and push docker image for the manager for cross-platform support
-	# copy existing Dockerfile and insert --platform=${BUILDPLATFORM} into Dockerfile.cross, and preserve the original Dockerfile
-	sed -e '1 s/\(^FROM\)/FROM --platform=\$$\{BUILDPLATFORM\}/; t' -e ' 1,// s//FROM --platform=\$$\{BUILDPLATFORM\}/' Dockerfile > Dockerfile.cross
-	- $(CONTAINER_TOOL) buildx create --name project-v3-builder
-	$(CONTAINER_TOOL) buildx use project-v3-builder
-	- $(CONTAINER_TOOL) buildx build --push --platform=$(PLATFORMS) --tag ${IMG} -f Dockerfile.cross .
-	- $(CONTAINER_TOOL) buildx rm project-v3-builder
-	rm Dockerfile.cross
-
 ##@ Deployment
 
 ifndef ignore-not-found
@@ -199,58 +266,6 @@ undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/confi
 
 ##@ Build Dependencies
 
-## Location to install dependencies to
-LOCALBIN ?= $(shell pwd)/bin
-$(LOCALBIN):
-	mkdir -p $(LOCALBIN)
-
-## Tool Binaries
-KUBECTL ?= kubectl
-KUSTOMIZE ?= $(LOCALBIN)/kustomize
-CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
-ENVTEST ?= $(LOCALBIN)/setup-envtest
-
-## Tool Versions
-KUSTOMIZE_VERSION ?= v5.2.1
-CONTROLLER_TOOLS_VERSION ?= v0.14.0
-
-.PHONY: kustomize
-kustomize: $(KUSTOMIZE) ## Download kustomize locally if necessary. If wrong version is installed, it will be removed before downloading.
-$(KUSTOMIZE): $(LOCALBIN)
-	@if test -x $(LOCALBIN)/kustomize && ! $(LOCALBIN)/kustomize version | grep -q $(KUSTOMIZE_VERSION); then \
-		echo "$(LOCALBIN)/kustomize version is not expected $(KUSTOMIZE_VERSION). Removing it before installing."; \
-		rm -rf $(LOCALBIN)/kustomize; \
-	fi
-	test -s $(LOCALBIN)/kustomize || GOBIN=$(LOCALBIN) GO111MODULE=on go install sigs.k8s.io/kustomize/kustomize/v5@$(KUSTOMIZE_VERSION)
-
-.PHONY: controller-gen
-controller-gen: $(CONTROLLER_GEN) ## Download controller-gen locally if necessary. If wrong version is installed, it will be overwritten.
-$(CONTROLLER_GEN): $(LOCALBIN)
-	test -s $(LOCALBIN)/controller-gen && $(LOCALBIN)/controller-gen --version | grep -q $(CONTROLLER_TOOLS_VERSION) || \
-	GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_TOOLS_VERSION)
-
-.PHONY: envtest
-envtest: $(ENVTEST) ## Download envtest-setup locally if necessary.
-$(ENVTEST): $(LOCALBIN)
-	test -s $(LOCALBIN)/setup-envtest || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
-
-.PHONY: operator-sdk
-OPERATOR_SDK ?= $(LOCALBIN)/operator-sdk
-operator-sdk: ## Download operator-sdk locally if necessary.
-ifeq (,$(wildcard $(OPERATOR_SDK)))
-ifeq (, $(shell which operator-sdk 2>/dev/null))
-	@{ \
-	set -e ;\
-	mkdir -p $(dir $(OPERATOR_SDK)) ;\
-	OS=$(shell go env GOOS) && ARCH=$(shell go env GOARCH) && \
-	curl -sSLo $(OPERATOR_SDK) https://github.com/operator-framework/operator-sdk/releases/download/$(OPERATOR_SDK_VERSION)/operator-sdk_$${OS}_$${ARCH} ;\
-	chmod +x $(OPERATOR_SDK) ;\
-	}
-else
-OPERATOR_SDK = $(shell which operator-sdk)
-endif
-endif
-
 .PHONY: bundle
 bundle: manifests kustomize operator-sdk ## Generate bundle manifests and metadata, then validate generated files.
 	$(OPERATOR_SDK) generate kustomize manifests -q
@@ -265,23 +280,6 @@ bundle-build: ## Build the bundle image.
 .PHONY: bundle-push
 bundle-push: ## Push the bundle image.
 	$(MAKE) docker-push IMG=$(BUNDLE_IMG)
-
-.PHONY: opm
-OPM = $(LOCALBIN)/opm
-opm: ## Download opm locally if necessary.
-ifeq (,$(wildcard $(OPM)))
-ifeq (,$(shell which opm 2>/dev/null))
-	@{ \
-	set -e ;\
-	mkdir -p $(dir $(OPM)) ;\
-	OS=$(shell go env GOOS) && ARCH=$(shell go env GOARCH) && \
-	curl -sSLo $(OPM) https://github.com/operator-framework/operator-registry/releases/download/v1.23.0/$${OS}-$${ARCH}-opm ;\
-	chmod +x $(OPM) ;\
-	}
-else
-OPM = $(shell which opm)
-endif
-endif
 
 # A comma-separated list of bundle images (e.g. make catalog-build BUNDLE_IMGS=example.com/operator-bundle:v0.1.0,example.com/operator-bundle:v0.2.0).
 # These images MUST exist in a registry and be pull-able.
