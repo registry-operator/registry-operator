@@ -9,4 +9,4 @@ metadata:
     app.kubernetes.io/created-by: registry-operator
   name: registry-sample
 spec:
-  # TODO(user): Add fields here
+  bucketAccessSecretName: "bucket-access"

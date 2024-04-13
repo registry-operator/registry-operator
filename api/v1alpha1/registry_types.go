@@ -25,11 +25,7 @@ import (
 
 // RegistrySpec defines the desired state of Registry.
 type RegistrySpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of Registry. Edit registry_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	BucketAccessSecretName string `json:"bucketAccessSecretName"`
 }
 
 // RegistryStatus defines the observed state of Registry.

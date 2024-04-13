@@ -39,10 +39,10 @@ spec:
           spec:
             description: RegistrySpec defines the desired state of Registry.
             properties:
-              foo:
-                description: Foo is an example field of Registry. Edit registry_types.go
-                  to remove/update
+              bucketAccessSecretName:
                 type: string
+            required:
+            - bucketAccessSecretName
             type: object
           status:
             description: RegistryStatus defines the observed state of Registry.

@@ -18,7 +18,9 @@ package controller
 
 import (
 	"context"
+	"slices"
 
+	apiv1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -46,10 +48,105 @@ type RegistryReconciler struct {
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.16.3/pkg/reconcile
-func (r *RegistryReconciler) Reconcile(ctx context.Context, _ ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
+func (r *RegistryReconciler) Reconcile(ctx context.Context, request ctrl.Request) (ctrl.Result, error) {
+	l := log.FromContext(ctx)
 
-	// TODO(user): your logic here
+	l.Info("Hello from reconcile!")
+
+	registry := &registryoperatordevv1alpha1.Registry{}
+	err := r.Client.Get(ctx, request.NamespacedName, registry)
+	if err != nil {
+		l.Info("couldn't get registry CR deleting pod if exists")
+		pods := &apiv1.PodList{}
+		err = r.Client.List(ctx, pods, client.InNamespace(request.Namespace), client.MatchingLabels{"app": "registry", "registry": registry.Name})
+		if err != nil {
+			l.Error(err, "couldn't list pods")
+			return ctrl.Result{}, err
+		}
+
+		idx := slices.IndexFunc(pods.Items, func(pod apiv1.Pod) bool {
+			return pod.Name == registry.Name
+		})
+
+		if idx != -1 {
+			err := r.Client.Delete(ctx, &pods.Items[idx])
+			if err != nil {
+				l.Error(err, "couldn't delete a pod")
+				return ctrl.Result{}, err
+			}
+		}
+
+		return ctrl.Result{}, nil
+	}
+
+	pods := &apiv1.PodList{}
+	err = r.Client.List(ctx, pods, client.InNamespace(request.Namespace), client.MatchingLabels{"app": "registry", "registry": registry.Name})
+	if err != nil {
+		l.Error(err, "couldn't list pods")
+		return ctrl.Result{}, err
+	}
+
+	// Check if pod list contains pod with the same name as registry CR
+	idx := slices.IndexFunc(pods.Items, func(pod apiv1.Pod) bool {
+		return pod.Name == registry.Name
+	})
+
+	if idx == -1 {
+		// Create a new pod, mount secret from registry CR to the pod and start registry container
+		l.Info("Creating a new pod")
+		pod := &apiv1.Pod{
+			ObjectMeta: ctrl.ObjectMeta{
+				Name:      registry.Name,
+				Namespace: request.Namespace,
+				Labels: map[string]string{
+					"app":      "registry",
+					"registry": registry.Name,
+				},
+			},
+			Spec: apiv1.PodSpec{
+				Containers: []apiv1.Container{
+					{
+						Name:  request.Name,
+						Image: "registry:2",
+						VolumeMounts: []apiv1.VolumeMount{
+							{
+								Name:      "registry-secret",
+								MountPath: "/var/lib/registry",
+							},
+						},
+					},
+				},
+				Volumes: []apiv1.Volume{
+					{
+						Name: "registry-secret",
+						VolumeSource: apiv1.VolumeSource{
+							Secret: &apiv1.SecretVolumeSource{
+								SecretName: registry.Spec.BucketAccessSecretName,
+							},
+						},
+					},
+				},
+			},
+		}
+
+		if err := r.Client.Create(ctx, pod); err != nil {
+			l.Error(err, "couldn't create a pod")
+			return ctrl.Result{}, err
+		}
+
+		l.Info("Pod created")
+		return ctrl.Result{}, nil
+	}
+
+	// Delete the pod if registry CR is deleted
+	if !registry.ObjectMeta.DeletionTimestamp.IsZero() {
+		l.Info("Deleting the pod")
+		err := r.Client.Delete(ctx, &pods.Items[idx])
+		if err != nil {
+			l.Error(err, "couldn't delete a pod")
+			return ctrl.Result{}, err
+		}
+	}
 
 	return ctrl.Result{}, nil
 }
