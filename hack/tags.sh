@@ -28,7 +28,7 @@ if [[ "${REF_NAME}" == v* ]]; then
   TAGS=("${VERSION}" "${REF_NAME}" "latest")
 elif [[ "${REF_NAME}" == "main" ]]; then
   VERSION="${DATE}-${LATEST_REF}-${SHA}"
-  TAGS=("${VERSION}" "nightly")
+  TAGS=("${VERSION}" "canary")
 else
   VERSION="${DATE}-${SHA}"
   TAGS=("${VERSION}")
