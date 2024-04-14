@@ -27,4 +27,4 @@ jobs:
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./hack/release-gen.sh ${{ github.actor }}
+          ./hack/release-gen.sh shanduur-auto
