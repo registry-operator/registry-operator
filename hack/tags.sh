@@ -25,7 +25,12 @@ fi
 # Determine the version and tags based on the reference name
 if [[ "${REF_NAME}" == v* ]]; then
   VERSION="${DATE}-${REF_NAME}-${SHA}"
-  TAGS=("${VERSION}" "${REF_NAME}" "latest")
+  TAGS=("${VERSION}" "${REF_NAME}")
+
+  # If this is a prerelease, then skip tagging as latest
+  if [[ "${REF_NAME}" != *-* ]]; then
+    TAGS+=("latest" "$(echo "${REF_NAME}" | cut -d. -f1,2)" "$(echo "${REF_NAME}" | cut -d. -f1)")
+  fi
 elif [[ "${REF_NAME}" == "main" ]]; then
   VERSION="${DATE}-${LATEST_REF}-${SHA}"
   TAGS=("${VERSION}" "canary")
