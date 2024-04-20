@@ -23,9 +23,16 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+type StorageType string
+
+const StorageTypeInMemory StorageType = "inmemory"
+
 // RegistrySpec defines the desired state of Registry.
 type RegistrySpec struct {
-	BucketAccessSecretName string `json:"bucketAccessSecretName"`
+	// +kubebuilder:default="inmemory"
+	// +kubebuilder:validation:Enum=inmemory
+	// +kubebuilder:validation:Optional
+	StorageType StorageType `json:"storageType,omitempty"`
 }
 
 // RegistryStatus defines the observed state of Registry.
