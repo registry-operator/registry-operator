@@ -18,5 +18,8 @@ vendor/
 # Go workspace file
 go.work
 
+# Brew bundle lock
+Brewfile.lock.json
+
 # MacOS attributes files
 .DS_Store

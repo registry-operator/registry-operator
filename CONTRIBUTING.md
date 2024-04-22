@@ -3,28 +3,29 @@
 **Table of Contents**
 
 - [Contributing to registry-operator](#contributing-to-registry-operator)
-	- [Issues](#issues)
-		- [Reporting an Issue](#reporting-an-issue)
-		- [Issue Lifecycle](#issue-lifecycle)
-	- [Pull Requests](#pull-requests)
-	- [Developing](#developing)
-		- [Go Environment and Go Modules](#go-environment-and-go-modules)
-		- [Code Linting with golangci-lint](#code-linting-with-golangci-lint)
-			- [Installing golangci-lint via Homebrew (macOS)](#installing-golangci-lint-via-homebrew-macos)
-			- [Installing golangci-lint via `go install`](#installing-golangci-lint-via-go-install)
-		- [Testing](#testing)
-			- [Writing Tests](#writing-tests)
-				- [Unit tests](#unit-tests)
-				- [Integration tests](#integration-tests)
-		- [Reducing Third-Party Libraries](#reducing-third-party-libraries)
-			- [Guidelines](#guidelines)
-	- [Releasing](#releasing)
-		- [Tagging a release](#tagging-a-release)
-			- [Prerequisites](#prerequisites)
-			- [Tagging the release](#tagging-the-release)
-		- [If a release fails](#if-a-release-fails)
-			- [Github Releases](#github-releases)
-				- [Prerequisites](#prerequisites-1)
+  - [Issues](#issues)
+    - [Reporting an Issue](#reporting-an-issue)
+    - [Issue Lifecycle](#issue-lifecycle)
+  - [Pull Requests](#pull-requests)
+  - [Developing](#developing)
+    - [Go Environment and Go Modules](#go-environment-and-go-modules)
+    - [Code Linting with golangci-lint](#code-linting-with-golangci-lint)
+      - [Installing golangci-lint via Homebrew (macOS)](#installing-golangci-lint-via-homebrew-macos)
+      - [Installing golangci-lint via `go install`](#installing-golangci-lint-via-go-install)
+    - [Testing](#testing)
+      - [Writing Tests](#writing-tests)
+        - [Unit tests](#unit-tests)
+        - [Integration tests](#integration-tests)
+        - [End-to-end tests](#end-to-end-tests)
+    - [Reducing Third-Party Libraries](#reducing-third-party-libraries)
+      - [Guidelines](#guidelines)
+  - [Releasing](#releasing)
+    - [Tagging a release](#tagging-a-release)
+      - [Prerequisites](#prerequisites)
+      - [Tagging the release](#tagging-the-release)
+    - [If a release fails](#if-a-release-fails)
+      - [Github Releases](#github-releases)
+        - [Prerequisites](#prerequisites-1)
 
 **First:** if you're unsure or afraid of _anything_, just ask or submit the issue or pull request anyways. You won't be yelled at for giving your best effort. The worst that can happen is that you'll be politely asked to change something. We appreciate all contributions!
 
@@ -224,6 +225,24 @@ func TestAdd(t *testing.T) {
 	}
 }
 ```
+
+##### End-to-end tests
+
+End-to-end (E2E) tests evaluate the complete flow of the application, ensuring that all components interact as expected to achieve the desired outcome. These tests often involve external dependencies such as databases, services, and APIs, making them more complex than unit and integration tests.
+
+In `registry-operator`, E2E tests are conducted using feature files written in Gherkin syntax. These feature files describe scenarios in a human-readable format, outlining the expected behavior and flow of different application features.
+
+**Test Framework:** The E2E tests are executed using `pytest` with the `pytest-bdd` plugin, which provides support for running BDD (Behavior-Driven Development) tests written in Gherkin format. This combination allows for clear and expressive test cases that closely mirror the expectations of the application’s functionality.
+
+**Kubernetes Client:** The tests leverage `kr8s`, a Kubernetes client, to interact with the cluster and execute the necessary operations within the application. This client enables the E2E tests to simulate real-world scenarios by deploying and managing resources in the cluster.
+
+When writing end-to-end tests:
+- **Feature Files:** Begin by writing Gherkin feature files, which describe the behavior of a feature in terms of given, when, and then steps. These files serve as the basis for your E2E tests.
+- **Scenarios:** Each scenario within a feature file should represent a specific use case, capturing how users interact with the application and what outcomes they expect.
+- **Test Implementation:** Use `pytest-bdd` to translate the feature file scenarios into test functions. These functions should interact with the application, assert expected outcomes, and report any deviations from the expected behavior.
+- **Kubernetes Operations:** Utilize `kr8s` to perform operations on the Kubernetes cluster as part of the tests, such as deploying resources, modifying configurations, and checking application state.
+
+By following this approach, you can create robust end-to-end tests that validate the complete behavior of your application, helping to ensure its stability and reliability.
 
 ### Reducing Third-Party Libraries
 
