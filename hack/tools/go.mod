@@ -1,12 +1,14 @@
 module tools
 
-go 1.22
+go 1.22.0
+
+toolchain go1.22.2
 
 require (
 	github.com/golangci/golangci-lint v1.57.2
 	github.com/operator-framework/operator-registry v1.39.0
 	github.com/operator-framework/operator-sdk v1.34.1
-	k8s.io/kubelet v0.29.4
+	k8s.io/kubelet v0.30.0
 	sigs.k8s.io/controller-tools v0.14.0
 	sigs.k8s.io/kustomize/kustomize/v5 v5.4.1
 )
@@ -130,7 +132,7 @@ require (
 	github.com/golangci/revgrep v0.5.2 // indirect
 	github.com/golangci/unconvert v0.0.0-20240309020433-c5143eacb3ed // indirect
 	github.com/google/btree v1.1.2 // indirect
-	github.com/google/cel-go v0.17.7 // indirect
+	github.com/google/cel-go v0.17.8 // indirect
 	github.com/google/gnostic-models v0.6.8 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/go-containerregistry v0.16.1 // indirect
@@ -339,15 +341,15 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.14.2 // indirect
 	honnef.co/go/tools v0.4.7 // indirect
-	k8s.io/api v0.29.4 // indirect
+	k8s.io/api v0.30.0 // indirect
 	k8s.io/apiextensions-apiserver v0.29.3 // indirect
-	k8s.io/apimachinery v0.29.4 // indirect
-	k8s.io/apiserver v0.29.4 // indirect
+	k8s.io/apimachinery v0.30.0 // indirect
+	k8s.io/apiserver v0.30.0 // indirect
 	k8s.io/cli-runtime v0.29.0 // indirect
-	k8s.io/client-go v0.29.4 // indirect
-	k8s.io/component-base v0.29.4 // indirect
+	k8s.io/client-go v0.30.0 // indirect
+	k8s.io/component-base v0.30.0 // indirect
 	k8s.io/klog/v2 v2.120.1 // indirect
-	k8s.io/kube-openapi v0.0.0-20240221221325-2ac9dc51f3f1 // indirect
+	k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340 // indirect
 	k8s.io/kubectl v0.29.0 // indirect
 	k8s.io/utils v0.0.0-20240102154912-e7106e64919e // indirect
 	mvdan.cc/gofumpt v0.6.0 // indirect
