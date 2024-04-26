@@ -9,7 +9,7 @@ require (
 	github.com/operator-framework/operator-registry v1.40.0
 	github.com/operator-framework/operator-sdk v1.34.1
 	k8s.io/kubelet v0.30.0
-	sigs.k8s.io/controller-tools v0.14.0
+	sigs.k8s.io/controller-tools v0.15.0
 	sigs.k8s.io/kustomize/kustomize/v5 v5.4.1
 )
 
@@ -326,7 +326,7 @@ require (
 	golang.org/x/term v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
-	golang.org/x/tools v0.19.0 // indirect
+	golang.org/x/tools v0.20.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20240227224415-6ceb2ff114de // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240227224415-6ceb2ff114de // indirect
@@ -342,7 +342,7 @@ require (
 	helm.sh/helm/v3 v3.14.2 // indirect
 	honnef.co/go/tools v0.4.7 // indirect
 	k8s.io/api v0.30.0 // indirect
-	k8s.io/apiextensions-apiserver v0.29.3 // indirect
+	k8s.io/apiextensions-apiserver v0.30.0 // indirect
 	k8s.io/apimachinery v0.30.0 // indirect
 	k8s.io/apiserver v0.30.0 // indirect
 	k8s.io/cli-runtime v0.29.0 // indirect
