@@ -1,9 +1,11 @@
-//go:build none
+//go:build tools
+// +build tools
 
 package tools
 
 import (
 	_ "github.com/golangci/golangci-lint/cmd/golangci-lint"
+	_ "github.com/kyverno/chainsaw"
 	_ "github.com/operator-framework/operator-registry/cmd/opm"
 	_ "github.com/operator-framework/operator-sdk/cmd/operator-sdk"
 	_ "k8s.io/kubelet"

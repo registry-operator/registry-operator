@@ -53,6 +53,7 @@ IMG ?= ghcr.io/registry-operator/controller:latest
 ## Tool Binaries
 KUBECTL ?= kubectl
 
+CHAINSAW ?= $(LOCALBIN)/chainsaw
 CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
 GOLANGCI_LINT ?= $(LOCALBIN)/golangci-lint
 ENVTEST ?= $(LOCALBIN)/setup-envtest
@@ -61,12 +62,13 @@ OPERATOR_SDK ?= $(LOCALBIN)/operator-sdk
 OPM ?= $(LOCALBIN)/opm
 
 ## Tool Versions
-CONTROLLER_TOOLS_VERSION ?= $(shell grep 'sigs.k8s.io/controller-tools' ./hack/tools/go.mod | cut -d ' ' -f 2)
-GOLANGCI_LINT_VERSION ?= $(shell grep 'github.com/golangci/golangci-lint' ./hack/tools/go.mod | cut -d ' ' -f 2)
-KUSTOMIZE_VERSION ?= $(shell grep 'sigs.k8s.io/kustomize/kustomize/v5' ./hack/tools/go.mod | cut -d ' ' -f 2)
-OPERATOR_SDK_VERSION ?= $(shell grep 'github.com/operator-framework/operator-sdk' ./hack/tools/go.mod | cut -d ' ' -f 2)
-OPM_VERSION ?= $(shell grep 'github.com/operator-framework/operator-registry' ./hack/tools/go.mod | cut -d ' ' -f 2)
-ENVTEST_K8S_VERSION ?= $(shell grep 'k8s.io/kubelet' ./hack/tools/go.mod | cut -d ' ' -f 2 | sed 's/v0/v1/')
+CHAINSAW_VERSION ?= $(shell grep 'github.com/kyverno/chainsaw' ./go.mod | cut -d ' ' -f 2)
+CONTROLLER_TOOLS_VERSION ?= $(shell grep 'sigs.k8s.io/controller-tools' ./go.mod | cut -d ' ' -f 2)
+GOLANGCI_LINT_VERSION ?= $(shell grep 'github.com/golangci/golangci-lint' ./go.mod | cut -d ' ' -f 2)
+KUSTOMIZE_VERSION ?= $(shell grep 'sigs.k8s.io/kustomize/kustomize/v5' ./go.mod | cut -d ' ' -f 2)
+OPERATOR_SDK_VERSION ?= $(shell grep 'github.com/operator-framework/operator-sdk' ./go.mod | cut -d ' ' -f 2)
+OPM_VERSION ?= $(shell grep 'github.com/operator-framework/operator-registry' ./go.mod | cut -d ' ' -f 2)
+ENVTEST_K8S_VERSION ?= $(shell grep 'k8s.io/kubelet' ./go.mod | cut -d ' ' -f 2 | sed 's/v0/v1/')
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -105,16 +107,19 @@ all: build
 .PHONY: help
 help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@echo ""
+	@$(MAKE) versions
 
 ##@ Tools
 
 .PHONY: versions
 versions:
-	@echo "$(CONTROLLER_GEN): $(CONTROLLER_TOOLS_VERSION)"
-	@echo "$(ENVTEST): $(ENVTEST_K8S_VERSION)"
-	@echo "$(KUSTOMIZE): $(KUSTOMIZE_VERSION)"
-	@echo "$(OPERATOR_SDK): $(OPERATOR_SDK_VERSION)"
-	@echo "$(OPM): $(OPM_VERSION)"
+	@echo "$(shell basename ${CHAINSAW}): $(CHAINSAW_VERSION)"
+	@echo "$(shell basename ${CONTROLLER_GEN}): $(CONTROLLER_TOOLS_VERSION)"
+	@echo "$(shell basename ${ENVTEST}): $(ENVTEST_K8S_VERSION)"
+	@echo "$(shell basename ${KUSTOMIZE}): $(KUSTOMIZE_VERSION)"
+	@echo "$(shell basename ${OPERATOR_SDK}): $(OPERATOR_SDK_VERSION)"
+	@echo "$(shell basename ${OPM}): $(OPM_VERSION)"
 
 .PHONY: tools
 tools: controller-gen golangci-lint kustomize envtest operator-sdk opm
@@ -124,17 +129,24 @@ LOCALBIN ?= $(shell pwd)/bin
 $(LOCALBIN):
 	mkdir -p $(LOCALBIN)
 
+.PHONY: chainsaw
+chainsaw: $(LOCALBIN) ## Download chainsaw locally. If wrong version is installed, it will be overwritten.
+	@if test -s $(LOCALBIN)/chainsaw && ! $(LOCALBIN)/chainsaw version | grep -q $(CHAINSAW_VERSION); then \
+		echo "$(LOCALBIN)/chainsaw version is not expected $(CHAINSAW_VERSION). Removing it before installing."; \
+		rm -rf $(LOCALBIN)/chainsaw; \
+	fi
+	test -s $(LOCALBIN)/chainsaw || GOBIN=$(LOCALBIN) go install github.com/kyverno/chainsaw@$(CHAINSAW_VERSION)
+
 .PHONY: controller-gen
-controller-gen: $(CONTROLLER_GEN) ## Download controller-gen locally. If wrong version is installed, it will be overwritten.
-$(CONTROLLER_GEN): $(LOCALBIN)
+controller-gen: $(LOCALBIN) ## Download controller-gen locally. If wrong version is installed, it will be overwritten.
 	@if test -s $(LOCALBIN)/controller-gen && ! $(LOCALBIN)/controller-gen --version | grep -q $(CONTROLLER_TOOLS_VERSION); then \
 		echo "$(LOCALBIN)/controller-gen version is not expected $(CONTROLLER_TOOLS_VERSION). Removing it before installing."; \
 		rm -rf $(LOCALBIN)/controller-gen; \
 	fi
 	test -s $(LOCALBIN)/controller-gen || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_TOOLS_VERSION)
 
-golangci-lint: $(GOLANGCI_LINT) ## Download golangci-lint locally. If wrong version is installed, it will be overwritten.
-$(GOLANGCI_LINT): $(LOCALBIN)
+.PHONY: golangci-lint
+golangci-lint: $(LOCALBIN) ## Download golangci-lint locally. If wrong version is installed, it will be overwritten.
 	@if test -s $(LOCALBIN)/golangci-lint && ! $(LOCALBIN)/golangci-lint --version | grep -q $(GOLANGCI_LINT_VERSION); then \
 		echo "$(LOCALBIN)/golangci-lint version is not expected $(GOLANGCI_LINT_VERSION). Removing it before installing."; \
 		rm -rf $(LOCALBIN)/golangci-lint; \
@@ -209,8 +221,8 @@ test: manifests generate fmt vet envtest ## Run tests.
 
 # Utilize Kind or modify the e2e tests to load the image locally, enabling compatibility with other vendors.
 .PHONY: test-e2e  # Run the e2e tests against a Kind k8s instance that is spun up.
-test-e2e:
-	go test ./test/e2e/ -v -ginkgo.v
+test-e2e: chainsaw
+	$(CHAINSAW) test
 
 .PHONY: lint
 lint: golangci-lint ## Run golangci-lint linter & yamllint

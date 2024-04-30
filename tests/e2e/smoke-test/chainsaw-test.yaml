@@ -1,0 +1,22 @@
+apiVersion: chainsaw.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: smoke-test
+spec:
+  steps:
+  - try:
+    - apply:
+        file: ./resources/nginx.Pod.yaml
+    - wait:
+        timeout: 1m
+        resource: pods
+        name: nginx
+        format: yaml
+        for:
+          condition:
+            name: Ready
+  - try:
+    - apply:
+        file: ./resources/test.ConfigMap.yaml
+    - assert:
+        file: ./resources/test.ConfigMap.yaml

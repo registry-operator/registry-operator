@@ -67,6 +67,28 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: registry-operator/registry-operator
 
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+          cache: false
+      - uses: fluxcd/flux2/action@main
+      - uses: helm/kind-action@v1
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          flux bootstrap github \
+            --token-auth \
+            --owner=registry-operator \
+            --repository=dev-infra \
+            --branch=main \
+            --path='clusters/dev'
+      - run:
+          make test-e2e
+
   docker:
     runs-on: ubuntu-latest
     steps:

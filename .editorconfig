@@ -20,9 +20,5 @@ indent_size = 4
 trim_trailing_whitespace = false
 eclint_indent_style = unset
 
-[*.py]
-indent_size = 4
-indent_style = tab
-
 [Dockerfile]
 indent_size = 4
