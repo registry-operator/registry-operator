@@ -29,6 +29,13 @@ jobs:
           configFile: .commitlintrc.mjs
           token: ${{ secrets.GITHUB_TOKEN }}
 
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - uses: pre-commit/action@v3.0.1
+
   golangci-lint:
     runs-on: ubuntu-latest
     steps:
