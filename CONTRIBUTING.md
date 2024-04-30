@@ -3,28 +3,27 @@
 **Table of Contents**
 
 - [Contributing to registry-operator](#contributing-to-registry-operator)
-	- [Issues](#issues)
-		- [Reporting an Issue](#reporting-an-issue)
-		- [Issue Lifecycle](#issue-lifecycle)
-	- [Pull Requests](#pull-requests)
-	- [Developing](#developing)
-		- [Go Environment and Go Modules](#go-environment-and-go-modules)
-		- [Code Linting with golangci-lint](#code-linting-with-golangci-lint)
-			- [Installing golangci-lint via Homebrew (macOS)](#installing-golangci-lint-via-homebrew-macos)
-			- [Installing golangci-lint via `go install`](#installing-golangci-lint-via-go-install)
-		- [Testing](#testing)
-			- [Writing Tests](#writing-tests)
-				- [Unit tests](#unit-tests)
-				- [Integration tests](#integration-tests)
-		- [Reducing Third-Party Libraries](#reducing-third-party-libraries)
-			- [Guidelines](#guidelines)
-	- [Releasing](#releasing)
-		- [Tagging a release](#tagging-a-release)
-			- [Prerequisites](#prerequisites)
-			- [Tagging the release](#tagging-the-release)
-		- [If a release fails](#if-a-release-fails)
-			- [Github Releases](#github-releases)
-				- [Prerequisites](#prerequisites-1)
+  - [Issues](#issues)
+    - [Reporting an Issue](#reporting-an-issue)
+    - [Issue Lifecycle](#issue-lifecycle)
+  - [Pull Requests](#pull-requests)
+  - [Developing](#developing)
+    - [Go Environment and Go Modules](#go-environment-and-go-modules)
+    - [Code Linting with golangci-lint](#code-linting-with-golangci-lint)
+    - [Testing](#testing)
+      - [Writing Tests](#writing-tests)
+        - [Unit tests](#unit-tests)
+        - [Integration tests](#integration-tests)
+        - [End-to-end tests](#end-to-end-tests)
+    - [Reducing Third-Party Libraries](#reducing-third-party-libraries)
+      - [Guidelines](#guidelines)
+  - [Releasing](#releasing)
+    - [Tagging a release](#tagging-a-release)
+      - [Prerequisites](#prerequisites)
+      - [Tagging the release](#tagging-the-release)
+    - [If a release fails](#if-a-release-fails)
+      - [Github Releases](#github-releases)
+        - [Prerequisites](#prerequisites-1)
 
 **First:** if you're unsure or afraid of _anything_, just ask or submit the issue or pull request anyways. You won't be yelled at for giving your best effort. The worst that can happen is that you'll be politely asked to change something. We appreciate all contributions!
 
@@ -80,34 +79,10 @@ To contribute to registry-operator, you need to have Go installed on your system
 
 To ensure consistent code quality, we use `golangci-lint` as a single point for code linting. You can install `golangci-lint` via Homebrew (for macOS users) or using the `go install` command (for all platforms).
 
-#### Installing golangci-lint via Homebrew (macOS)
-
-If you're on macOS and using Homebrew, you can install `golangci-lint` with the following command:
-
-```sh
-$ brew install golangci-lint
-```
-
-Make sure to update `golangci-lint` regularly to get the latest improvements:
-
-```sh
-$ brew upgrade golangci-lint
-```
-
-#### Installing golangci-lint via `go install`
-
-For other platforms, you can install `golangci-lint` using the `go install` command:
-
-```sh
-$ go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-```
-
-Ensure that your Go binary is in your system's PATH for the `go install` command to work correctly.
-
 With `golangci-lint` installed, you can now run it against the registry-operator codebase to check for any linting issues:
 
 ```sh
-$ golangci-lint run
+$ make lint
 ```
 
 Fix any linting issues reported by `golangci-lint` before submitting your changes.
@@ -224,6 +199,12 @@ func TestAdd(t *testing.T) {
 	}
 }
 ```
+
+##### End-to-end tests
+
+[Kyverno Chainsaw](http://kyverno.github.io/chainsaw/latest/) is a low-code, declarative tool for writing end-to-end (E2E) tests for Kyverno policies. It streamlines the process of creating and maintaining E2E tests by providing a user-friendly syntax and a powerful assertion model.
+
+For more info refer to the [Kyverno Chainsaw documentation](https://kyverno.github.io/chainsaw/latest/writing-tests/).
 
 ### Reducing Third-Party Libraries
 
