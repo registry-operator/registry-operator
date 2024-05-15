@@ -3,8 +3,8 @@ module github.com/registry-operator/registry-operator
 go 1.22.2
 
 require (
-	k8s.io/apimachinery v0.30.0
-	k8s.io/client-go v0.30.0
+	k8s.io/apimachinery v0.30.1
+	k8s.io/client-go v0.30.1
 	sigs.k8s.io/controller-runtime v0.18.2
 )
 
@@ -14,7 +14,7 @@ require (
 	github.com/kyverno/chainsaw v0.2.0
 	github.com/operator-framework/operator-registry v1.40.0
 	github.com/operator-framework/operator-sdk v1.34.1
-	k8s.io/kubelet v0.30.0
+	k8s.io/kubelet v0.30.1
 	sigs.k8s.io/controller-tools v0.15.0
 	sigs.k8s.io/kustomize/kustomize/v5 v5.4.1
 )
@@ -385,11 +385,11 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.14.2 // indirect
 	honnef.co/go/tools v0.4.7 // indirect
-	k8s.io/api v0.30.0 // indirect
+	k8s.io/api v0.30.1 // indirect
 	k8s.io/apiextensions-apiserver v0.30.0 // indirect
-	k8s.io/apiserver v0.30.0 // indirect
+	k8s.io/apiserver v0.30.1 // indirect
 	k8s.io/cli-runtime v0.29.1 // indirect
-	k8s.io/component-base v0.30.0 // indirect
+	k8s.io/component-base v0.30.1 // indirect
 	k8s.io/klog/v2 v2.120.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340 // indirect
 	k8s.io/kubectl v0.29.1 // indirect
