@@ -12,7 +12,7 @@ require (
 require (
 	github.com/golangci/golangci-lint v1.58.1
 	github.com/kyverno/chainsaw v0.2.1
-	github.com/operator-framework/operator-registry v1.41.0
+	github.com/operator-framework/operator-registry v1.42.0
 	github.com/operator-framework/operator-sdk v1.34.2
 	k8s.io/kubelet v0.30.1
 	sigs.k8s.io/controller-tools v0.15.0
@@ -264,7 +264,7 @@ require (
 	github.com/opencontainers/image-spec v1.1.0 // indirect
 	github.com/opencontainers/runtime-spec v1.2.0 // indirect
 	github.com/operator-framework/ansible-operator-plugins v1.34.1 // indirect
-	github.com/operator-framework/api v0.23.0 // indirect
+	github.com/operator-framework/api v0.24.0 // indirect
 	github.com/operator-framework/helm-operator-plugins v0.1.3 // indirect
 	github.com/operator-framework/java-operator-plugins v0.9.0 // indirect
 	github.com/operator-framework/operator-manifest-tools v0.2.3-0.20230525225330-523bad646f89 // indirect
@@ -388,11 +388,11 @@ require (
 	k8s.io/api v0.30.1 // indirect
 	k8s.io/apiextensions-apiserver v0.30.0 // indirect
 	k8s.io/apiserver v0.30.1 // indirect
-	k8s.io/cli-runtime v0.29.1 // indirect
+	k8s.io/cli-runtime v0.30.0 // indirect
 	k8s.io/component-base v0.30.1 // indirect
 	k8s.io/klog/v2 v2.120.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340 // indirect
-	k8s.io/kubectl v0.29.1 // indirect
+	k8s.io/kubectl v0.30.0 // indirect
 	k8s.io/utils v0.0.0-20240102154912-e7106e64919e // indirect
 	mvdan.cc/gofumpt v0.6.0 // indirect
 	mvdan.cc/unparam v0.0.0-20240427195214-063aff900ca1 // indirect

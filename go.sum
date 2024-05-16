@@ -991,6 +991,7 @@ github.com/operator-framework/ansible-operator-plugins v1.34.1 h1:QEY4GJSErP6r8T
 github.com/operator-framework/ansible-operator-plugins v1.34.1/go.mod h1:kmgST0OcMzBchD1XXVbujgllL6hGN5SrtbdCsL7kHSM=
 github.com/operator-framework/api v0.23.0 h1:kHymOwcHBpBVujT49SKOCd4EVG7Odwj4wl3NbOR2LLA=
 github.com/operator-framework/api v0.23.0/go.mod h1:oKcFOz+Xc1UhMi2Pzcp6qsO7wjS4r+yP7EQprQBXrfM=
+github.com/operator-framework/api v0.24.0/go.mod h1:EXKrka63NyQDDpWZ+DGTDEliNV0xRq6UMZRoUPhilVM=
 github.com/operator-framework/helm-operator-plugins v0.1.3 h1:nwl9K1Pq0NZmanpEF/DYO00S7QO/iAmEdRIuLROrYpk=
 github.com/operator-framework/helm-operator-plugins v0.1.3/go.mod h1:f/AR6r2DiSRK5zv9MD+NgWbayP6qDbQMw+unFuw0rPQ=
 github.com/operator-framework/java-operator-plugins v0.9.0 h1:6Z2vf7veNqm7D9h28NvrOiVcb6IqgmrGv7y99Ui1tbM=
@@ -1000,6 +1001,7 @@ github.com/operator-framework/operator-manifest-tools v0.2.3-0.20230525225330-52
 github.com/operator-framework/operator-registry v1.40.0 h1:CaYNE4F/jzahpC7UCILItaIHmB5/oE0sS066nK+5Glw=
 github.com/operator-framework/operator-registry v1.40.0/go.mod h1:D2YxapkfRDgjqNTO9d3h3v0DeREbV+8utCLG52zrOy4=
 github.com/operator-framework/operator-registry v1.41.0/go.mod h1:hvOar2ikD/BhyG+I6gGHe85cdqup7NV5b8LkP18H7wU=
+github.com/operator-framework/operator-registry v1.42.0/go.mod h1:885aA8D67sri3OWmNMFcplB/a3K7krWHJkLZUcSqDJ8=
 github.com/operator-framework/operator-sdk v1.34.1 h1:grKzW8v+LfQYX0eqd7NDvZeKE5ZTIfWbaeJ6YsGC/Wo=
 github.com/operator-framework/operator-sdk v1.34.1/go.mod h1:2zrCdmaGoh0lMz0n4g9Qk8djD5+9yRVPU82lYIHWga0=
 github.com/operator-framework/operator-sdk v1.34.2/go.mod h1:2zrCdmaGoh0lMz0n4g9Qk8djD5+9yRVPU82lYIHWga0=
@@ -1997,6 +1999,7 @@ k8s.io/apiserver v0.30.0/go.mod h1:smOIBq8t0MbKZi7O7SyIpjPsiKJ8qa+llcFCluKyqiY=
 k8s.io/apiserver v0.30.1/go.mod h1:i87ZnQ+/PGAmSbD/iEKM68bm1D5reX8fO4Ito4B01mo=
 k8s.io/cli-runtime v0.29.1 h1:By3WVOlEWYfyxhGko0f/IuAOLQcbBSMzwSaDren2JUs=
 k8s.io/cli-runtime v0.29.1/go.mod h1:vjEY9slFp8j8UoMhV5AlO8uulX9xk6ogfIesHobyBDU=
+k8s.io/cli-runtime v0.30.0/go.mod h1:vATpDMATVTMA79sZ0YUCzlMelf6rUjoBzlp+RnoM+cg=
 k8s.io/client-go v0.30.0 h1:sB1AGGlhY/o7KCyCEQ0bPWzYDL0pwOZO4vAtTSh/gJQ=
 k8s.io/client-go v0.30.0/go.mod h1:g7li5O5256qe6TYdAMyX/otJqMhIiGgTapdLchhmOaY=
 k8s.io/client-go v0.30.1 h1:uC/Ir6A3R46wdkgCV3vbLyNOYyCJ8oZnjtJGKfytl/Q=
@@ -2012,6 +2015,7 @@ k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340 h1:BZqlfIlq5YbRMFko6/PM7F
 k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340/go.mod h1:yD4MZYeKMBwQKVht279WycxKyM84kkAx2DPrTXaeb98=
 k8s.io/kubectl v0.29.1 h1:rWnW3hi/rEUvvg7jp4iYB68qW5un/urKbv7fu3Vj0/s=
 k8s.io/kubectl v0.29.1/go.mod h1:SZzvLqtuOJYSvZzPZR9weSuP0wDQ+N37CENJf0FhDF4=
+k8s.io/kubectl v0.30.0/go.mod h1:zgolRw2MQXLPwmic2l/+iHs239L49fhSeICuMhQQXTI=
 k8s.io/kubelet v0.30.0 h1:/pqHVR2Rn8ExCpn211wL3pMtqRFpcBcJPl4+1INbIMk=
 k8s.io/kubelet v0.30.0/go.mod h1:WukdKqbQxnj+csn3K8XOKeX7Sh60J/da25IILjvvB5s=
 k8s.io/kubelet v0.30.1/go.mod h1:5IUeAt3YlIfLNdT/YfRuCCONfEefm7qfcqz81b002Z8=
