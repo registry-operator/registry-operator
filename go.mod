@@ -13,7 +13,7 @@ require (
 	github.com/golangci/golangci-lint v1.58.1
 	github.com/kyverno/chainsaw v0.2.1
 	github.com/operator-framework/operator-registry v1.41.0
-	github.com/operator-framework/operator-sdk v1.34.1
+	github.com/operator-framework/operator-sdk v1.34.2
 	k8s.io/kubelet v0.30.1
 	sigs.k8s.io/controller-tools v0.15.0
 	sigs.k8s.io/kustomize/kustomize/v5 v5.4.1
