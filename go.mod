@@ -11,7 +11,7 @@ require (
 // Separate section for tools
 require (
 	github.com/golangci/golangci-lint v1.58.1
-	github.com/kyverno/chainsaw v0.2.0
+	github.com/kyverno/chainsaw v0.2.1
 	github.com/operator-framework/operator-registry v1.41.0
 	github.com/operator-framework/operator-sdk v1.34.1
 	k8s.io/kubelet v0.30.1
@@ -112,7 +112,7 @@ require (
 	github.com/evanphx/json-patch v5.9.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
-	github.com/fatih/color v1.16.0 // indirect
+	github.com/fatih/color v1.17.0 // indirect
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/firefart/nonamedreturns v1.0.5 // indirect

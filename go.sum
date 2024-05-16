@@ -450,6 +450,7 @@ github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f/go.mod h1:OSY
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.16.0 h1:zmkK9Ngbjj+K0yRhTVONQh1p/HknKYSlNT+vZCzyokM=
 github.com/fatih/color v1.16.0/go.mod h1:fL2Sau1YI5c0pdGEVCbKQbLXB6edEj1ZgiY4NijnWvE=
+github.com/fatih/color v1.17.0/go.mod h1:YZ7TlrGPkiz6ku9fK3TLD/pl3CpsiFyu8N92HLgmosI=
 github.com/fatih/structtag v1.2.0 h1:/OdNE99OxoI/PqaW/SuSK9uxxT3f/tcSZgon/ssNSx4=
 github.com/fatih/structtag v1.2.0/go.mod h1:mBJUNpUnHmRKrKlQQlmCrh5PuhftFbNv8Ys4/aAZl94=
 github.com/felixge/httpsnoop v1.0.4 h1:NFTV2Zj1bL4mc9sqWACXbQFVBBg2W3GPvqp8/ESS2Wg=
@@ -853,6 +854,7 @@ github.com/kyoh86/exportloopref v0.1.11/go.mod h1:qkV4UF1zGl6EkF1ox8L5t9SwyeBAZ3
 github.com/kyverno/chainsaw v0.1.9 h1:hOX2YMgx69MpuTfbOrd2lqF2sxGX8QbvLgCqkDG9VjQ=
 github.com/kyverno/chainsaw v0.1.9/go.mod h1:BZIR6BG+nbc1JeTlkm1YAsKcwmh29ibpAh4DtGB6WQ0=
 github.com/kyverno/chainsaw v0.2.0/go.mod h1:vPpf6tRKQ1dLGYjT+gXEq3E7P1FArs+4jVF+09ihulQ=
+github.com/kyverno/chainsaw v0.2.1/go.mod h1:m3SZdMHdn77NfWe7knYqmRCsrUTGlEjhTmA/7l/88HM=
 github.com/kyverno/kyverno v1.5.0-rc1.0.20240202083228-5f0d53fe3482 h1:mGQbOhxoHBhPCGkxYjy+u3qtWH43BLjIxUs4zWtvKSg=
 github.com/kyverno/kyverno v1.5.0-rc1.0.20240202083228-5f0d53fe3482/go.mod h1:uEm7WtaqOsPP3Jx6EOkO2PjHu6vf0MFaMD6w1ol7hAQ=
 github.com/kyverno/kyverno-json v0.0.3-0.20240220200359-acadce6af3e8 h1:HaMU30j3uHe5Dgj8En+deGfhZNsfbvg4eg3e0LsXk9Q=
