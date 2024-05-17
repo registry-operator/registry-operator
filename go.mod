@@ -12,7 +12,7 @@ require (
 require (
 	github.com/golangci/golangci-lint v1.58.1
 	github.com/kyverno/chainsaw v0.2.1
-	github.com/operator-framework/operator-registry v1.42.0
+	github.com/operator-framework/operator-registry v1.43.0
 	github.com/operator-framework/operator-sdk v1.34.2
 	k8s.io/kubelet v0.30.1
 	sigs.k8s.io/controller-tools v0.15.0
@@ -23,7 +23,7 @@ require (
 	4d63.com/gocheckcompilerdirectives v1.2.1 // indirect
 	4d63.com/gochecknoglobals v0.2.1 // indirect
 	cloud.google.com/go v0.112.2 // indirect
-	cloud.google.com/go/compute v1.24.0 // indirect
+	cloud.google.com/go/compute v1.25.1 // indirect
 	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	cloud.google.com/go/iam v1.1.7 // indirect
 	cloud.google.com/go/storage v1.40.0 // indirect
@@ -373,9 +373,9 @@ require (
 	google.golang.org/api v0.170.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20240227224415-6ceb2ff114de // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20240314234333-6e1732d8331c // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20240318140521-94a12d6c2237 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240401170217-c3f982113cda // indirect
-	google.golang.org/grpc v1.63.2 // indirect
+	google.golang.org/grpc v1.64.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
@@ -386,7 +386,7 @@ require (
 	helm.sh/helm/v3 v3.14.2 // indirect
 	honnef.co/go/tools v0.4.7 // indirect
 	k8s.io/api v0.30.1 // indirect
-	k8s.io/apiextensions-apiserver v0.30.0 // indirect
+	k8s.io/apiextensions-apiserver v0.30.1 // indirect
 	k8s.io/apiserver v0.30.1 // indirect
 	k8s.io/cli-runtime v0.30.0 // indirect
 	k8s.io/component-base v0.30.1 // indirect
