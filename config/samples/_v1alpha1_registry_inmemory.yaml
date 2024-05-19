@@ -1,0 +1,4 @@
+apiVersion: registry-operator.dev/v1alpha1
+kind: Registry
+metadata:
+  name: registry

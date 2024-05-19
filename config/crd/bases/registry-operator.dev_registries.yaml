@@ -39,9 +39,10 @@ spec:
           spec:
             description: RegistrySpec defines the desired state of Registry.
             properties:
-              foo:
-                description: Foo is an example field of Registry. Edit registry_types.go
-                  to remove/update
+              storageType:
+                default: inmemory
+                enum:
+                - inmemory
                 type: string
             type: object
           status:
