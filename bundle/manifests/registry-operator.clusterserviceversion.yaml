@@ -21,8 +21,8 @@ metadata:
         }
       ]
     capabilities: Basic Install
-    createdAt: "2024-03-15T19:20:19Z"
-    operators.operatorframework.io/builder: operator-sdk-v1.34.1
+    createdAt: "2024-05-24T17:16:14Z"
+    operators.operatorframework.io/builder: operator-sdk-v1.34.2
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
   name: registry-operator.v0.0.1
   namespace: placeholder
