@@ -134,7 +134,7 @@ jobs:
             "${{ github.ref_name }}" \
             "${{ steps.get-latest-tag.outputs.tag }}" \
             "${GITHUB_OUTPUT}"
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }}
           platforms: ${{ steps.platforms.outputs.csv }}
@@ -161,7 +161,7 @@ jobs:
             "${{ github.ref_name }}" \
             "${{ steps.get-latest-tag.outputs.tag }}" \
             "${GITHUB_OUTPUT}"
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }}
           platforms: ${{ steps.platforms.outputs.csv }}
