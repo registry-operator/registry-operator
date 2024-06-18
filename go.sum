@@ -1011,6 +1011,7 @@ github.com/opencontainers/runtime-spec v1.2.0 h1:z97+pHb3uELt/yiAWD691HNHQIF07bE
 github.com/opencontainers/runtime-spec v1.2.0/go.mod h1:jwyrGlmzljRJv/Fgzds9SsS/C5hL+LL3ko9hs6T5lQ0=
 github.com/operator-framework/ansible-operator-plugins v1.34.1 h1:QEY4GJSErP6r8T3mjK7YvUYXAqDzUYV29n8k/Oh7WqI=
 github.com/operator-framework/ansible-operator-plugins v1.34.1/go.mod h1:kmgST0OcMzBchD1XXVbujgllL6hGN5SrtbdCsL7kHSM=
+github.com/operator-framework/ansible-operator-plugins v1.34.3/go.mod h1:O2YP6kIf1l5swsm8lzL0MpCFHCxZx1O+9aSNJzVv8HY=
 github.com/operator-framework/api v0.23.0 h1:kHymOwcHBpBVujT49SKOCd4EVG7Odwj4wl3NbOR2LLA=
 github.com/operator-framework/api v0.23.0/go.mod h1:oKcFOz+Xc1UhMi2Pzcp6qsO7wjS4r+yP7EQprQBXrfM=
 github.com/operator-framework/api v0.24.0/go.mod h1:EXKrka63NyQDDpWZ+DGTDEliNV0xRq6UMZRoUPhilVM=
@@ -1021,6 +1022,7 @@ github.com/operator-framework/java-operator-plugins v0.9.0 h1:6Z2vf7veNqm7D9h28N
 github.com/operator-framework/java-operator-plugins v0.9.0/go.mod h1:BS7wwp4me+xt63p/7e7lVxszwqCyScWQnhMgyyLztVw=
 github.com/operator-framework/operator-manifest-tools v0.2.3-0.20230525225330-523bad646f89 h1:ehJiuMM5BkiYt407N/jBXGuwfdxFMSoHUTPZq6WKRic=
 github.com/operator-framework/operator-manifest-tools v0.2.3-0.20230525225330-523bad646f89/go.mod h1:PT1D+dEbD9TCoo62TkRP4BHYXA+h+zC0i3Ql7WZW9os=
+github.com/operator-framework/operator-manifest-tools v0.5.0/go.mod h1:U0VoCauS/Dye1rCqC8c4Uxb7vbqycLc9Zax2ec21LT4=
 github.com/operator-framework/operator-registry v1.40.0 h1:CaYNE4F/jzahpC7UCILItaIHmB5/oE0sS066nK+5Glw=
 github.com/operator-framework/operator-registry v1.40.0/go.mod h1:D2YxapkfRDgjqNTO9d3h3v0DeREbV+8utCLG52zrOy4=
 github.com/operator-framework/operator-registry v1.41.0/go.mod h1:hvOar2ikD/BhyG+I6gGHe85cdqup7NV5b8LkP18H7wU=
@@ -1030,6 +1032,7 @@ github.com/operator-framework/operator-registry v1.43.1/go.mod h1:qhssAIYWXDIW+n
 github.com/operator-framework/operator-sdk v1.34.1 h1:grKzW8v+LfQYX0eqd7NDvZeKE5ZTIfWbaeJ6YsGC/Wo=
 github.com/operator-framework/operator-sdk v1.34.1/go.mod h1:2zrCdmaGoh0lMz0n4g9Qk8djD5+9yRVPU82lYIHWga0=
 github.com/operator-framework/operator-sdk v1.34.2/go.mod h1:2zrCdmaGoh0lMz0n4g9Qk8djD5+9yRVPU82lYIHWga0=
+github.com/operator-framework/operator-sdk v1.35.0/go.mod h1:TBGe3RvO2cgLgWjTCc28VVl0c6bxenHMvnnbdUnT130=
 github.com/otiai10/copy v1.2.0/go.mod h1:rrF5dJ5F0t/EWSYODDu4j9/vEeYHMkc8jt0zJChqQWw=
 github.com/otiai10/copy v1.14.0 h1:dCI/t1iTdYGtkvCuBG2BgR6KZa83PTclw4U5n2wAllU=
 github.com/otiai10/copy v1.14.0/go.mod h1:ECfuL02W+/FkTWZWgQqXPWZgW9oeKCSQ5qVfSc4qc4w=
@@ -2068,6 +2071,7 @@ mvdan.cc/unparam v0.0.0-20240104100049-c549a3470d14/go.mod h1:ZzZjEpJDOmx8TdVU6u
 mvdan.cc/unparam v0.0.0-20240427195214-063aff900ca1/go.mod h1:ZzZjEpJDOmx8TdVU6umamY3Xy0UAQUI2DHbf05USVbI=
 oras.land/oras-go v1.2.4 h1:djpBY2/2Cs1PV87GSJlxv4voajVOMZxqqtq9AB8YNvY=
 oras.land/oras-go v1.2.4/go.mod h1:DYcGfb3YF1nKjcezfX2SNlDAeQFKSXmf+qrFmrh4324=
+oras.land/oras-go v1.2.5/go.mod h1:PuAwRShRZCsZb7g8Ar3jKKQR/2A/qN+pkYxIOd/FAoo=
 rsc.io/binaryregexp v0.2.0/go.mod h1:qTv7/COck+e2FymRvadv62gMdZztPaShugOCi3I+8D8=
 rsc.io/quote/v3 v3.1.0/go.mod h1:yEA65RcK8LyAZtP9Kv3t0HmxON59tX3rD+tICJqUlj0=
 rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
