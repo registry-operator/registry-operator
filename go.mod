@@ -13,7 +13,7 @@ require (
 	github.com/golangci/golangci-lint v1.58.2
 	github.com/kyverno/chainsaw v0.2.1
 	github.com/operator-framework/operator-registry v1.43.1
-	github.com/operator-framework/operator-sdk v1.34.2
+	github.com/operator-framework/operator-sdk v1.35.0
 	k8s.io/kubelet v0.30.1
 	sigs.k8s.io/controller-tools v0.15.0
 	sigs.k8s.io/kustomize/kustomize/v5 v5.4.1
@@ -263,11 +263,11 @@ require (
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
 	github.com/opencontainers/runtime-spec v1.2.0 // indirect
-	github.com/operator-framework/ansible-operator-plugins v1.34.1 // indirect
+	github.com/operator-framework/ansible-operator-plugins v1.34.3 // indirect
 	github.com/operator-framework/api v0.25.0 // indirect
 	github.com/operator-framework/helm-operator-plugins v0.1.3 // indirect
 	github.com/operator-framework/java-operator-plugins v0.9.0 // indirect
-	github.com/operator-framework/operator-manifest-tools v0.2.3-0.20230525225330-523bad646f89 // indirect
+	github.com/operator-framework/operator-manifest-tools v0.5.0 // indirect
 	github.com/otiai10/copy v1.14.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
@@ -396,7 +396,7 @@ require (
 	k8s.io/utils v0.0.0-20240102154912-e7106e64919e // indirect
 	mvdan.cc/gofumpt v0.6.0 // indirect
 	mvdan.cc/unparam v0.0.0-20240427195214-063aff900ca1 // indirect
-	oras.land/oras-go v1.2.4 // indirect
+	oras.land/oras-go v1.2.5 // indirect
 	sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.29.0 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/kubebuilder/v3 v3.13.1-0.20240119130530-7fba82c768f8 // indirect
