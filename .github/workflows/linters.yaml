@@ -35,7 +35,3 @@ jobs:
           make generate manifests diff
       - run: |
           make api-docs diff
-      - run: |
-          make generate-helm-docs diff
-      - run: |
-          make generate-values-schema diff

@@ -38,6 +38,3 @@ jobs:
             CHAINSAW_ARGS='--report-format=XML' \
               test-e2e
         id: e2e
-        continue-on-error: true
-      - run: |
-          go run ./hack/cmd/report >> "${GITHUB_STEP_SUMMARY}"
