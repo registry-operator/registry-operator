@@ -1,0 +1,41 @@
+name: linters
+
+on:
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: .commitlintrc.mjs
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  hadolint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          make hadolint
+
+  generators:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+          cache: false
+      - run: |
+          make generate manifests diff
+      - run: |
+          make api-docs diff
+      - run: |
+          make generate-helm-docs diff
+      - run: |
+          make generate-values-schema diff

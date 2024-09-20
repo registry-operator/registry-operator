@@ -1,0 +1,23 @@
+# permissions for end users to view registries.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: registry-operator-next
+    app.kubernetes.io/managed-by: kustomize
+  name: registry-viewer-role
+rules:
+- apiGroups:
+  - registry.registry-operator.dev
+  resources:
+  - registries
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - registry.registry-operator.dev
+  resources:
+  - registries/status
+  verbs:
+  - get

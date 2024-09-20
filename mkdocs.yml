@@ -1,0 +1,77 @@
+site_name: Registry Operator
+repo_url: https://github.com/registry-operator/registry-operator
+
+copyright: >-
+  Copyright &copy;
+  <script>
+    document.write(new Date().getFullYear())
+  </script>
+  Registry Operator contributors
+
+plugins:
+  - search
+  - mkdocs-nav-weight
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - tables
+
+theme:
+  name: material
+  language: en
+  logo: assets/package.png
+  favicon: assets/package.png
+
+  custom_dir: docs/overrides
+
+  features:
+    - navigation.tabs
+    - header.autohide
+    - search.suggest
+    - search.highlight
+
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: '326CE5'
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: '326CE5'
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+extra:
+  version:
+    provider: mike
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.

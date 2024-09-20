@@ -1,0 +1,9 @@
+apiVersion: registry.registry-operator.dev/v1alpha1
+kind: Registry
+metadata:
+  labels:
+    app.kubernetes.io/name: registry-operator-next
+    app.kubernetes.io/managed-by: kustomize
+  name: registry-sample
+spec:
+  # TODO(user): Add fields here
