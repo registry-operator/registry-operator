@@ -18,7 +18,7 @@ require (
 	github.com/elastic/crd-ref-docs v0.1.0
 	github.com/golangci/golangci-lint v1.60.3
 	github.com/kyverno/chainsaw v0.2.9
-	github.com/tilt-dev/ctlptl v0.8.33
+	github.com/tilt-dev/ctlptl v0.8.34
 	golang.stackrox.io/kube-linter v0.6.8
 	sigs.k8s.io/controller-tools v0.16.2
 	sigs.k8s.io/kind v0.24.0
