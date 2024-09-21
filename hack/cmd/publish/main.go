@@ -16,7 +16,8 @@ const (
 	latestVersion  = "latest"
 )
 
-// parseVersion parses the given version string and returns a short version and a boolean indicating if it's a prerelease.
+// parseVersion parses the given version string and returns a short version and a boolean indicating
+// if it's a prerelease.
 func parseVersion(version string) (string, bool, error) {
 	if version == defaultVersion {
 		return version, false, nil

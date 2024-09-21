@@ -63,7 +63,12 @@ func branchPrep(version, fullVersion string) error {
 		}
 	}
 
-	return gitCmd("merge", "origin/main", "-m", fmt.Sprintf("chore(%s): merge changes for %s", version, fullVersion), "--signoff")
+	return gitCmd(
+		"merge",
+		"origin/main",
+		"-m", fmt.Sprintf("chore(%s): merge changes for %s", version, fullVersion),
+		"--signoff",
+	)
 }
 
 func branchExists(branchName string) bool {
@@ -95,7 +100,7 @@ func getLatestKubernetesRelease() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to fetch latest Kubernetes release: %w", err)
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck // best effort call
 
 	if resp.StatusCode != 200 {
 		return "", fmt.Errorf("failed to fetch latest Kubernetes release, status code: %d", resp.StatusCode)
@@ -161,7 +166,10 @@ func release(version, fullVersion string) error {
 	if err := gitCmd("add", "."); err != nil {
 		return err
 	}
-	if err := gitCmd("commit", "-sm", fmt.Sprintf("chore(%s): create release commit %s", version, fullVersion)); err != nil {
+	if err := gitCmd(
+		"commit",
+		"-sm", fmt.Sprintf("chore(%s): create release commit %s", version, fullVersion),
+	); err != nil {
 		return err
 	}
 	if err := gitCmd("push", "origin", fmt.Sprintf("release-%s", version)); err != nil {
