@@ -17,7 +17,7 @@ require (
 require (
 	github.com/elastic/crd-ref-docs v0.1.0
 	github.com/golangci/golangci-lint v1.61.0
-	github.com/kyverno/chainsaw v0.2.9
+	github.com/kyverno/chainsaw v0.2.10
 	github.com/tilt-dev/ctlptl v0.8.34
 	golang.stackrox.io/kube-linter v0.6.8
 	sigs.k8s.io/controller-tools v0.16.3
@@ -188,6 +188,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.1-0.20220621161143-b0104c826a24 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/jstemmer/go-junit-report/v2 v2.1.0 // indirect
 	github.com/julz/importas v0.1.0 // indirect
 	github.com/karamaru-alpha/copyloopvar v1.1.0 // indirect
 	github.com/kedacore/keda/v2 v2.13.0 // indirect
