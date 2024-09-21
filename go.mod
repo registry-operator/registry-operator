@@ -6,8 +6,8 @@ toolchain go1.23.1
 
 require (
 	github.com/blang/semver/v4 v4.0.0
-	k8s.io/apimachinery v0.31.0
-	k8s.io/client-go v0.31.0
+	k8s.io/apimachinery v0.31.1
+	k8s.io/client-go v0.31.1
 	k8s.io/klog/v2 v2.130.1
 	sigs.k8s.io/controller-runtime v0.19.0
 	sigs.k8s.io/yaml v1.4.0
@@ -370,7 +370,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.15.2 // indirect
 	honnef.co/go/tools v0.5.1 // indirect
-	k8s.io/api v0.31.0 // indirect
+	k8s.io/api v0.31.1 // indirect
 	k8s.io/apiextensions-apiserver v0.31.0 // indirect
 	k8s.io/apiserver v0.31.0 // indirect
 	k8s.io/cli-runtime v0.31.0 // indirect
