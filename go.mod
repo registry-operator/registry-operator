@@ -2,7 +2,7 @@ module github.com/registry-operator/registry-operator
 
 go 1.23.0
 
-toolchain go1.23.1
+toolchain go1.23.2
 
 require (
 	github.com/blang/semver/v4 v4.0.0
