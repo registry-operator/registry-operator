@@ -1,0 +1,10 @@
+images:
+- name: controller
+  newName: ghcr.io/registry-operator/registry-operator
+  newTag: v0.0.0-alpha.1
+namePrefix: registry-operator-
+namespace: registry-operator-system
+resources:
+- ./config/crd
+- ./config/manager
+- ./config/rbac
