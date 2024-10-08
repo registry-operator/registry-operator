@@ -5,10 +5,14 @@ go 1.23.0
 toolchain go1.23.2
 
 require (
-	github.com/blang/semver/v4 v4.0.0
+	dario.cat/mergo v1.0.1
+	github.com/Masterminds/semver/v3 v3.3.0
+	github.com/stretchr/testify v1.9.0
+	k8s.io/api v0.31.1
 	k8s.io/apimachinery v0.31.1
 	k8s.io/client-go v0.31.1
 	k8s.io/klog/v2 v2.130.1
+	k8s.io/utils v0.0.0-20240921022957-49e7df575cb6
 	sigs.k8s.io/controller-runtime v0.19.0
 	sigs.k8s.io/yaml v1.4.0
 )
@@ -48,7 +52,6 @@ require (
 	github.com/IGLOU-EU/go-wildcard v1.0.3 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver v1.5.0 // indirect
-	github.com/Masterminds/semver/v3 v3.3.0 // indirect
 	github.com/Masterminds/sprig v2.22.0+incompatible // indirect
 	github.com/Masterminds/sprig/v3 v3.2.3 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
@@ -69,6 +72,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/bkielbasa/cyclop v1.2.1 // indirect
+	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/blizzy78/varnamelen v0.8.0 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
 	github.com/bombsimon/wsl/v4 v4.4.1 // indirect
@@ -291,7 +295,6 @@ require (
 	github.com/stbenjam/no-sprintf-host-port v0.1.1 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
-	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tdakkota/asciicheck v0.2.0 // indirect
 	github.com/tetafro/godot v1.4.17 // indirect
@@ -370,13 +373,11 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.15.2 // indirect
 	honnef.co/go/tools v0.5.1 // indirect
-	k8s.io/api v0.31.1 // indirect
 	k8s.io/apiextensions-apiserver v0.31.1 // indirect
 	k8s.io/apiserver v0.31.1 // indirect
 	k8s.io/cli-runtime v0.31.0 // indirect
 	k8s.io/component-base v0.31.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20240903163716-9e1beecbcb38 // indirect
-	k8s.io/utils v0.0.0-20240902221715-702e33fdd3c3 // indirect
 	knative.dev/pkg v0.0.0-20240116073220-b488e7be5902 // indirect
 	mvdan.cc/gofumpt v0.7.0 // indirect
 	mvdan.cc/unparam v0.0.0-20240528143540-8a5130ca722f // indirect

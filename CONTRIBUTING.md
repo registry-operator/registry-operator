@@ -99,13 +99,15 @@ Unit tests focus on testing individual functions and components in isolation. To
 
 Example unit test:
 
-[![Example](https://img.shields.io/badge/Run-go.dev%2Fplay-29BEB0?logo=go)](https://go.dev/play/p/Gm6M3vNVQOw)
+[![Example](https://img.shields.io/badge/Run-go.dev%2Fplay-29BEB0?logo=go)](https://go.dev/play/p/GzKQPGuc930)
 
 ```go
 package main
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Add(a, b int) int {
@@ -127,12 +129,7 @@ func TestAdd(t *testing.T) {
 			t.Parallel()
 
 			actual := Add(tc.arg1, tc.arg2)
-			if tc.expected != actual {
-				t.Errorf("Expected the sum of %d and %d to be %d, got %d",
-					tc.arg1, tc.arg2,
-					tc.expected,
-					actual)
-			}
+			assert.Equal(t, tc.expected, actual)
 		})
 	}
 }
@@ -144,7 +141,7 @@ Integration tests check the interaction between different parts of the system an
 
 Example integration test:
 
-[![Example](https://img.shields.io/badge/Run-go.dev%2Fplay-29BEB0?logo=go)](https://go.dev/play/p/CquI-e2tXW0)
+[![Example](https://img.shields.io/badge/Run-go.dev%2Fplay-29BEB0?logo=go)](https://go.dev/play/p/Zooz-MSVOMH)
 
 ```go
 // go:build integration
@@ -153,6 +150,8 @@ package main
 import (
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type Client struct {
@@ -187,12 +186,7 @@ func TestAdd(t *testing.T) {
 			t.Parallel()
 
 			actual := tc.client.APIAdd(tc.arg1, tc.arg2)
-			if tc.expected != actual {
-				t.Errorf("Expected the sum of %d and %d to be %d, got %d",
-					tc.arg1, tc.arg2,
-					tc.expected,
-					actual)
-			}
+			assert.Equal(t, tc.expected, actual)
 		})
 	}
 }

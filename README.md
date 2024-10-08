@@ -26,6 +26,7 @@ The following quality gates are ensuring the quality and maintainability of the 
   - [Getting Started](#getting-started)
   - [Contributing](#contributing)
   - [License](#license)
+  - [Acknowledgements](#acknowledgements)
 
 ## Overview
 
@@ -56,6 +57,10 @@ We welcome contributions from the community! If you're interested in contributin
 ## License
 
 `registry-operator` is licensed under the [Apache-2.0][license].
+
+## Acknowledgements
+
+- Huge thanks to [OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator) which served as a inspiration and a kickstarter, that helped with creating the initial implementation.
 
 <!-- Resources -->
 

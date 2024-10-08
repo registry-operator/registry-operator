@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/blang/semver/v4"
+	semver "github.com/Masterminds/semver/v3"
 )
 
 const (
@@ -23,13 +23,13 @@ func parseVersion(version string) (string, bool, error) {
 		return version, false, nil
 	}
 
-	sv, err := semver.ParseTolerant(strings.TrimPrefix(version, "v"))
+	sv, err := semver.NewVersion(strings.TrimPrefix(version, "v"))
 	if err != nil {
 		return "", false, fmt.Errorf("failed to parse version: %w", err)
 	}
 
-	shortVersion := fmt.Sprintf("v%d.%d", sv.Major, sv.Minor)
-	isPrerelease := len(sv.Pre) > 0
+	shortVersion := fmt.Sprintf("v%d.%d", sv.Major(), sv.Minor())
+	isPrerelease := len(sv.Prerelease()) > 0
 
 	log.Printf("Parsed version: %s (is_prerelease: %v)", shortVersion, isPrerelease)
 	return shortVersion, isPrerelease, nil

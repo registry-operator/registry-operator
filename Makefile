@@ -24,6 +24,10 @@ SHELL = /usr/bin/env bash -o pipefail
 .PHONY: all
 all: manifests generate api-docs
 
+.PHONY: clean
+clean:
+	-rm -r bin/
+
 ##@ General
 
 # The help target prints out all targets with their descriptions organized
@@ -68,8 +72,9 @@ lint-fix: golangci-lint ## Run golangci-lint linter and perform fixes.
 	$(GOLANGCI_LINT) run --fix
 
 .PHONY: lint-manifests
-lint-manifests: kube-linter ## Run kube-linter on Kubernetes manifests.
-	$(KUBE_LINTER) lint --config=./config/.kube-linter.yaml ./config/**
+lint-manifests: kustomize kube-linter ## Run kube-linter on Kubernetes manifests.
+	$(KUSTOMIZE) build config/default |\
+		$(KUBE_LINTER) lint --config=./config/.kube-linter.yaml -
 
 .PHONY: hadolint
 hadolint: ## Run hadolint on Dockerfile
