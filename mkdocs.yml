@@ -47,6 +47,7 @@ theme:
     - header.autohide
     - search.suggest
     - search.highlight
+    - content.code.copy
 
   palette:
     # Palette toggle for light mode

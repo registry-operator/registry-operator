@@ -1,16 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "automerge": true,
   "extends": [
     "config:recommended"
   ],
+  "automerge": true,
+  "semanticCommits": "enabled",
   "labels": [
     "area/dependency"
   ],
+  "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
-    "enabled": true
+    "enabled": true,
+    "labels": [
+      "kind/security"
+    ]
   },
   "postUpdateOptions": [
-    "gomodTidy"
+    "gomodTidy",
+    "gomodUpdateImportPaths"
   ]
 }
