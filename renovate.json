@@ -8,6 +8,17 @@
   "labels": [
     "area/dependency"
   ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "helm-values"
+      ],
+      "labels": [
+        "area/dependency",
+        "do-not-merge"
+      ]
+    }
+  ],
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
     "enabled": true,
