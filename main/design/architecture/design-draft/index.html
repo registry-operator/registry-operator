@@ -309,24 +309,6 @@
   
 
       
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../user_guides/0-storage/" class="md-tabs__link">
-          
-  
-  User guides
-
-        </a>
-      </li>
-    
-  
-
-      
     </ul>
   </div>
 </nav>
@@ -814,7 +796,7 @@
         
   
   <span class="md-ellipsis">
-    Quickstart
+    Quick Start
   </span>
   
 
@@ -881,93 +863,6 @@
   
   <span class="md-ellipsis">
     API Reference
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    User guides
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            User guides
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../user_guides/0-storage/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Storage
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../user_guides/1-auth/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    AuthN & AuthZ
   </span>
   
 
@@ -1245,44 +1140,48 @@
 <h2 id="objectives">Objectives</h2>
 <p>The primary objectives of the <strong>Registry Operator</strong> are as follows:</p>
 <ol>
-<li><strong>Automate Deployment and Configuration</strong>: </li>
-<li>Simplify the process of deploying CNCF Distribution Registry instances by automating the configuration of storage, networking, and access controls.</li>
 <li>
-<p>Provide a declarative approach using Kubernetes Custom Resource Definitions (CRDs) to manage registry instances.</p>
+<p><strong>Automate Deployment and Configuration</strong>: </p>
+<ul>
+<li>Simplify the process of deploying CNCF Distribution Registry instances by automating the configuration of storage, networking, and access controls.</li>
+<li>Provide a declarative approach using Kubernetes Custom Resource Definitions (CRDs) to manage registry instances.</li>
+</ul>
 </li>
 <li>
 <p><strong>Seamless Scaling and Upgrades</strong>: </p>
-</li>
+<ul>
 <li>Ensure that scaling the registry to meet demand can be done effortlessly, without manual intervention.</li>
-<li>
-<p>Support zero-downtime upgrades for registry instances, ensuring business continuity during version changes.</p>
+<li>Support zero-downtime upgrades for registry instances, ensuring business continuity during version changes.</li>
+</ul>
 </li>
 <li>
 <p><strong>High Availability and Fault Tolerance</strong>:</p>
-</li>
+<ul>
 <li>Ensure the registry remains highly available, even during node failures or resource limitations.</li>
-<li>
-<p>Build in self-healing mechanisms to automatically recover from common failure scenarios.</p>
+<li>Build in self-healing mechanisms to automatically recover from common failure scenarios.</li>
+</ul>
 </li>
 <li>
 <p><strong>Monitoring and Alerting</strong>: </p>
-</li>
+<ul>
 <li>Integrate with popular monitoring tools (e.g., Prometheus, Grafana) to provide real-time health metrics, performance monitoring, and usage statistics.</li>
-<li>
-<p>Automate alerting to notify administrators of critical issues before they impact operations.</p>
+<li>Automate alerting to notify administrators of critical issues before they impact operations.</li>
+</ul>
 </li>
 <li>
 <p><strong>Secure and Compliant Operations</strong>: </p>
-</li>
+<ul>
 <li>Enforce security best practices for managing access controls, securing registry communication, and handling sensitive data.</li>
-<li>
-<p>Ensure compliance with industry standards and organizational policies for container registry management.</p>
+<li>Ensure compliance with industry standards and organizational policies for container registry management.</li>
+</ul>
 </li>
 <li>
 <p><strong>Ease of Use for DevOps Teams</strong>:</p>
-</li>
+<ul>
 <li>Provide clear documentation and user-friendly interfaces for configuring and managing registry instances.</li>
 <li>Offer seamless integration with CI/CD pipelines to enhance DevOps workflows, allowing quick and efficient management of container images.</li>
+</ul>
+</li>
 </ol>
 <h2 id="mvp-minimum-viable-product">MVP (Minimum Viable Product)</h2>
 <h3 id="core-features">Core Features</h3>
@@ -1316,29 +1215,33 @@
 <p>The <strong>Registry Operator</strong> controller is designed to ensure that the state of the container registry aligns with the desired configuration specified in the <code>Registry</code> CRD. It continuously monitors the state of both the custom resource and its dependencies, performing reconciliation as necessary to maintain the desired state.</p>
 <p><strong>Key Responsibilities</strong>:</p>
 <ol>
-<li><strong>Observe State</strong>:</li>
 <li>
-<p>The controller continuously observes the state of the <code>Registry</code> CRD and its dependent resources, including Deployments, Services, etc.</p>
+<p><strong>Observe State</strong>:</p>
+<ul>
+<li>The controller continuously observes the state of the <code>Registry</code> CRD and its dependent resources, including Deployments, Services, etc.</li>
+</ul>
 </li>
 <li>
 <p><strong>Handle State Changes</strong>:</p>
-</li>
-<li>
-<p>When any observed resource changes state (e.g., due to updates, failures, or scaling events), the controller is notified and takes appropriate action to reconcile the state.</p>
+<ul>
+<li>When any observed resource changes state (e.g., due to updates, failures, or scaling events), the controller is notified and takes appropriate action to reconcile the state.</li>
+</ul>
 </li>
 <li>
 <p><strong>Reconcile State</strong>:</p>
-</li>
-<li>
-<p>The controller performs reconciliation operations to ensure that the actual state of the registry matches the desired state defined in the <code>Registry</code> CRD. This includes creating, updating, or deleting resources as necessary.</p>
+<ul>
+<li>The controller performs reconciliation operations to ensure that the actual state of the registry matches the desired state defined in the <code>Registry</code> CRD. This includes creating, updating, or deleting resources as necessary.</li>
+</ul>
 </li>
 <li>
 <p><strong>Integration with Dependencies</strong>:</p>
-</li>
+<ul>
 <li>The controller manages the lifecycle of related Kubernetes resources:<ul>
 <li><strong>Deployment</strong>: Ensures the registry pods are correctly deployed and scaled.</li>
 <li><strong>Service</strong>: Manages access to the registry within the cluster.</li>
 <li><strong>BucketClaim</strong> and <strong>BucketAccess</strong>: Manages storage for the registry.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
@@ -1365,45 +1268,53 @@
     end</code></pre>
 <p><strong>Workflow</strong>:</p>
 <ol>
-<li><strong>Initial Observation</strong>:</li>
 <li>
-<p>The controller starts by observing the state of the <code>Registry</code> CRD and related resources. It monitors any changes or updates.</p>
+<p><strong>Initial Observation</strong>:</p>
+<ul>
+<li>The controller starts by observing the state of the <code>Registry</code> CRD and related resources. It monitors any changes or updates.</li>
+</ul>
 </li>
 <li>
 <p><strong>Reconciliation Loop</strong>:</p>
-</li>
-<li>Whenever a state change is detected in the <code>Registry</code> CRD or its dependencies, the controller triggers a reconciliation loop.</li>
-<li>
-<p>In this loop, the controller:</p>
 <ul>
+<li>Whenever a state change is detected in the <code>Registry</code> CRD or its dependencies, the controller triggers a reconciliation loop.</li>
+<li>In this loop, the controller:<ul>
 <li>Updates or creates <code>BucketClaim</code> and <code>BucketAccess</code> resources to meet the storage requirements.</li>
 <li>Adjusts the <code>Deployment</code> to ensure the registry pods are running as desired.</li>
 <li>Configures the <code>Service</code> to provide access to the registry.</li>
 </ul>
 </li>
+</ul>
+</li>
 <li>
 <p><strong>Ensure Desired State</strong>:</p>
-</li>
+<ul>
 <li>The controller continuously ensures that all related resources align with the desired state specified in the <code>Registry</code> CRD.</li>
+</ul>
+</li>
 </ol>
 <h4 id="basic-health-checks">Basic Health Checks</h4>
 <p><strong>Basic Health Checks</strong> are crucial for ensuring that the container registry is operational and performing as expected. For the MVP, the health check mechanisms will include:</p>
 <ol>
-<li><strong>Pod Health Checks</strong>:</li>
-<li><strong>Liveness Probes</strong>: The controller will ensure that the registry pods have liveness probes configured. These probes will periodically check that the registry service is running and responsive.</li>
 <li>
-<p><strong>Readiness Probes</strong>: The controller will also configure readiness probes to ensure that the registry pods are ready to serve traffic before routing requests to them.</p>
+<p><strong>Pod Health Checks</strong>:</p>
+<ul>
+<li><strong>Liveness Probes</strong>: The controller will ensure that the registry pods have liveness probes configured. These probes will periodically check that the registry service is running and responsive.</li>
+<li><strong>Readiness Probes</strong>: The controller will also configure readiness probes to ensure that the registry pods are ready to serve traffic before routing requests to them.</li>
+</ul>
 </li>
 <li>
 <p><strong>Service Health Checks</strong>:</p>
-</li>
-<li>
-<p><strong>Service Availability</strong>: The controller will check that the Kubernetes Service for the registry is correctly exposing the registry pods and that the service endpoints are available.</p>
+<ul>
+<li><strong>Service Availability</strong>: The controller will check that the Kubernetes Service for the registry is correctly exposing the registry pods and that the service endpoints are available.</li>
+</ul>
 </li>
 <li>
 <p><strong>Custom Metrics</strong>:</p>
-</li>
+<ul>
 <li><strong>Basic Metrics Collection</strong>: The operator will expose basic metrics (e.g., request count, error rate) that can be collected by monitoring systems like Prometheus. These metrics will help in identifying potential issues and monitoring the overall health of the registry.</li>
+</ul>
+</li>
 </ol>
 <pre class="mermaid"><code>graph TD
     A[Pod Health Checks]
@@ -1493,72 +1404,80 @@
 </span></code></pre></div>
 <h4 id="how-it-works_1">How It Works:</h4>
 <ol>
-<li><strong>Cache Configuration</strong>:</li>
 <li>
-<p>Define a <code>Cache</code> resource with the URL of the upstream registry and the volume configuration. The registry operator will set up the cache based on this configuration.</p>
+<p><strong>Cache Configuration</strong>:</p>
+<ul>
+<li>Define a <code>Cache</code> resource with the URL of the upstream registry and the volume configuration. The registry operator will set up the cache based on this configuration.</li>
+</ul>
 </li>
 <li>
 <p><strong>Image Caching</strong>:</p>
-</li>
-<li>
-<p>When a request for an image is made, the registry will first check the cache. If the image is not present in the cache, it will be pulled from the upstream registry and stored in the cache.</p>
+<ul>
+<li>When a request for an image is made, the registry will first check the cache. If the image is not present in the cache, it will be pulled from the upstream registry and stored in the cache.</li>
+</ul>
 </li>
 <li>
 <p><strong>Cache Management</strong>:</p>
-</li>
-<li>
-<p>The operator manages the cache based on the TTL and size settings. Cached images will be refreshed or removed according to these policies.</p>
+<ul>
+<li>The operator manages the cache based on the TTL and size settings. Cached images will be refreshed or removed according to these policies.</li>
+</ul>
 </li>
 <li>
 <p><strong>Volume Handling</strong>:</p>
-</li>
+<ul>
 <li>The <code>emptyDir</code> volume provides a temporary storage space for cached images.</li>
+</ul>
+</li>
 </ol>
 <h3 id="advanced-features">Advanced Features</h3>
 <ol>
-<li><strong>Automated Upgrades</strong></li>
-<li>Support rolling updates for application deployments.</li>
 <li>
-<p><strong>Strategy for Automating Application Upgrades</strong>:</p>
+<p><strong>Automated Upgrades</strong></p>
 <ul>
+<li>Support rolling updates for application deployments.</li>
+<li><strong>Strategy for Automating Application Upgrades</strong>:<ul>
 <li>The operator will leverage Kubernetes' built-in rolling update mechanism to ensure minimal disruption during upgrades.</li>
-<li>A phased approach will be adopted:</li>
+<li>A phased approach will be adopted:<ol>
 <li><strong>Version Validation</strong>: The operator will first validate the target version to ensure compatibility with the current registry setup.</li>
 <li><strong>Health Checks</strong>: Post-upgrade, the operator will perform health checks on each instance to ensure that it has been upgraded successfully and is functioning as expected.</li>
 <li><strong>Rollback Mechanism</strong>: In case of any issues during the upgrade process, the operator will support automatic rollback to a previous stable version to ensure continuity of service.</li>
+</ol>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
 <p><strong>Use Redis (or OSS alternative) as a metadata cache</strong></p>
-</li>
+<ul>
 <li>By default, the registry stores layer metadata in an in-memory map. The operator will add support for configuring Redis or compatible open-source alternatives (e.g., <strong>Valkey</strong>, <strong>Garnet</strong>, <strong>Dragonfly</strong>, <strong>KeyDB</strong>) to store and access metadata.</li>
 <li><strong>Benefits</strong>:<ul>
 <li>Improved performance in multi-instance, high-availability (HA) setups by externalizing the metadata store.</li>
 <li>Redis or its alternatives provide persistent storage of metadata, reducing the overhead on memory usage in long-running deployments.</li>
 </ul>
 </li>
-<li>
-<p><strong>Optional Redis Deployment</strong>:</p>
-<ul>
+<li><strong>Optional Redis Deployment</strong>:<ul>
 <li>If a Redis (or compatible store) is not already available, the operator can optionally provision one in the cluster.</li>
 <li>The Redis service can be deployed with high-availability configurations as needed by the registry's workload.</li>
 </ul>
 </li>
+</ul>
+</li>
 <li>
 <p><strong>Provision TLS certificates with cert-manager</strong></p>
-</li>
-<li>The operator will integrate with <strong>cert-manager</strong> to provision and manage TLS certificates automatically.</li>
-<li>
-<p><strong>Key Details</strong>:</p>
 <ul>
+<li>The operator will integrate with <strong>cert-manager</strong> to provision and manage TLS certificates automatically.</li>
+<li><strong>Key Details</strong>:<ul>
 <li>Cert-manager will issue certificates for the registry Ingress, ensuring secure HTTPS communication.</li>
 <li>The operator will manage certificate renewal and ensure that the registry always has a valid TLS certificate.</li>
 <li>Certificates can be automatically rotated when they expire or are nearing expiration.</li>
 </ul>
 </li>
+</ul>
+</li>
 <li>
 <p><strong>Provision local storage for the registry with filesystem storage</strong></p>
-</li>
+<ul>
 <li>The operator will support configuring the registry to use local storage through <strong>PersistentVolumeClaims (PVCs)</strong> with filesystem storage.</li>
 <li>
 <p><strong>Use Case</strong>:</p>
@@ -1573,6 +1492,8 @@
 <li>The operator will allow specifying a PVC for the registry, which will be automatically created and bound to the registry deployment.</li>
 <li>If using filesystem storage, the operator will ensure that the deployment is properly configured to avoid conflicts with HA setups, such as ensuring that the replica count is set to 1 for non-distributed setups.</li>
 <li>The filesystem storage option provides a simplified, cost-effective approach for users needing local caching.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
@@ -1794,7 +1715,7 @@
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "header.autohide", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "header.autohide", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.525ec568.min.js"></script>

@@ -12,8 +12,6 @@
         <link rel="prev" href="../../getting_started/1-quickstart/">
       
       
-        <link rel="next" href="../../user_guides/0-storage/">
-      
       
       <link rel="icon" href="../../assets/package.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
@@ -307,24 +305,6 @@
   
 
       
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../user_guides/0-storage/" class="md-tabs__link">
-          
-  
-  User guides
-
-        </a>
-      </li>
-    
-  
-
-      
     </ul>
   </div>
 </nav>
@@ -571,7 +551,7 @@
         
   
   <span class="md-ellipsis">
-    Quickstart
+    Quick Start
   </span>
   
 
@@ -693,13 +673,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#registryregistry-operatordevv1alpha1" class="md-nav__link">
+  <a href="#registry-operatordevv1alpha1" class="md-nav__link">
     <span class="md-ellipsis">
-      registry.registry-operator.dev/v1alpha1
+      registry-operator.dev/v1alpha1
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="registry.registry-operator.dev/v1alpha1">
+    <nav class="md-nav" aria-label="registry-operator.dev/v1alpha1">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -765,93 +745,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    User guides
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            User guides
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../user_guides/0-storage/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Storage
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../user_guides/1-auth/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    AuthN & AuthZ
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -888,13 +781,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#registryregistry-operatordevv1alpha1" class="md-nav__link">
+  <a href="#registry-operatordevv1alpha1" class="md-nav__link">
     <span class="md-ellipsis">
-      registry.registry-operator.dev/v1alpha1
+      registry-operator.dev/v1alpha1
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="registry.registry-operator.dev/v1alpha1">
+    <nav class="md-nav" aria-label="registry-operator.dev/v1alpha1">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -965,9 +858,9 @@
 <h1 id="api-reference">API Reference</h1>
 <h2 id="packages">Packages</h2>
 <ul>
-<li><a href="#registryregistry-operatordevv1alpha1">registry.registry-operator.dev/v1alpha1</a></li>
+<li><a href="#registry-operatordevv1alpha1">registry-operator.dev/v1alpha1</a></li>
 </ul>
-<h2 id="registryregistry-operatordevv1alpha1">registry.registry-operator.dev/v1alpha1</h2>
+<h2 id="registry-operatordevv1alpha1">registry-operator.dev/v1alpha1</h2>
 <p>Package v1alpha1 contains API Schema definitions for the registry v1alpha1 API group</p>
 <h3 id="resource-types">Resource Types</h3>
 <ul>
@@ -987,7 +880,7 @@
 <tbody>
 <tr>
 <td><code>apiVersion</code> <em>string</em></td>
-<td><code>registry.registry-operator.dev/v1alpha1</code></td>
+<td><code>registry-operator.dev/v1alpha1</code></td>
 <td></td>
 <td></td>
 </tr>
@@ -1021,10 +914,58 @@
 <p>RegistrySpec defines the desired state of Registry</p>
 <p><em>Appears in:</em>
 - <a href="#registry">Registry</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Default</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>image</code> <em>string</em></td>
+<td>Image indicates the container image to use for the Registry.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h4 id="registrystatus">RegistryStatus</h4>
 <p>RegistryStatus defines the observed state of Registry</p>
 <p><em>Appears in:</em>
 - <a href="#registry">Registry</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Default</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ready</code> <em>boolean</em></td>
+<td>Ready is a boolean field that is true when the Registry is ready to be used.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>version</code> <em>string</em></td>
+<td>Version of the managed Registry</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>image</code> <em>string</em></td>
+<td>Image indicates the container image to use for the Registry.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -1134,7 +1075,7 @@
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "header.autohide", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "header.autohide", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
