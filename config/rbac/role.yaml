@@ -5,7 +5,38 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - registry.registry-operator.dev
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - registry-operator.dev
   resources:
   - registries
   verbs:
@@ -17,13 +48,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - registry.registry-operator.dev
+  - registry-operator.dev
   resources:
   - registries/finalizers
   verbs:
   - update
 - apiGroups:
-  - registry.registry-operator.dev
+  - registry-operator.dev
   resources:
   - registries/status
   verbs:

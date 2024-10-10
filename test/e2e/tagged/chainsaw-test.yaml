@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/kyverno/chainsaw/main/.schemas/json/test-chainsaw-v1alpha1.json
+apiVersion: chainsaw.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: tagged
+spec:
+  timeouts:
+    apply: 5s
+    assert: 30s
+    cleanup: 30s
+    delete: 15s
+    error: 30s
+  steps:
+    - name: Check if controller-manager exist
+      try:
+        - assert:
+            resource:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: registry-operator-controller-manager
+                namespace: registry-operator-system
+              status:
+                availableReplicas: 1
+    - name: Create registry with tagged image
+      try:
+        - create:
+            resource:
+              apiVersion: registry-operator.dev/v1alpha1
+              kind: Registry
+              metadata:
+                name: tagged
+              spec:
+                image: docker.io/library/registry:2.8.3
+    - name: Wait for Registry status to be ready and resources to be deployed
+      try:
+        - assert:
+            resource:
+              apiVersion: registry-operator.dev/v1alpha1
+              kind: Registry
+              metadata:
+                name: tagged
+              status:
+                ready: true
+                version: "2.8.3"
+        - assert:
+            resource:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: tagged-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'tagged']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "2.8.3"
+              status:
+                availableReplicas: 1
+        - assert:
+            resource:
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: tagged-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'tagged']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "2.8.3"

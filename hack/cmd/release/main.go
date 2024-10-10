@@ -1,4 +1,4 @@
-// Copyright 2024 Registry Operator contributors.
+// Copyright The Registry Operator Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/blang/semver/v4"
+	semver "github.com/Masterminds/semver/v3"
 
 	"sigs.k8s.io/yaml"
 )
@@ -86,12 +86,12 @@ func createBranch(branchName string) error {
 }
 
 func parseVersion(version string) (string, error) {
-	parsed, err := semver.ParseTolerant(strings.TrimPrefix(version, "v"))
+	parsed, err := semver.NewVersion(strings.TrimPrefix(version, "v"))
 	if err != nil {
 		return "", fmt.Errorf("failed to parse version: %w", err)
 	}
 
-	return fmt.Sprintf("%d.%d", parsed.Major, parsed.Minor), nil
+	return fmt.Sprintf("%d.%d", parsed.Major(), parsed.Minor()), nil
 }
 
 func getLatestKubernetesRelease() (string, error) {

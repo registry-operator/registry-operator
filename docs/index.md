@@ -3,204 +3,22 @@ title: Home
 weight: 0
 ---
 
-# Home
+<p align="center">
+    </br><img src="./assets/package-full.png" alt="Registry Operator" width="20%"/></br>
+</p>
 
-!!! info inline end "Lorem ipsum"
+Welcome to Registry Operator's documentation portal! Here, you'll find everything you need, whether you're a beginner getting started with container registries or an experienced user looking for advanced operational features.
 
-    Lorem ipsum dolor sit amet, consectetur
-    adipiscing elit. Nulla et euismod nulla.
-    Curabitur feugiat, tortor non consequat
-    finibus, justo purus auctor massa, nec
-    semper lorem quam in massa.
+The **Registry Operator** simplifies the management of your container registry, automating tasks such as scaling, updates, and backups, allowing you to focus more on your application development and less on operational overhead. It provides seamless integration with Kubernetes, utilizing **Custom Resource Definitions (CRDs)** and **Operator pattern** to ensure the health and scalability of your registry infrastructure.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## What is the Distribution Registry?
 
-## Code Block
+The **Distribution Registry**, often simply called the **Registry**, is a stateless, highly scalable server-side application that stores and distributes container images and other content.[^1] It's a core component of the container ecosystem, allowing you to push, pull, and manage container images efficiently across environments. With **Registry Operator**, managing this core service becomes easier, more automated, and scalable.
 
-<div class="grid cards" markdown>
+## Key Features of Registry Operator
 
--   :fontawesome-brands-golang: Go
+- **Automated Lifecycle Management:** The operator manages the lifecycle of your container registry, from installation and configuration to updates and maintenance.
+- **Custom Resource Definitions (CRDs):** Leverage Kubernetes-native resources to define and manage your registry instances.
+- **Easy Installation and Configuration:** With simple installation steps and clear configuration options, setting up a registry is fast and efficient.
 
-    ---
-
-    ```go
-    import (
-        "context"
-        "fmt"
-        "log/slog"
-        "os"
-    )
-
-    func main() {
-        if err := run(context.Background()); err != nil {
-            slog.Error("critical failure, closing",
-                "error", err)
-            os.Exit(1)
-        }
-    }
-
-    func run(ctx contex.Context) error {
-        // ...
-    }
-    ```
-
--   C Example
-
-    ---
-
-    ```c
-    #include <stdio.h>
-
-    int main() {
-        int n, i, sum = 0;
-
-        printf("Enter a positive integer: ");
-        scanf("%d", &n);
-
-        for (i = 1; i <= n; ++i) {
-            sum += i;
-        }
-
-        printf("Sum = %d", sum);
-        return 0;
-    }
-    ```
-
--   YAML
-
-    ---
-
-    ```yaml
-    foo:
-    - bar:
-        baz: !!baz
-    baz: "bar" # something
-    cux: null # TODO(foo): bar baz
-    rex: 1.2
-    ```
-
--   :fontawesome-brands-docker: Dockerfile
-
-    ---
-
-    ```docker
-    FROM scratch
-
-    # copy file
-    COPY ./foo ./bar
-
-    # set env
-    ENV foo=bar
-    ```
-</div>
-
-## Table
-
-| Method      | Description                          |
-| ----------- | ------------------------------------ |
-| `GET`       | :material-check:     Fetch resource  |
-| `PUT`       | :material-check-all: Update resource |
-| `DELETE`    | :material-close:     Delete resource |
-
-## Mermaid
-
-???+ note "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-```mermaid
-graph LR
-  A[Start] --> B{Error?};
-  B -->|Yes| C[Hmm...];
-  C --> D[Debug];
-  D --> B;
-  B ---->|No| E[Yay!];
-```
-
-## Annotations
-
-Lorem ipsum dolor sit amet, (1) consectetur adipiscing elit.
-{ .annotate }
-
-1.  :man_raising_hand: I'm an annotation! I can contain `code`, __formatted
-    text__, images, ... basically anything that can be expressed in Markdown.
-
-## Footnotes
-
-Lorem ipsum[^1] dolor sit amet, consectetur adipiscing elit.[^2]
-
-[^1]: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-[^2]:
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-## Admonitions
-
-???+ abstract "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ info "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ tip "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ success "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ question "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ warning "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ failure "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ danger "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ bug "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ example "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-???+ quote "Foo, Bar, Baz"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
+[^1]: [https://distribution.github.io/distribution/](https://distribution.github.io/distribution/)

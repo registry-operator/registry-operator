@@ -8,7 +8,7 @@ metadata:
   name: registry-viewer-role
 rules:
 - apiGroups:
-  - registry.registry-operator.dev
+  - registry-operator.dev
   resources:
   - registries
   verbs:
@@ -16,7 +16,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - registry.registry-operator.dev
+  - registry-operator.dev
   resources:
   - registries/status
   verbs:

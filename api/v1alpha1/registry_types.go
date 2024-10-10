@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Registry Operator contributors.
+Copyright The Registry Operator Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,19 +20,34 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // RegistrySpec defines the desired state of Registry
 type RegistrySpec struct {
+	// Image indicates the container image to use for the Registry.
+	// +optional
+	Image string `json:"image,omitempty"`
 }
 
 // RegistryStatus defines the observed state of Registry
 type RegistryStatus struct {
+	// Ready is a boolean field that is true when the Registry is ready to be used.
+	// +optional
+	Ready bool `json:"ready"`
+
+	// Version of the managed Registry
+	// +optional
+	Version string `json:"version,omitempty"`
+
+	// Image indicates the container image to use for the Registry.
+	// +optional
+	Image string `json:"image,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Version",type="string",JSONPath=".status.version"
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.ready"
+// +kubebuilder:printcolumn:name="Image",type="string",JSONPath=".status.image"
 
 // Registry is the Schema for the registries API
 type Registry struct {

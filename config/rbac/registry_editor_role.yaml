@@ -8,7 +8,7 @@ metadata:
   name: registry-editor-role
 rules:
 - apiGroups:
-  - registry.registry-operator.dev
+  - registry-operator.dev
   resources:
   - registries
   verbs:
@@ -20,7 +20,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - registry.registry-operator.dev
+  - registry-operator.dev
   resources:
   - registries/status
   verbs:

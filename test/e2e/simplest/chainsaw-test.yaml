@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/kyverno/chainsaw/main/.schemas/json/test-chainsaw-v1alpha1.json
+apiVersion: chainsaw.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: simplest
+spec:
+  timeouts:
+    apply: 5s
+    assert: 30s
+    cleanup: 30s
+    delete: 15s
+    error: 30s
+  steps:
+    - name: Check if controller-manager exist
+      try:
+        - assert:
+            resource:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: registry-operator-controller-manager
+                namespace: registry-operator-system
+              status:
+                availableReplicas: 1
+    - name: Create simplest registry
+      try:
+        - create:
+            resource:
+              apiVersion: registry-operator.dev/v1alpha1
+              kind: Registry
+              metadata:
+                name: simplest
+    - name: Wait for Registry status to be ready and resources to be deployed
+      try:
+        - assert:
+            resource:
+              apiVersion: registry-operator.dev/v1alpha1
+              kind: Registry
+              metadata:
+                name: simplest
+              status:
+                ready: true
+        - assert:
+            resource:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: simplest-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'simplest']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
+              status:
+                availableReplicas: 1
+        - assert:
+            resource:
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: simplest-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'simplest']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
+

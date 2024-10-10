@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Registry Operator contributors.
+Copyright The Registry Operator Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -139,8 +139,9 @@ func main() {
 	}
 
 	if err = (&controller.RegistryReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
+		Client:   mgr.GetClient(),
+		Recorder: mgr.GetEventRecorderFor("RegistryReconciler"),
+		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Registry")
 		os.Exit(1)
