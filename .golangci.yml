@@ -16,6 +16,7 @@ linters:
   - ginkgolinter
   - goconst
   - gocyclo
+  - godot
   - gofmt
   - goimports
   - gosimple

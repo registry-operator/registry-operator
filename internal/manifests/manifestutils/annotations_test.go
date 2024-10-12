@@ -27,16 +27,16 @@ import (
 
 func TestAnnotationsPropagateDown(t *testing.T) {
 	// prepare
-	otelcol := registryv1alpha1.Registry{
+	registry := registryv1alpha1.Registry{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations: map[string]string{"myapp": "mycomponent"},
 		},
 	}
 
 	// test
-	annotations, err := Annotations(otelcol, []string{})
+	annotations, err := Annotations(registry, []string{})
 	require.NoError(t, err)
-	podAnnotations, err := PodAnnotations(otelcol, []string{})
+	podAnnotations, err := PodAnnotations(registry, []string{})
 	require.NoError(t, err)
 
 	// verify
@@ -46,7 +46,7 @@ func TestAnnotationsPropagateDown(t *testing.T) {
 }
 
 func TestAnnotationsFilter(t *testing.T) {
-	otelcol := registryv1alpha1.Registry{
+	registry := registryv1alpha1.Registry{
 		ObjectMeta: metav1.ObjectMeta{
 			Annotations: map[string]string{
 				"test.bar.io":  "foo",
@@ -57,7 +57,7 @@ func TestAnnotationsFilter(t *testing.T) {
 	}
 
 	// This requires the filter to be in regex match form and not the other simpler wildcard one.
-	annotations, err := Annotations(otelcol, []string{".*\\.bar\\.io"})
+	annotations, err := Annotations(registry, []string{".*\\.bar\\.io"})
 
 	// verify
 	require.NoError(t, err)
