@@ -2,9 +2,9 @@
 apiVersion: chainsaw.kyverno.io/v1alpha1
 kind: Test
 metadata:
-  name: tagged
+  name: complete
   labels:
-    area: 'core'
+    area: 'complete'
 spec:
   timeouts:
     apply: 5s
@@ -24,16 +24,31 @@ spec:
                 namespace: registry-operator-system
               status:
                 availableReplicas: 1
-    - name: Create registry with tagged image
+    - name: Create registry with all configuration options
       try:
         - create:
             resource:
               apiVersion: registry-operator.dev/v1alpha1
               kind: Registry
               metadata:
-                name: tagged
+                name: complete
               spec:
                 image: docker.io/library/registry:2.8.3
+                replicas: 2
+                affinity:
+                  nodeAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                      nodeSelectorTerms:
+                        - matchExpressions:
+                          - key: kubernetes.io/arch
+                            operator: In
+                            values:
+                              - amd64
+                              - arm64
+                          - key: kubernetes.io/os
+                            operator: In
+                            values:
+                              - linux
     - name: Wait for Registry status to be ready and resources to be deployed
       try:
         - assert:
@@ -41,7 +56,7 @@ spec:
               apiVersion: registry-operator.dev/v1alpha1
               kind: Registry
               metadata:
-                name: tagged
+                name: complete
               status:
                 ready: true
                 version: "2.8.3"
@@ -50,10 +65,10 @@ spec:
               apiVersion: apps/v1
               kind: Deployment
               metadata:
-                name: tagged-registry
+                name: complete-registry
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'tagged']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'complete']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "2.8.3"
@@ -70,23 +85,21 @@ spec:
                                 values:
                                   - amd64
                                   - arm64
-                                  - ppc64le
-                                  - s390x
                               - key: kubernetes.io/os
                                 operator: In
                                 values:
                                   - linux
               status:
-                availableReplicas: 1
+                availableReplicas: 2
         - assert:
             resource:
               apiVersion: v1
               kind: Service
               metadata:
-                name: tagged-registry
+                name: complete-registry
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'tagged']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'complete']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "2.8.3"

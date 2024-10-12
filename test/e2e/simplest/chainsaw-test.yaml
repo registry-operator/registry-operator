@@ -3,6 +3,8 @@ apiVersion: chainsaw.kyverno.io/v1alpha1
 kind: Test
 metadata:
   name: simplest
+  labels:
+    area: 'core'
 spec:
   timeouts:
     apply: 5s
@@ -52,6 +54,25 @@ spec:
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
+              spec:
+                template:
+                  spec:
+                    affinity:
+                      nodeAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          nodeSelectorTerms:
+                            - matchExpressions:
+                              - key: kubernetes.io/arch
+                                operator: In
+                                values:
+                                  - amd64
+                                  - arm64
+                                  - ppc64le
+                                  - s390x
+                              - key: kubernetes.io/os
+                                operator: In
+                                values:
+                                  - linux
               status:
                 availableReplicas: 1
         - assert:
