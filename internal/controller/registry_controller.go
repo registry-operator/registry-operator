@@ -44,7 +44,7 @@ const (
 	registryFinalizer = "registry.registry-operator.dev/finalizer"
 )
 
-// RegistryReconciler reconciles a Registry object
+// RegistryReconciler reconciles a Registry object.
 type RegistryReconciler struct {
 	client.Client
 	Scheme   *runtime.Scheme
@@ -75,7 +75,7 @@ func (r *RegistryReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	var instance registryv1alpha1.Registry
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		if !apierrors.IsNotFound(err) {
-			log.Error(err, "unable to fetch OpenTelemetryCollector")
+			log.Error(err, "unable to fetch Registry")
 		}
 
 		// we'll ignore not-found errors, since they can't be fixed by an immediate

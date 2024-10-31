@@ -116,7 +116,7 @@ func (u VersionUpgrade) ManagedInstance(
 	updated := *(registry.DeepCopy())
 	if instanceV.GreaterThan(&Latest.Version) {
 		log.V(4).Info(
-			"No upgrade routines are needed for the OpenTelemetry instance",
+			"No upgrade routines are needed for the Registry instance",
 			"registry", klog.KObj(&updated),
 			"version", updated.Status.Version,
 			"latest", Latest.Version.String(),

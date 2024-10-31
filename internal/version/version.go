@@ -30,7 +30,7 @@ var (
 
 // Version holds this Operator's version as well as the version of some of the components it uses.
 type Version struct {
-	Operator  string `json:"opentelemetry-operator"`
+	Operator  string `json:"registry-operator"`
 	BuildDate string `json:"build-date"`
 	Registry  string `json:"registry"`
 	Go        string `json:"go-version"`
@@ -56,7 +56,7 @@ func (v Version) String() string {
 	)
 }
 
-// OpenTelemetryCollector returns the default OpenTelemetryCollector to use when no versions are specified via CLI or
+// Registry returns the default Registry to use when no versions are specified via CLI or
 // configuration.
 func Registry() string {
 	if len(GetRegistryVersion()) > 0 {

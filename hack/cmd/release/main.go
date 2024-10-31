@@ -113,7 +113,12 @@ func getLatestKubernetesRelease() (string, error) {
 		return "", fmt.Errorf("failed to decode Kubernetes release data: %w", err)
 	}
 
-	return releaseData.TagName, nil
+	v, err := semver.NewVersion(releaseData.TagName)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse Kubernetes release semver: %w", err)
+	}
+
+	return fmt.Sprintf("%d.%d", v.Major(), v.Minor()), nil
 }
 
 func replaceKubernetesVersion(filePath, newVersion string) error {
