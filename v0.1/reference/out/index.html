@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../../assets/package.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -867,7 +867,7 @@
 <li><a href="#registry">Registry</a></li>
 </ul>
 <h4 id="registry">Registry</h4>
-<p>Registry is the Schema for the registries API</p>
+<p>Registry is the Schema for the registries API.</p>
 <table>
 <thead>
 <tr>
@@ -891,7 +891,7 @@
 <td></td>
 </tr>
 <tr>
-<td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/vv1.31.1/#objectmeta-v1-meta">ObjectMeta</a></em></td>
+<td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#objectmeta-v1-meta">ObjectMeta</a></em></td>
 <td>Refer to Kubernetes API documentation for fields of <code>metadata</code>.</td>
 <td></td>
 <td></td>
@@ -911,7 +911,7 @@
 </tbody>
 </table>
 <h4 id="registryspec">RegistrySpec</h4>
-<p>RegistrySpec defines the desired state of Registry</p>
+<p>RegistrySpec defines the desired state of Registry.</p>
 <p><em>Appears in:</em>
 - <a href="#registry">Registry</a></p>
 <table>
@@ -930,10 +930,22 @@
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td><code>replicas</code> <em>integer</em></td>
+<td>Replicas indicates the number of the pod replicas that will be created.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>affinity</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core">Affinity</a></em></td>
+<td>Affinity specifies the scheduling constraints for Pods.</td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h4 id="registrystatus">RegistryStatus</h4>
-<p>RegistryStatus defines the observed state of Registry</p>
+<p>RegistryStatus defines the observed state of Registry.</p>
 <p><em>Appears in:</em>
 - <a href="#registry">Registry</a></p>
 <table>
@@ -954,7 +966,7 @@
 </tr>
 <tr>
 <td><code>version</code> <em>string</em></td>
-<td>Version of the managed Registry</td>
+<td>Version of the managed Registry.</td>
 <td></td>
 <td></td>
 </tr>
@@ -1078,7 +1090,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "header.autohide", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
       
     
   </body>
