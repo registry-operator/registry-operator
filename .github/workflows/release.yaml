@@ -59,6 +59,15 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.event.repository.owner.name }}/registry-operator:${{ github.ref_name }}
           build-args: VERSION=${{ github.ref_name }}
+          labels: |
+            org.opencontainers.image.title="registry-operator"
+            org.opencontainers.image.authors="The Registry Operator Authors"
+            org.opencontainers.image.vendor="registry-operator"
+            org.opencontainers.image.license="Apache-2.0"
+            org.opencontainers.image.source="https://github.com/registry-operator/registry-operator"
+            org.opencontainers.image.documentation="https://registry-operator.dev"
+            org.opencontainers.image.base.name="gcr.io/distroless/static:nonroot"
+            org.opencontainers.image.created=${{ github.event.created_at }}
 
   docs:
     runs-on: ubuntu-latest
