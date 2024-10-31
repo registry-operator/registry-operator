@@ -27,7 +27,7 @@ Registry is the Schema for the registries API.
 | --- | --- | --- | --- |
 | `apiVersion` _string_ | `registry-operator.dev/v1alpha1` | | |
 | `kind` _string_ | `Registry` | | |
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/vv1.31.1/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
 | `spec` _[RegistrySpec](#registryspec)_ |  |  |  |
 | `status` _[RegistryStatus](#registrystatus)_ |  |  |  |
 
@@ -47,7 +47,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `image` _string_ | Image indicates the container image to use for the Registry. |  |  |
 | `replicas` _integer_ | Replicas indicates the number of the pod replicas that will be created. |  |  |
-| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/vv1.31.1/#affinity-v1-core)_ | Affinity specifies the scheduling constraints for Pods. |  |  |
+| `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core)_ | Affinity specifies the scheduling constraints for Pods. |  |  |
 
 
 #### RegistryStatus
