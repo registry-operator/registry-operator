@@ -17,23 +17,33 @@ limitations under the License.
 package v1alpha1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// RegistrySpec defines the desired state of Registry
+// RegistrySpec defines the desired state of Registry.
 type RegistrySpec struct {
 	// Image indicates the container image to use for the Registry.
 	// +optional
 	Image string `json:"image,omitempty"`
+
+	// Replicas indicates the number of the pod replicas that will be created.
+	// +optional
+	// +default=1
+	Replicas int32 `json:"replicas,omitempty"`
+
+	// Affinity specifies the scheduling constraints for Pods.
+	// +optional
+	Affinity *corev1.Affinity `json:"affinity,omitempty"`
 }
 
-// RegistryStatus defines the observed state of Registry
+// RegistryStatus defines the observed state of Registry.
 type RegistryStatus struct {
 	// Ready is a boolean field that is true when the Registry is ready to be used.
 	// +optional
 	Ready bool `json:"ready"`
 
-	// Version of the managed Registry
+	// Version of the managed Registry.
 	// +optional
 	Version string `json:"version,omitempty"`
 
@@ -49,7 +59,7 @@ type RegistryStatus struct {
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.ready"
 // +kubebuilder:printcolumn:name="Image",type="string",JSONPath=".status.image"
 
-// Registry is the Schema for the registries API
+// Registry is the Schema for the registries API.
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -60,7 +70,7 @@ type Registry struct {
 
 // +kubebuilder:object:root=true
 
-// RegistryList contains a list of Registry
+// RegistryList contains a list of Registry.
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

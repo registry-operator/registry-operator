@@ -50,7 +50,7 @@ func Deployment(params manifests.Params) (*appsv1.Deployment, error) {
 			Annotations: annotations,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: ptr.To[int32](1),
+			Replicas: ptr.To(params.Registry.Spec.Replicas),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: manifestutils.SelectorLabels(params.Registry.ObjectMeta, ComponentRegistry),
 			},
@@ -63,6 +63,7 @@ func Deployment(params manifests.Params) (*appsv1.Deployment, error) {
 					Containers: []corev1.Container{
 						Container(params.Registry),
 					},
+					Affinity: manifestutils.Affinity(params.Registry),
 				},
 			},
 		},

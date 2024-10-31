@@ -21,7 +21,7 @@ import (
 	registryv1alpha1 "github.com/registry-operator/registry-operator/api/v1alpha1"
 )
 
-// Annotations return the annotations for OpenTelemetryCollector resources.
+// Annotations return the annotations for Registry resources.
 func Annotations(instance registryv1alpha1.Registry, filterAnnotations []string) (map[string]string, error) {
 	// new map every time, so that we don't touch the instance's annotations
 	annotations := map[string]string{}
@@ -37,7 +37,7 @@ func Annotations(instance registryv1alpha1.Registry, filterAnnotations []string)
 	return annotations, nil
 }
 
-// PodAnnotations return the spec annotations for OpenTelemetryCollector pod.
+// PodAnnotations return the spec annotations for Registry pod.
 func PodAnnotations(instance registryv1alpha1.Registry, filterAnnotations []string) (map[string]string, error) {
 	// new map every time, so that we don't touch the instance's annotations
 	podAnnotations := map[string]string{}

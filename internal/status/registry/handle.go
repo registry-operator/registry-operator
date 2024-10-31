@@ -65,7 +65,7 @@ func HandleReconcileStatus(
 	upgraded, upgradeErr := up.ManagedInstance(ctx, *changed)
 	if upgradeErr != nil {
 		// don't fail to allow setting the status
-		log.V(2).Error(upgradeErr, "Failed to upgrade the OpenTelemetry CR")
+		log.V(2).Error(upgradeErr, "Failed to upgrade the Registry CR")
 	}
 
 	changed = &upgraded
@@ -77,7 +77,7 @@ func HandleReconcileStatus(
 
 	statusPatch := client.MergeFrom(&registry)
 	if err := params.Client.Status().Patch(ctx, changed, statusPatch); err != nil {
-		return ctrl.Result{}, fmt.Errorf("failed to apply status changes to the OpenTelemetry CR: %w", err)
+		return ctrl.Result{}, fmt.Errorf("failed to apply status changes to the Registry CR: %w", err)
 	}
 
 	params.Recorder.Event(changed, eventTypeNormal, reasonInfo, "pplied status changes")
