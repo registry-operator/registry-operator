@@ -1,7 +1,7 @@
 images:
 - name: controller
   newName: ghcr.io/registry-operator/registry-operator
-  newTag: v0.1.0
+  newTag: v0.1.1
 namePrefix: registry-operator-
 namespace: registry-operator-system
 resources:
