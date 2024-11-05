@@ -12,12 +12,6 @@ jobs:
       !contains(github.event.pull_request.labels.*.name, 'do-not-merge') &&
       github.actor == 'renovate[bot]'
     steps:
-      - uses: bitwarden/sm-action@v2
-        with:
-          access_token: ${{ secrets.BW_ACCESS_TOKEN }}
-          base_url: https://vault.bitwarden.com
-          secrets: |
-            a288b2ae-a336-4425-9b07-b1f100cd05ec > PAT
       - uses: hmarr/auto-approve-action@v4
         with:
-          github-token: ${{ env.PAT }}
+          github-token: ${{ secrets.PAT }}

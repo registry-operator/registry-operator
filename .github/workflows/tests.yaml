@@ -15,7 +15,6 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: ./go.mod
-          cache: false
       - run: |
           make test
       - uses: codecov/codecov-action@v4
@@ -29,7 +28,6 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: ./go.mod
-          cache: false
       - run: |
           make \
             IMG=localhost:5005/registry-operator:e2e \
