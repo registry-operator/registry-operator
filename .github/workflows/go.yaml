@@ -22,5 +22,4 @@ jobs:
       - run: |
           make lint
       - run: |
-          go mod tidy
-          git diff-index --quiet HEAD --
+          go mod tidy --diff
