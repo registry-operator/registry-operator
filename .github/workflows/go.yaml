@@ -3,13 +3,6 @@ name: go
 on:
   pull_request:
     branches: [ '*' ]
-    paths:
-      - 'api/**'
-      - 'cmd/**'
-      - 'hack/**'
-      - 'internal/**'
-      - 'go.mod'
-      - 'go.sum'
 
 jobs:
   lint:
