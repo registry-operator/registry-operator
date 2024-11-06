@@ -3,8 +3,6 @@ name: kube
 on:
   pull_request:
     branches: [ '*' ]
-    paths:
-      - 'config/**'
 
 jobs:
   kube-linter:
