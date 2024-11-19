@@ -6,7 +6,7 @@ toolchain go1.23.3
 
 require (
 	dario.cat/mergo v1.0.1
-	github.com/Masterminds/semver/v3 v3.3.0
+	github.com/Masterminds/semver/v3 v3.3.1
 	github.com/stretchr/testify v1.9.0
 	k8s.io/api v0.31.2
 	k8s.io/apimachinery v0.31.2
