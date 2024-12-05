@@ -33,10 +33,10 @@ func TestTruncate(t *testing.T) {
 		max      int
 	}{
 		{
-			format:   "%s-collector",
+			format:   "%s-registry",
 			max:      63,
 			values:   []interface{}{"simplest"},
-			expected: "simplest-collector",
+			expected: "simplest-registry",
 			cap:      "the standard case",
 		},
 		{
@@ -47,31 +47,31 @@ func TestTruncate(t *testing.T) {
 			cap:      "first N case",
 		},
 		{
-			format:   "%s-collector",
+			format:   "%s-registry",
 			max:      63,
 			values:   []interface{}{"d0c1e62-4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-b174-c85b7644b6b5"},
-			expected: "d0c1e62-4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11e-collector",
+			expected: "d0c1e62-4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-registry",
 			cap:      "instance + fixed within bounds",
 		},
 		{
-			format:   "%s-%s-collector",
+			format:   "%s-%s-registry",
 			max:      63,
 			values:   []interface{}{"d0c1e62", "4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-b174-c85b7644b6b5"},
-			expected: "4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-b174--collector",
+			expected: "4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-b174-c-registry",
 			cap:      "first value gets dropped, second truncated",
 		},
 		{
-			format:   "%s-%s-collector",
+			format:   "%s-%s-registry",
 			max:      63,
 			values:   []interface{}{"4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-b174-c85b7644b6b5", "d0c1e62"},
-			expected: "4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11e-d0c1e62-collector",
+			expected: "4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-d0c1e62-registry",
 			cap:      "first value gets truncated, second added",
 		},
 		{
-			format:   "%d-%s-collector",
+			format:   "%d-%s-registry",
 			max:      63,
 			values:   []interface{}{42, "d0c1e62-4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-11ea-b174-c85b7644b6b5"},
-			expected: "42-d0c1e62-4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96--collector",
+			expected: "42-d0c1e62-4d96-11ea-b174-c85b7644b6b5-5d0c1e62-4d96-1-registry",
 			cap:      "first value gets passed, second truncated",
 		},
 	} {

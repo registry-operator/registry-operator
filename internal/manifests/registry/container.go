@@ -18,6 +18,8 @@
 package registry
 
 import (
+	"path"
+
 	registryv1alpha1 "github.com/registry-operator/registry-operator/api/v1alpha1"
 	"github.com/registry-operator/registry-operator/internal/naming"
 	"github.com/registry-operator/registry-operator/internal/version"
@@ -27,6 +29,7 @@ import (
 
 const (
 	distributionPortDefault = 5000
+	configMountPath         = "/etc/distribution"
 )
 
 func generateContainerPorts() []corev1.ContainerPort {
@@ -39,7 +42,17 @@ func generateContainerPorts() []corev1.ContainerPort {
 	}
 }
 
-// Container builds a container for the given collector.
+func generateVolumeMounts() []corev1.VolumeMount {
+	return []corev1.VolumeMount{
+		{
+			Name:      naming.ConfigVolume(),
+			ReadOnly:  true,
+			MountPath: configMountPath,
+		},
+	}
+}
+
+// Container builds a container for the given registry.
 func Container(registry registryv1alpha1.Registry) corev1.Container {
 	image := registry.Spec.Image
 	if len(image) == 0 {
@@ -50,6 +63,9 @@ func Container(registry registryv1alpha1.Registry) corev1.Container {
 		Name:            naming.Container(),
 		Image:           image,
 		ImagePullPolicy: corev1.PullIfNotPresent,
+		Command:         []string{"registry"},
+		Args:            []string{"serve", path.Join(configMountPath, naming.DistributionConfig())},
 		Ports:           generateContainerPorts(),
+		VolumeMounts:    generateVolumeMounts(),
 	}
 }

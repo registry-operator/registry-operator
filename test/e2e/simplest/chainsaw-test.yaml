@@ -57,6 +57,22 @@ spec:
               spec:
                 template:
                   spec:
+                    containers:
+                      - name: distribution
+                        image: docker.io/library/registry:2.8.3
+                        command: [ "registry" ]
+                        args: [ "serve", "/etc/distribution/config.yaml" ]
+                        volumeMounts:
+                          - name: config
+                            readOnly: true
+                            mountPath: /etc/distribution
+                    volumes:
+                      - name: config
+                        configMap:
+                          name: 011736e51d0d6b0e5b15b6969cdeac2c71ef96871452ad64b7a86c91be61cc
+                          items:
+                            - key: config.yaml
+                              path: config.yaml
                     affinity:
                       nodeAffinity:
                         requiredDuringSchedulingIgnoredDuringExecution:
@@ -78,6 +94,18 @@ spec:
         - assert:
             resource:
               apiVersion: v1
+              kind: ConfigMap
+              metadata:
+                name: 011736e51d0d6b0e5b15b6969cdeac2c71ef96871452ad64b7a86c91be61cc
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'simplest']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
+        - assert:
+            resource:
+              apiVersion: v1
               kind: Service
               metadata:
                 name: simplest-registry
@@ -87,4 +115,3 @@ spec:
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
-

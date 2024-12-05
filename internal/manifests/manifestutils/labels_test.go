@@ -28,18 +28,18 @@ import (
 )
 
 const (
-	collectorName      = "my-instance"
-	collectorNamespace = "my-ns"
-	taname             = "my-instance"
-	tanamespace        = "my-ns"
+	registryName      = "my-instance"
+	registryNamespace = "my-ns"
+	taname            = "my-instance"
+	tanamespace       = "my-ns"
 )
 
 func TestLabelsCommonSet(t *testing.T) {
 	// prepare
 	registry := registryv1alpha1.Registry{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      collectorName,
-			Namespace: collectorNamespace,
+			Name:      registryName,
+			Namespace: registryNamespace,
 		},
 		Spec: registryv1alpha1.RegistrySpec{
 			Image: "docker.io/library/registry:0.47.0",
@@ -47,7 +47,7 @@ func TestLabelsCommonSet(t *testing.T) {
 	}
 
 	// test
-	labels := Labels(registry.ObjectMeta, collectorName, registry.Spec.Image, "registry", []string{})
+	labels := Labels(registry.ObjectMeta, registryName, registry.Spec.Image, "registry", []string{})
 	assert.Equal(t, "registry-operator", labels["app.kubernetes.io/managed-by"])
 	assert.Equal(t, "my-ns.my-instance", labels["app.kubernetes.io/instance"])
 	assert.Equal(t, "0.47.0", labels["app.kubernetes.io/version"])
@@ -59,8 +59,8 @@ func TestLabelsSha256Set(t *testing.T) {
 	// prepare
 	registry := registryv1alpha1.Registry{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      collectorName,
-			Namespace: collectorNamespace,
+			Name:      registryName,
+			Namespace: registryNamespace,
 		},
 		Spec: registryv1alpha1.RegistrySpec{
 			Image: "docker.io/library/registry@sha256:ac0192b549007e22998eb74e8d8488dcfe70f1489520c3b144a6047ac5efbe90",
@@ -68,7 +68,7 @@ func TestLabelsSha256Set(t *testing.T) {
 	}
 
 	// test
-	labels := Labels(registry.ObjectMeta, collectorName, registry.Spec.Image, "registry", []string{})
+	labels := Labels(registry.ObjectMeta, registryName, registry.Spec.Image, "registry", []string{})
 	assert.Equal(t, "registry-operator", labels["app.kubernetes.io/managed-by"])
 	assert.Equal(t, "my-ns.my-instance", labels["app.kubernetes.io/instance"])
 	assert.Equal(t, "ac0192b549007e22998eb74e8d8488dcfe70f1489520c3b144a6047ac5efbe9", labels["app.kubernetes.io/version"])
@@ -78,8 +78,8 @@ func TestLabelsSha256Set(t *testing.T) {
 	// prepare
 	registryTag := registryv1alpha1.Registry{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      collectorName,
-			Namespace: collectorNamespace,
+			Name:      registryName,
+			Namespace: registryNamespace,
 		},
 		Spec: registryv1alpha1.RegistrySpec{
 			Image: "docker.io/library/registry:2.8.3@sha256:ac0192b549007e22998eb74e8d8488dcfe70f1489520c3b144a6047ac5efbe90",
@@ -87,7 +87,7 @@ func TestLabelsSha256Set(t *testing.T) {
 	}
 
 	// test
-	labelsTag := Labels(registryTag.ObjectMeta, collectorName, registryTag.Spec.Image, "registry", []string{})
+	labelsTag := Labels(registryTag.ObjectMeta, registryName, registryTag.Spec.Image, "registry", []string{})
 	assert.Equal(t, "registry-operator", labelsTag["app.kubernetes.io/managed-by"])
 	assert.Equal(t, "my-ns.my-instance", labelsTag["app.kubernetes.io/instance"])
 	assert.Equal(t, "2.8.3", labelsTag["app.kubernetes.io/version"])
@@ -99,8 +99,8 @@ func TestLabelsTagUnset(t *testing.T) {
 	// prepare
 	registry := registryv1alpha1.Registry{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      collectorName,
-			Namespace: collectorNamespace,
+			Name:      registryName,
+			Namespace: registryNamespace,
 		},
 		Spec: registryv1alpha1.RegistrySpec{
 			Image: "docker.io/library/registry",
@@ -108,7 +108,7 @@ func TestLabelsTagUnset(t *testing.T) {
 	}
 
 	// test
-	labels := Labels(registry.ObjectMeta, collectorName, registry.Spec.Image, "registry", []string{})
+	labels := Labels(registry.ObjectMeta, registryName, registry.Spec.Image, "registry", []string{})
 	assert.Equal(t, "registry-operator", labels["app.kubernetes.io/managed-by"])
 	assert.Equal(t, "my-ns.my-instance", labels["app.kubernetes.io/instance"])
 	assert.Equal(t, "latest", labels["app.kubernetes.io/version"])
@@ -131,7 +131,7 @@ func TestLabelsPropagateDown(t *testing.T) {
 	}
 
 	// test
-	labels := Labels(registry.ObjectMeta, collectorName, registry.Spec.Image, "registry", []string{})
+	labels := Labels(registry.ObjectMeta, registryName, registry.Spec.Image, "registry", []string{})
 
 	// verify
 	assert.Len(t, labels, 7)
@@ -147,7 +147,7 @@ func TestLabelsFilter(t *testing.T) {
 	}
 
 	// This requires the filter to be in regex match form and not the other simpler wildcard one.
-	labels := Labels(registry.ObjectMeta, collectorName, "latest", "registry", []string{".*.bar.io"})
+	labels := Labels(registry.ObjectMeta, registryName, "latest", "registry", []string{".*.bar.io"})
 
 	// verify
 	assert.Len(t, labels, 7)

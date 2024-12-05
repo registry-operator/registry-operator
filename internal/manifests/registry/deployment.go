@@ -28,16 +28,48 @@ import (
 	"k8s.io/utils/ptr"
 )
 
+func generateConfigVolume(registry, hash string) corev1.Volume {
+	config := corev1.KeyToPath{
+		Key:  naming.DistributionConfig(),
+		Path: naming.DistributionConfig(),
+	}
+
+	return corev1.Volume{
+		Name: naming.ConfigVolume(),
+		VolumeSource: corev1.VolumeSource{
+			ConfigMap: &corev1.ConfigMapVolumeSource{
+				Items: []corev1.KeyToPath{
+					config,
+				},
+				LocalObjectReference: corev1.LocalObjectReference{
+					Name: naming.ConfigMap(registry, hash),
+				},
+			},
+		},
+	}
+}
+
 // Deployment builds the deployment for the given instance.
 func Deployment(params manifests.Params) (*appsv1.Deployment, error) {
 	name := naming.Registry(params.Registry.Name)
-	labels := manifestutils.Labels(params.Registry.ObjectMeta, name, params.Registry.Spec.Image, ComponentRegistry, nil)
+	labels := manifestutils.Labels(
+		params.Registry.ObjectMeta,
+		name,
+		params.Registry.Spec.Image,
+		ComponentRegistry,
+		nil,
+	)
 	annotations, err := manifestutils.Annotations(params.Registry, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	podAnnotations, err := manifestutils.PodAnnotations(params.Registry, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	hash, err := manifestutils.GetConfigMapSHA(manifestutils.GenerateConfig(params.Registry.Spec))
 	if err != nil {
 		return nil, err
 	}
@@ -60,10 +92,13 @@ func Deployment(params manifests.Params) (*appsv1.Deployment, error) {
 					Annotations: podAnnotations,
 				},
 				Spec: corev1.PodSpec{
+					Affinity: manifestutils.Affinity(params.Registry),
 					Containers: []corev1.Container{
 						Container(params.Registry),
 					},
-					Affinity: manifestutils.Affinity(params.Registry),
+					Volumes: []corev1.Volume{
+						generateConfigVolume(params.Registry.Name, hash),
+					},
 				},
 			},
 		},
