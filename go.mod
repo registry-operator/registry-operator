@@ -7,6 +7,7 @@ toolchain go1.23.4
 require (
 	dario.cat/mergo v1.0.1
 	github.com/Masterminds/semver/v3 v3.3.1
+	github.com/docker/distribution v2.8.3+incompatible
 	github.com/stretchr/testify v1.10.0
 	k8s.io/api v0.31.3
 	k8s.io/apimachinery v0.31.3
@@ -107,7 +108,6 @@ require (
 	github.com/denisbrodbeck/machineid v1.0.1 // indirect
 	github.com/distribution/reference v0.6.0 // indirect
 	github.com/docker/cli v27.1.1+incompatible // indirect
-	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/docker v27.3.1+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.0 // indirect
 	github.com/docker/go v1.5.1-1.0.20160303222718-d30aec9fd63c // indirect

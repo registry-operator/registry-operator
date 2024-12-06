@@ -54,6 +54,7 @@ type RegistryReconciler struct {
 // +kubebuilder:rbac:groups=registry-operator.dev,resources=registries,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=registry-operator.dev,resources=registries/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=registry-operator.dev,resources=registries/finalizers,verbs=update
+// +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=events,verbs=create;patch
@@ -62,8 +63,9 @@ type RegistryReconciler struct {
 func (r *RegistryReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&registryv1alpha1.Registry{}).
-		Owns(&corev1.Service{}).
+		Owns(&corev1.ConfigMap{}).
 		Owns(&appsv1.Deployment{}).
+		Owns(&corev1.Service{}).
 		Complete(r)
 }
 

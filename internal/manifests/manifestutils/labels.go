@@ -18,12 +18,17 @@
 package manifestutils
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/docker/distribution/configuration"
 
 	"github.com/registry-operator/registry-operator/internal/naming"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/yaml"
 )
 
 func IsFilteredSet(sourceSet string, filterSet []string) bool {
@@ -91,4 +96,14 @@ func SelectorLabels(instance metav1.ObjectMeta, component string) map[string]str
 		"app.kubernetes.io/part-of":    "registry",
 		"app.kubernetes.io/component":  component,
 	}
+}
+
+// GetConfigMapSHA computes a SHA256 checksum for a configuration object.
+func GetConfigMapSHA(config *configuration.Configuration) (string, error) {
+	b, err := yaml.Marshal(config)
+	if err != nil {
+		return "", err
+	}
+	h := sha256.Sum256(b)
+	return fmt.Sprintf("%x", h), nil
 }

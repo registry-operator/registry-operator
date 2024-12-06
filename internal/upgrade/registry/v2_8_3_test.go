@@ -32,7 +32,7 @@ import (
 )
 
 func Test2_8_3Upgrade(t *testing.T) {
-	collectorInstance := registryv1alpha1.Registry{
+	registryInstance := registryv1alpha1.Registry{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Registry",
 			APIVersion: "v1alpha1",
@@ -53,7 +53,7 @@ func Test2_8_3Upgrade(t *testing.T) {
 		Recorder: record.NewFakeRecorder(registry.RecordBufferSize),
 	}
 
-	col, err := versionUpgrade.ManagedInstance(context.Background(), collectorInstance)
+	reg, err := versionUpgrade.ManagedInstance(context.Background(), registryInstance)
 	assert.NoError(t, err)
-	assert.Equal(t, collectorInstance, col)
+	assert.Equal(t, registryInstance, reg)
 }

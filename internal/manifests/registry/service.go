@@ -72,7 +72,7 @@ func Service(params manifests.Params) (*corev1.Service, error) {
 		name,
 		params.Registry.Spec.Image,
 		ComponentRegistry,
-		[]string{},
+		nil,
 	)
 	labels[serviceTypeLabel] = BaseServiceType.String()
 

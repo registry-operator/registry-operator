@@ -27,13 +27,14 @@ const (
 	ComponentRegistry = "registry"
 )
 
-// Build creates the manifest for the collector resource.
+// Build creates the manifest for the registry resource.
 func Build(params manifests.Params) ([]client.Object, error) {
 	var resourceManifests []client.Object
 	var manifestFactories []manifests.K8sManifestFactory[manifests.Params]
 
 	manifestFactories = append(manifestFactories, []manifests.K8sManifestFactory[manifests.Params]{
 		manifests.Factory(Deployment),
+		manifests.Factory(ConfigMap),
 		manifests.Factory(Service),
 	}...)
 

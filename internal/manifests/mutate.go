@@ -38,13 +38,9 @@ var (
 // MutateFuncFor returns a mutate function based on the
 // existing resource's concrete type. It supports currently
 // only the following types or else panics:
-// - Service
-// - ServiceAccount
-// - ClusterRole
-// - ClusterRoleBinding
-// - Role
-// - RoleBinding
+// - ConfigMap
 // - Deployment
+// - Service
 // In order for the operator to reconcile other types, they must be added here.
 // The function returned takes no arguments but instead uses the existing and desired inputs here. Existing is expected
 // to be set by the controller-runtime package through a client get call.
@@ -71,15 +67,20 @@ func MutateFuncFor(existing, desired client.Object) controllerutil.MutateFn {
 		}
 
 		switch existing.(type) {
-		case *corev1.Service:
-			svc := existing.(*corev1.Service)
-			wantSvc := desired.(*corev1.Service)
-			mutateService(svc, wantSvc)
-
 		case *appsv1.Deployment:
 			dpl := existing.(*appsv1.Deployment)
 			wantDpl := desired.(*appsv1.Deployment)
 			return mutateDeployment(dpl, wantDpl)
+
+		case *corev1.ConfigMap:
+			cm := existing.(*corev1.ConfigMap)
+			wantCm := desired.(*corev1.ConfigMap)
+			mutateConfigMap(cm, wantCm)
+
+		case *corev1.Service:
+			svc := existing.(*corev1.Service)
+			wantSvc := desired.(*corev1.Service)
+			mutateService(svc, wantSvc)
 
 		default:
 			t := reflect.TypeOf(existing).String()
@@ -100,6 +101,11 @@ func mergeWithOverwriteWithEmptyValue(dst, src interface{}) error {
 func mutateService(existing, desired *corev1.Service) {
 	existing.Spec.Ports = desired.Spec.Ports
 	existing.Spec.Selector = desired.Spec.Selector
+}
+
+func mutateConfigMap(existing, desired *corev1.ConfigMap) {
+	existing.BinaryData = desired.BinaryData
+	existing.Data = desired.Data
 }
 
 func mutateDeployment(existing, desired *appsv1.Deployment) error {

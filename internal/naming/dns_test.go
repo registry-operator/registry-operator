@@ -31,7 +31,7 @@ func TestDnsName(t *testing.T) {
 		out string
 	}{
 		{"simplest", "simplest"},
-		{"instance.with.dots-collector-headless", "instance-with-dots-collector-headless"},
+		{"instance.with.dots-registry-headless", "instance-with-dots-registry-headless"},
 		{"TestQueryDottedServiceName.With.Dots", "testquerydottedservicename-with-dots"},
 		{"Service🦄", "servicea"},
 		{"📈Stock-Tracker", "astock-tracker"},

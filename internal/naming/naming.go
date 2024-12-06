@@ -18,6 +18,18 @@
 // Package naming is for determining the names for components (containers, services, ...).
 package naming
 
+func ConfigMap(registry, hash string) string {
+	return DNSName(Truncate("%s-%s", 63, registry, hash))
+}
+
+func ConfigVolume() string {
+	return "config"
+}
+
+func DistributionConfig() string {
+	return "config.yaml"
+}
+
 // Container returns the name to use for the container in the pod.
 func Container() string {
 	return "distribution"

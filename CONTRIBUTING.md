@@ -198,6 +198,19 @@ End-to-end (E2E) tests focus on testing the entire workflow of the application i
 
 The goal of E2E tests is to simulate real-world use cases of the operator, verifying that the overall system performs as intended. This may include interactions between various Kubernetes resources, controllers, and third-party integrations.
 
+> [!TIP]
+> Creation of dev Kubernetes cluster is handled by ctlptl and kind:
+>
+> ```sh
+> make cluster
+> ```
+>
+> Then, a dev image can be built and deploy it with single command.
+>
+> ```sh
+> make IMG=localhost:5005/registry-operator:e2e-$(git describe --match='' --always --abbrev=6 --dirty) docker-build docker-push deploy
+> ```
+
 1. **Define Test Scenarios in YAML:**
    E2E tests for `registry-operator` are written as YAML files, describing the expected behavior and interactions of the operator with its environment. Each test case defines specific input resources (like `CustomResources`, `ConfigMaps`, etc.) and the expected output state after the operator has reconciled the resources.
 
