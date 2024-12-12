@@ -18,7 +18,6 @@
 package manifests
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 
@@ -31,8 +30,16 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
+type ImmutableFieldChangeErr struct {
+	Field string
+}
+
+func (e *ImmutableFieldChangeErr) Error() string {
+	return fmt.Sprintf("Immutable field change attempted: %s", e.Field)
+}
+
 var (
-	ErrImmutableChange = errors.New("immutable field change attempted")
+	ImmutableChangeErr *ImmutableFieldChangeErr
 )
 
 // MutateFuncFor returns a mutate function based on the
@@ -94,10 +101,6 @@ func mergeWithOverride(dst, src interface{}) error {
 	return mergo.Merge(dst, src, mergo.WithOverride)
 }
 
-func mergeWithOverwriteWithEmptyValue(dst, src interface{}) error {
-	return mergo.Merge(dst, src, mergo.WithOverwriteWithEmptyValue)
-}
-
 func mutateService(existing, desired *corev1.Service) {
 	existing.Spec.Ports = desired.Spec.Ports
 	existing.Spec.Selector = desired.Spec.Selector
@@ -108,28 +111,50 @@ func mutateConfigMap(existing, desired *corev1.ConfigMap) {
 	existing.Data = desired.Data
 }
 
+func hasImmutableLabelChange(existingSelectorLabels, desiredLabels map[string]string) error {
+	for k, v := range existingSelectorLabels {
+		if vv, ok := desiredLabels[k]; !ok || vv != v {
+			return &ImmutableFieldChangeErr{Field: "Spec.Template.Metadata.Labels"}
+		}
+	}
+	return nil
+}
+
+func mutatePodTemplate(existing, desired *corev1.PodTemplateSpec) error {
+	if err := mergeWithOverride(&existing.Labels, desired.Labels); err != nil {
+		return err
+	}
+
+	if err := mergeWithOverride(&existing.Annotations, desired.Annotations); err != nil {
+		return err
+	}
+
+	existing.Spec = desired.Spec
+
+	return nil
+
+}
+
 func mutateDeployment(existing, desired *appsv1.Deployment) error {
-	if !existing.CreationTimestamp.IsZero() &&
-		!apiequality.Semantic.DeepEqual(desired.Spec.Selector, existing.Spec.Selector) {
-		return ErrImmutableChange
+	if !existing.CreationTimestamp.IsZero() {
+		if !apiequality.Semantic.DeepEqual(desired.Spec.Selector, existing.Spec.Selector) {
+			return &ImmutableFieldChangeErr{Field: "Spec.Selector"}
+		}
+		if err := hasImmutableLabelChange(existing.Spec.Selector.MatchLabels, desired.Spec.Template.Labels); err != nil {
+			return err
+		}
 	}
-	// Deployment selector is immutable so we set this value only if
-	// a new object is going to be created
-	if existing.CreationTimestamp.IsZero() {
-		existing.Spec.Selector = desired.Spec.Selector
-	}
+
+	existing.Spec.MinReadySeconds = desired.Spec.MinReadySeconds
+	existing.Spec.Paused = desired.Spec.Paused
+	existing.Spec.ProgressDeadlineSeconds = desired.Spec.ProgressDeadlineSeconds
 	existing.Spec.Replicas = desired.Spec.Replicas
-	if err := mergeWithOverride(&existing.Spec.Template, desired.Spec.Template); err != nil {
+	existing.Spec.RevisionHistoryLimit = desired.Spec.RevisionHistoryLimit
+	existing.Spec.Strategy = desired.Spec.Strategy
+
+	if err := mutatePodTemplate(&existing.Spec.Template, &desired.Spec.Template); err != nil {
 		return err
 	}
-	if err := mergeWithOverwriteWithEmptyValue(
-		&existing.Spec.Template.Spec.NodeSelector,
-		desired.Spec.Template.Spec.NodeSelector,
-	); err != nil {
-		return err
-	}
-	if err := mergeWithOverride(&existing.Spec.Strategy, desired.Spec.Strategy); err != nil {
-		return err
-	}
+
 	return nil
 }

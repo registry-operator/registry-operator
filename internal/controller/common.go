@@ -56,6 +56,30 @@ func BuildRegistry(params manifests.Params) ([]client.Object, error) {
 	return resources, nil
 }
 
+// getList queries the Kubernetes API to list the requested resource, setting the list l of type T.
+func getList[T client.Object](
+	ctx context.Context,
+	cl client.Client,
+	l T,
+	options ...client.ListOption,
+) (map[types.UID]client.Object, error) {
+	ownedObjects := map[types.UID]client.Object{}
+	list := &unstructured.UnstructuredList{}
+	gvk, err := apiutil.GVKForObject(l, cl.Scheme())
+	if err != nil {
+		return nil, err
+	}
+	list.SetGroupVersionKind(gvk)
+	err = cl.List(ctx, list, options...)
+	if err != nil {
+		return ownedObjects, fmt.Errorf("error listing %T: %w", l, err)
+	}
+	for i := range list.Items {
+		ownedObjects[list.Items[i].GetUID()] = &list.Items[i]
+	}
+	return ownedObjects, nil
+}
+
 // reconcileDesiredObjects runs the reconcile process using the mutateFn over the given list of objects.
 func reconcileDesiredObjects(
 	ctx context.Context,
@@ -91,7 +115,7 @@ func reconcileDesiredObjects(
 			return createOrUpdateErr
 		})
 
-		if crudErr != nil && errors.Is(crudErr, manifests.ErrImmutableChange) {
+		if crudErr != nil && errors.As(crudErr, &manifests.ImmutableChangeErr) {
 			l.Error(
 				crudErr,
 				"Detected immutable field change, trying to delete, new object will be created on next reconcile",
@@ -124,30 +148,6 @@ func reconcileDesiredObjects(
 	}
 
 	return nil
-}
-
-// getList queries the Kubernetes API to list the requested resource, setting the list l of type T.
-func getList[T client.Object](
-	ctx context.Context,
-	cl client.Client,
-	l T,
-	options ...client.ListOption,
-) (map[types.UID]client.Object, error) {
-	ownedObjects := map[types.UID]client.Object{}
-	list := &unstructured.UnstructuredList{}
-	gvk, err := apiutil.GVKForObject(l, cl.Scheme())
-	if err != nil {
-		return nil, err
-	}
-	list.SetGroupVersionKind(gvk)
-	err = cl.List(ctx, list, options...)
-	if err != nil {
-		return ownedObjects, fmt.Errorf("error listing %T: %w", l, err)
-	}
-	for i := range list.Items {
-		ownedObjects[list.Items[i].GetUID()] = &list.Items[i]
-	}
-	return ownedObjects, nil
 }
 
 func deleteObjects(ctx context.Context, kubeClient client.Client, objects map[types.UID]client.Object) error {

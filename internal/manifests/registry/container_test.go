@@ -26,6 +26,7 @@ import (
 	"github.com/registry-operator/registry-operator/internal/version"
 
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 )
 
 func TestContainerDefault(t *testing.T) {
@@ -58,4 +59,29 @@ func TestContainerWithImageOverridden(t *testing.T) {
 
 	// verify
 	assert.Equal(t, "overridden-image", c.Image)
+}
+
+func TestContainerWithResources(t *testing.T) {
+	// prepare
+	registry := registryv1alpha1.Registry{
+		Spec: registryv1alpha1.RegistrySpec{
+			Resources: &corev1.ResourceRequirements{
+				Limits: corev1.ResourceList{
+					corev1.ResourceCPU:    resource.MustParse("250m"),
+					corev1.ResourceMemory: resource.MustParse("256Mi"),
+				},
+				Requests: corev1.ResourceList{
+					corev1.ResourceCPU:    resource.MustParse("50m"),
+					corev1.ResourceMemory: resource.MustParse("64Mi"),
+				},
+			},
+		},
+	}
+
+	// test
+	c := Container(registry)
+
+	// verify
+	assert.Equal(t, registry.Spec.Resources.Limits, c.Resources.Limits)
+	assert.Equal(t, registry.Spec.Resources.Requests, c.Resources.Requests)
 }

@@ -32,6 +32,10 @@ type RegistrySpec struct {
 	// +default=1
 	Replicas int32 `json:"replicas,omitempty"`
 
+	// Resources describe the compute resource requirements.
+	// +optional
+	Resources *corev1.ResourceRequirements `json:"resources,omitempty"`
+
 	// Affinity specifies the scheduling constraints for Pods.
 	// +optional
 	Affinity *corev1.Affinity `json:"affinity,omitempty"`

@@ -47,6 +47,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `image` _string_ | Image indicates the container image to use for the Registry. |  |  |
 | `replicas` _integer_ | Replicas indicates the number of the pod replicas that will be created. |  |  |
+| `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#resourcerequirements-v1-core)_ | Resources describe the compute resource requirements. |  |  |
 | `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core)_ | Affinity specifies the scheduling constraints for Pods. |  |  |
 
 
