@@ -21,3 +21,14 @@ jobs:
         with:
           requireScope: true
           subjectPattern: ^(?![A-Z]).+$
+          scopes: |
+            deps
+            operator
+            registry
+            cache
+            example
+            kustomize
+            e2e
+            integration
+            unit
+            gh-actions
