@@ -1,11 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
+	"sort"
 	"strings"
 
 	semver "github.com/Masterminds/semver/v3"
@@ -46,6 +48,17 @@ func runCommand(name string, args ...string) error {
 	}
 
 	return nil
+}
+
+// runCommandOutput runs a system command and returns its output as a string.
+func runCommandOutput(name string, args ...string) (string, error) {
+	cmd := exec.Command(name, args...)
+	output, err := cmd.Output()
+	if err != nil {
+		return "", fmt.Errorf("failed to run command %s: %w", name, err)
+	}
+
+	return string(output), nil
 }
 
 // mike runs the "mike" command with the provided arguments.
@@ -100,6 +113,53 @@ func deployVersion(version string, prerelease bool) error {
 	return mike("deploy", "--push", "--update-aliases", version, latestVersion)
 }
 
+// cleanupOldVersions deletes the oldest versions if there are more than 3 versions.
+func cleanupOldVersions() error {
+	log.Println("Fetching deployed versions")
+	output, err := runCommandOutput("mike", "list", "--json")
+	if err != nil {
+		return fmt.Errorf("failed to fetch deployed versions: %w", err)
+	}
+
+	var versions []struct {
+		Version string   `json:"version"`
+		Title   string   `json:"title"`
+		Aliases []string `json:"aliases"`
+	}
+	if err := json.Unmarshal([]byte(output), &versions); err != nil {
+		return fmt.Errorf("failed to parse JSON output: %w", err)
+	}
+
+	if len(versions) <= 4 {
+		log.Println("No cleanup needed. Versions count:", len(versions))
+		return nil
+	}
+
+	log.Println("Sorting versions")
+	sortedVersions := make([]*semver.Version, 0, len(versions))
+	for _, v := range versions {
+		parsed, err := semver.NewVersion(strings.TrimPrefix(v.Version, "v"))
+		if err != nil {
+			log.Printf("Skipping invalid version: %s", v.Version)
+			continue
+		}
+		sortedVersions = append(sortedVersions, parsed)
+	}
+
+	sort.Sort(semver.Collection(sortedVersions))
+
+	log.Printf("Deleting oldest versions. Total versions: %d", len(sortedVersions))
+	for i := 0; i < len(sortedVersions)-3; i++ {
+		oldVersion := sortedVersions[i].Original()
+		log.Printf("Deleting version: %s", oldVersion)
+		if err := mike("delete", "--push", "v"+oldVersion); err != nil {
+			return fmt.Errorf("failed to delete version %s: %w", oldVersion, err)
+		}
+	}
+
+	return nil
+}
+
 func main() {
 	versionFlag := flag.String("version", defaultVersion, "Tagged version to be built")
 	flag.Parse()
@@ -124,5 +184,9 @@ func main() {
 		if err := deployVersion(version, prerelease); err != nil {
 			log.Fatalf("Error deploying version: %v", err)
 		}
+	}
+
+	if err := cleanupOldVersions(); err != nil {
+		log.Fatalf("Error during cleanup: %v", err)
 	}
 }

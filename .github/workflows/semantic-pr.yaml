@@ -27,8 +27,11 @@ jobs:
             registry
             cache
             example
+            image
             kustomize
             e2e
             integration
             unit
             gh-actions
+            build-system
+            tools
