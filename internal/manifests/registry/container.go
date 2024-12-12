@@ -52,6 +52,13 @@ func generateVolumeMounts() []corev1.VolumeMount {
 	}
 }
 
+func generateResources(res *corev1.ResourceRequirements) corev1.ResourceRequirements {
+	if res != nil {
+		return *res
+	}
+	return corev1.ResourceRequirements{}
+}
+
 // Container builds a container for the given registry.
 func Container(registry registryv1alpha1.Registry) corev1.Container {
 	image := registry.Spec.Image
@@ -67,5 +74,6 @@ func Container(registry registryv1alpha1.Registry) corev1.Container {
 		Args:            []string{"serve", path.Join(configMountPath, naming.DistributionConfig())},
 		Ports:           generateContainerPorts(),
 		VolumeMounts:    generateVolumeMounts(),
+		Resources:       generateResources(registry.Spec.Resources),
 	}
 }

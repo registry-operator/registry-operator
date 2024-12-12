@@ -35,6 +35,10 @@ spec:
               spec:
                 image: docker.io/library/registry:2.8.3
                 replicas: 2
+                resources:
+                  requests:
+                    cpu: 100m
+                    memory: 256Mi
                 affinity:
                   nodeAffinity:
                     requiredDuringSchedulingIgnoredDuringExecution:
@@ -80,6 +84,10 @@ spec:
                         image: docker.io/library/registry:2.8.3
                         command: [ "registry" ]
                         args: [ "serve", "/etc/distribution/config.yaml" ]
+                        resources:
+                          requests:
+                            cpu: 100m
+                            memory: 256Mi
                         volumeMounts:
                           - name: config
                             readOnly: true
