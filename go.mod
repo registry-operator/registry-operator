@@ -26,7 +26,7 @@ require (
 	github.com/tilt-dev/ctlptl v0.8.36
 	golang.stackrox.io/kube-linter v0.7.1
 	sigs.k8s.io/controller-tools v0.16.5
-	sigs.k8s.io/kind v0.25.0
+	sigs.k8s.io/kind v0.26.0
 	sigs.k8s.io/kustomize/kustomize/v5 v5.5.0
 )
 
