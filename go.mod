@@ -27,7 +27,7 @@ require (
 	golang.stackrox.io/kube-linter v0.7.1
 	sigs.k8s.io/controller-tools v0.17.1
 	sigs.k8s.io/kind v0.26.0
-	sigs.k8s.io/kustomize/kustomize/v5 v5.5.0
+	sigs.k8s.io/kustomize/kustomize/v5 v5.6.0
 )
 
 require (
@@ -166,7 +166,7 @@ require (
 	github.com/golangci/unconvert v0.0.0-20240309020433-c5143eacb3ed // indirect
 	github.com/google/btree v1.1.3 // indirect
 	github.com/google/cel-go v0.22.0 // indirect
-	github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 // indirect
+	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/s2a-go v0.1.8 // indirect
@@ -395,7 +395,7 @@ require (
 	k8s.io/apiserver v0.32.0 // indirect
 	k8s.io/cli-runtime v0.31.1 // indirect
 	k8s.io/component-base v0.32.0 // indirect
-	k8s.io/kube-openapi v0.0.0-20241105132330-32ad38e42d3f // indirect
+	k8s.io/kube-openapi v0.0.0-20241212222426-2c72e554b1e7 // indirect
 	knative.dev/pkg v0.0.0-20240805063731-c88d5dad9653 // indirect
 	mvdan.cc/gofumpt v0.7.0 // indirect
 	mvdan.cc/unparam v0.0.0-20240528143540-8a5130ca722f // indirect
@@ -403,8 +403,8 @@ require (
 	sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.31.0 // indirect
 	sigs.k8s.io/json v0.0.0-20241010143419-9aa6b5e7a4b3 // indirect
 	sigs.k8s.io/kubectl-validate v0.0.5-0.20240827210056-ce13d95db263 // indirect
-	sigs.k8s.io/kustomize/api v0.18.0 // indirect
-	sigs.k8s.io/kustomize/cmd/config v0.15.0 // indirect
-	sigs.k8s.io/kustomize/kyaml v0.18.1 // indirect
+	sigs.k8s.io/kustomize/api v0.19.0 // indirect
+	sigs.k8s.io/kustomize/cmd/config v0.19.0 // indirect
+	sigs.k8s.io/kustomize/kyaml v0.19.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.2 // indirect
 )
