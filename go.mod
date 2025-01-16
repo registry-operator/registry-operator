@@ -9,9 +9,9 @@ require (
 	github.com/Masterminds/semver/v3 v3.3.1
 	github.com/docker/distribution v2.8.3+incompatible
 	github.com/stretchr/testify v1.10.0
-	k8s.io/api v0.32.0
-	k8s.io/apimachinery v0.32.0
-	k8s.io/client-go v0.32.0
+	k8s.io/api v0.32.1
+	k8s.io/apimachinery v0.32.1
+	k8s.io/client-go v0.32.1
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/utils v0.0.0-20241210054802-24370beab758
 	sigs.k8s.io/controller-runtime v0.19.4
