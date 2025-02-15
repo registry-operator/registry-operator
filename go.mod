@@ -26,13 +26,14 @@ require (
 	github.com/tilt-dev/ctlptl v0.8.38
 	golang.stackrox.io/kube-linter v0.7.1
 	sigs.k8s.io/controller-tools v0.17.2
-	sigs.k8s.io/kind v0.26.0
+	sigs.k8s.io/kind v0.27.0
 	sigs.k8s.io/kustomize/kustomize/v5 v5.6.0
 )
 
 require (
 	4d63.com/gocheckcompilerdirectives v1.2.1 // indirect
 	4d63.com/gochecknoglobals v0.2.1 // indirect
+	al.essio.dev/pkg/shellescape v1.5.1 // indirect
 	cel.dev/expr v0.18.0 // indirect
 	cloud.google.com/go v0.115.1 // indirect
 	cloud.google.com/go/auth v0.9.7 // indirect
@@ -65,7 +66,6 @@ require (
 	github.com/NYTimes/gziphandler v1.1.1 // indirect
 	github.com/OpenPeeDeeP/depguard/v2 v2.2.0 // indirect
 	github.com/alecthomas/go-check-sumtype v0.3.1 // indirect
-	github.com/alessio/shellescape v1.4.2 // indirect
 	github.com/alexkohler/nakedret/v2 v2.0.5 // indirect
 	github.com/alexkohler/prealloc v1.0.0 // indirect
 	github.com/alingse/asasalint v0.0.11 // indirect
