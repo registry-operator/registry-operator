@@ -76,6 +76,14 @@ lint-manifests: kustomize kube-linter ## Run kube-linter on Kubernetes manifests
 	$(KUSTOMIZE) build config/default |\
 		$(KUBE_LINTER) lint --config=./config/.kube-linter.yaml -
 
+.PHONY: verify-licenses
+verify-licenses: addlicense ## Run addlicense to verify if files have license headers.
+	find -type f -name "*.go" ! -path "*/vendor/*" | xargs $(ADDLICENSE) -check || (echo 'Run "make update"' && exit 1)
+
+.PHONY: add-licenses
+add-licenses: addlicense ## Run addlicense to append license headers to files missing one.
+	find -type f -name "*.go" ! -path "*/vendor/*" | xargs $(ADDLICENSE) -c "The Registry Operator Authors"
+
 .PHONY: hadolint
 hadolint: ## Run hadolint on Dockerfile
 	$(CONTAINER_TOOL) run --rm -i hadolint/hadolint < Dockerfile
@@ -173,63 +181,87 @@ $(LOCALBIN):
 
 ## Tool Binaries
 KUBECTL ?= kubectl
-CHAINSAW ?= $(LOCALBIN)/chainsaw
+ADDLICENSE     ?= $(LOCALBIN)/addlicense
+CHAINSAW       ?= $(LOCALBIN)/chainsaw
 CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
-CRD_REF_DOCS = $(LOCALBIN)/crd-ref-docs
-CTLPTL ?= $(LOCALBIN)/ctlptl
-KIND ?= $(LOCALBIN)/kind
-KUBE_LINTER ?= $(LOCALBIN)/kube-linter
-KUSTOMIZE ?= $(LOCALBIN)/kustomize
-GOLANGCI_LINT ?= $(LOCALBIN)/golangci-lint
+CRD_REF_DOCS   ?= $(LOCALBIN)/crd-ref-docs
+CTLPTL         ?= $(LOCALBIN)/ctlptl
+KIND           ?= $(LOCALBIN)/kind
+KUBE_LINTER    ?= $(LOCALBIN)/kube-linter
+KUSTOMIZE      ?= $(LOCALBIN)/kustomize
+GOLANGCI_LINT  ?= $(LOCALBIN)/golangci-lint
 
 ## Tool Versions
-CHAINSAW_VERSION ?= $(shell grep 'github.com/kyverno/chainsaw ' ./go.mod | cut -d ' ' -f 2)
-CONTROLLER_TOOLS_VERSION ?= $(shell grep 'sigs.k8s.io/controller-tools ' ./go.mod | cut -d ' ' -f 2)
-CRD_REF_DOCS_VERSION ?= $(shell grep 'github.com/elastic/crd-ref-docs ' ./go.mod | cut -d ' ' -f 2)
-CTLPTL_VERSION ?= $(shell grep 'github.com/tilt-dev/ctlptl ' ./go.mod | cut -d ' ' -f 2)
-GOLANGCI_LINT_VERSION ?= $(shell grep 'github.com/golangci/golangci-lint ' ./go.mod | cut -d ' ' -f 2)
-KIND_VERSION ?= $(shell grep 'sigs.k8s.io/kind ' ./go.mod | cut -d ' ' -f 2)
-KUBE_LINTER_VERSION ?= $(shell grep 'golang.stackrox.io/kube-linter ' ./go.mod | cut -d ' ' -f 2)
-KUSTOMIZE_VERSION ?= $(shell grep 'sigs.k8s.io/kustomize/kustomize/v5 ' ./go.mod | cut -d ' ' -f 2)
+# renovate: datasource=github-tags depName=google/addlicense
+ADDLICENSE_VERSION ?= v1.1.1
+
+# renovate: datasource=github-tags depName=kyverno/chainsaw
+CHAINSAW_VERSION ?= v0.2.12
+
+# renovate: datasource=github-tags depName=kubernetes-sigs/controller-tools
+CONTROLLER_TOOLS_VERSION ?= v0.17.2
+
+# renovate: datasource=github-tags depName=elastic/crd-ref-docs
+CRD_REF_DOCS_VERSION ?= v0.1.0
+
+# renovate: datasource=github-tags depName=tilt-dev/ctlptl
+CTLPTL_VERSION ?= v0.8.39
+
+# renovate: datasource=github-tags depName=golangci/golangci-lint
+GOLANGCI_LINT_VERSION ?= v1.64.6
+
+# renovate: datasource=github-tags depName=kubernetes-sigs/kind
+KIND_VERSION ?= v0.27.0
+
+# renovate: datasource=github-tags depName=stackrox/kube-linter
+KUBE_LINTER_VERSION ?= v0.7.2
+
+# renovate: datasource=github-tags depName=kubernetes-sigs/kustomize
+KUSTOMIZE_VERSION ?= v5.6.0
+
+.PHONY: addlicense
+addlicense: $(ADDLICENSE)-$(ADDLICENSE_VERSION) ## Download addlicense locally if necessary.
+$(ADDLICENSE)-$(ADDLICENSE_VERSION): $(LOCALBIN)
+	$(call go-install-tool,$(ADDLICENSE),github.com/google/addlicense,$(ADDLICENSE_VERSION))
 
 .PHONY: chainsaw
-chainsaw: $(CHAINSAW)$(CHAINSAW_VERSION) ## Download chainsaw locally if necessary.
-$(CHAINSAW)$(CHAINSAW_VERSION): $(LOCALBIN)
+chainsaw: $(CHAINSAW)-$(CHAINSAW_VERSION) ## Download chainsaw locally if necessary.
+$(CHAINSAW)-$(CHAINSAW_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(CHAINSAW),github.com/kyverno/chainsaw,$(CHAINSAW_VERSION))
 
 .PHONY: controller-gen
-controller-gen: $(CONTROLLER_GEN)$(CONTROLLER_TOOLS_VERSION) ## Download controller-gen locally if necessary.
-$(CONTROLLER_GEN)$(CONTROLLER_TOOLS_VERSION): $(LOCALBIN)
+controller-gen: $(CONTROLLER_GEN)-$(CONTROLLER_TOOLS_VERSION) ## Download controller-gen locally if necessary.
+$(CONTROLLER_GEN)-$(CONTROLLER_TOOLS_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(CONTROLLER_GEN),sigs.k8s.io/controller-tools/cmd/controller-gen,$(CONTROLLER_TOOLS_VERSION))
 
 .PHONY: crd-ref-docs
-crd-ref-docs: $(CRD_REF_DOCS)$(CRD_REF_DOCS_VERSION) ## Download crd-ref-docs locally if necessary.
-$(CRD_REF_DOCS)$(CRD_REF_DOCS_VERSION): $(LOCALBIN)
+crd-ref-docs: $(CRD_REF_DOCS)-$(CRD_REF_DOCS_VERSION) ## Download crd-ref-docs locally if necessary.
+$(CRD_REF_DOCS)-$(CRD_REF_DOCS_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(CRD_REF_DOCS),github.com/elastic/crd-ref-docs,$(CRD_REF_DOCS_VERSION))
 
 .PHONY: ctlptl
-ctlptl: $(CTLPTL)$(CTLPTL_VERSION) ## Download ctlptl locally if necessary.
-$(CTLPTL)$(CTLPTL_VERSION): $(LOCALBIN)
+ctlptl: $(CTLPTL)-$(CTLPTL_VERSION) ## Download ctlptl locally if necessary.
+$(CTLPTL)-$(CTLPTL_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(CTLPTL),github.com/tilt-dev/ctlptl/cmd/ctlptl,$(CTLPTL_VERSION))
 
 .PHONY: golangci-lint
-golangci-lint: $(GOLANGCI_LINT)$(GOLANGCI_LINT_VERSION) ## Download golangci-lint locally if necessary.
-$(GOLANGCI_LINT)$(GOLANGCI_LINT_VERSION): $(LOCALBIN)
+golangci-lint: $(GOLANGCI_LINT)-$(GOLANGCI_LINT_VERSION) ## Download golangci-lint locally if necessary.
+$(GOLANGCI_LINT)-$(GOLANGCI_LINT_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(GOLANGCI_LINT),github.com/golangci/golangci-lint/cmd/golangci-lint,$(GOLANGCI_LINT_VERSION))
 
 .PHONY: kind
-kind: $(KIND)$(KIND_VERSION) ## Download kind locally if necessary.
-$(KIND)$(KIND_VERSION): $(LOCALBIN)
+kind: $(KIND)-$(KIND_VERSION) ## Download kind locally if necessary.
+$(KIND)-$(KIND_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(KIND),sigs.k8s.io/kind,$(KIND_VERSION))
 
 .PHONY: kube-linter
-kube-linter: $(KUBE_LINTER)$(KUBE_LINTER_VERSION)
-$(KUBE_LINTER)$(KUBE_LINTER_VERSION): $(LOCALBIN)
+kube-linter: $(KUBE_LINTER)-$(KUBE_LINTER_VERSION)
+$(KUBE_LINTER)-$(KUBE_LINTER_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(KUBE_LINTER),golang.stackrox.io/kube-linter/cmd/kube-linter,$(KUBE_LINTER_VERSION))
 
 .PHONY: kustomize
-kustomize: $(KUSTOMIZE)$(KUSTOMIZE_VERSION) ## Download kustomize locally if necessary.
-$(KUSTOMIZE)$(KUSTOMIZE_VERSION): $(LOCALBIN)
+kustomize: $(KUSTOMIZE)-$(KUSTOMIZE_VERSION) ## Download kustomize locally if necessary.
+$(KUSTOMIZE)-$(KUSTOMIZE_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(KUSTOMIZE),sigs.k8s.io/kustomize/kustomize/v5,$(KUSTOMIZE_VERSION))
 
 # go-install-tool will 'go install' any package with custom target and name of binary, if it doesn't exist
