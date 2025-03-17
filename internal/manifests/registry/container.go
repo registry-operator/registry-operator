@@ -29,6 +29,7 @@ import (
 
 const (
 	distributionPortDefault = 5000
+	metricsPortDefault      = 5001
 	configMountPath         = "/etc/distribution"
 )
 
@@ -38,6 +39,11 @@ func generateContainerPorts() []corev1.ContainerPort {
 			Name:          naming.RegistryDistributionPort(),
 			Protocol:      corev1.ProtocolTCP,
 			ContainerPort: distributionPortDefault,
+		},
+		{
+			Name:          naming.RegistryMetricsPort(),
+			Protocol:      corev1.ProtocolTCP,
+			ContainerPort: metricsPortDefault,
 		},
 	}
 }

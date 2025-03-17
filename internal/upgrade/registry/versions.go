@@ -33,8 +33,8 @@ type registryVersion struct {
 var (
 	versions = []registryVersion{
 		{
-			Version: *semver.MustParse("2.8.3"),
-			upgrade: upgrade2_8_3,
+			Version: *semver.MustParse("3.0.0-rc.3"),
+			upgrade: upgrade3_0_0_rc3,
 		},
 	}
 

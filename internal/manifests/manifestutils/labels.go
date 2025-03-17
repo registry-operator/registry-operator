@@ -23,7 +23,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/docker/distribution/configuration"
+	"github.com/distribution/distribution/v3/configuration"
 
 	"github.com/registry-operator/registry-operator/internal/naming"
 

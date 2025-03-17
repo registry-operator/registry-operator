@@ -33,7 +33,7 @@ spec:
               metadata:
                 name: complete
               spec:
-                image: docker.io/library/registry:2.8.3
+                image: docker.io/library/registry:3.0.0-rc.3
                 replicas: 2
                 resources:
                   requests:
@@ -63,7 +63,7 @@ spec:
                 name: complete
               status:
                 ready: true
-                version: "2.8.3"
+                version: "3.0.0-rc.3"
         - assert:
             resource:
               apiVersion: apps/v1
@@ -75,13 +75,13 @@ spec:
                   app.kubernetes.io/instance: (join('.', [$namespace, 'complete']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
-                  app.kubernetes.io/version: "2.8.3"
+                  app.kubernetes.io/version: "3.0.0-rc.3"
               spec:
                 template:
                   spec:
                     containers:
                       - name: distribution
-                        image: docker.io/library/registry:2.8.3
+                        image: docker.io/library/registry:3.0.0-rc.3
                         command: [ "registry" ]
                         args: [ "serve", "/etc/distribution/config.yaml" ]
                         resources:
@@ -126,7 +126,7 @@ spec:
                   app.kubernetes.io/instance: (join('.', [$namespace, 'complete']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
-                  app.kubernetes.io/version: "2.8.3"
+                  app.kubernetes.io/version: "3.0.0-rc.3"
         - assert:
             resource:
               apiVersion: v1
@@ -138,4 +138,4 @@ spec:
                   app.kubernetes.io/instance: (join('.', [$namespace, 'complete']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
-                  app.kubernetes.io/version: "2.8.3"
+                  app.kubernetes.io/version: "3.0.0-rc.3"

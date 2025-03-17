@@ -59,7 +59,7 @@ spec:
                   spec:
                     containers:
                       - name: distribution
-                        image: docker.io/library/registry:2.8.3
+                        image: docker.io/library/registry:3.0.0-rc.3
                         command: [ "registry" ]
                         args: [ "serve", "/etc/distribution/config.yaml" ]
                         volumeMounts:

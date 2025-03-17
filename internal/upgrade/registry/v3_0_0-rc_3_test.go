@@ -31,7 +31,7 @@ import (
 	"k8s.io/client-go/tools/record"
 )
 
-func Test2_8_3Upgrade(t *testing.T) {
+func TestV3_0_0_rc3Upgrade(t *testing.T) {
 	registryInstance := registryv1alpha1.Registry{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Registry",
@@ -42,7 +42,7 @@ func Test2_8_3Upgrade(t *testing.T) {
 			Namespace: "somewhere",
 		},
 		Status: registryv1alpha1.RegistryStatus{
-			Version: "2.8.3",
+			Version: "3.0.0-rc.3",
 		},
 		Spec: registryv1alpha1.RegistrySpec{},
 	}

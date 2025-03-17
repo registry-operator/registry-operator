@@ -50,6 +50,11 @@ func RegistryDistributionPort() string {
 	return "distribution"
 }
 
+// RegistryDistributionPort builds the name for default distribution container port.
+func RegistryMetricsPort() string {
+	return "metrics"
+}
+
 // ServiceAccount builds the service account name based on the instance.
 func ServiceAccount(registry string) string {
 	return DNSName(Truncate("%s-registry", 63, registry))
