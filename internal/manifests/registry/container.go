@@ -31,6 +31,7 @@ const (
 	distributionPortDefault = 5000
 	metricsPortDefault      = 5001
 	configMountPath         = "/etc/distribution"
+	storageMountPath        = "/var/lib/registry"
 )
 
 func generateContainerPorts() []corev1.ContainerPort {
@@ -54,6 +55,11 @@ func generateVolumeMounts() []corev1.VolumeMount {
 			Name:      naming.ConfigVolume(),
 			ReadOnly:  true,
 			MountPath: configMountPath,
+		},
+		{
+			Name:      naming.StorageVolume(),
+			ReadOnly:  false,
+			MountPath: storageMountPath,
 		},
 	}
 }

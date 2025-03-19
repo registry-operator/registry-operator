@@ -1,0 +1,135 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/kyverno/chainsaw/main/.schemas/json/test-chainsaw-v1alpha1.json
+apiVersion: chainsaw.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: empty-dir
+  labels:
+    area: 'storage'
+spec:
+  timeouts:
+    apply: 5s
+    assert: 30s
+    cleanup: 30s
+    delete: 15s
+    error: 30s
+  steps:
+    - name: Check if controller-manager exist
+      try:
+        - assert:
+            resource:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: registry-operator-controller-manager
+                namespace: registry-operator-system
+              status:
+                availableReplicas: 1
+    - name: Create empty-dir registry
+      try:
+        - create:
+            resource:
+              apiVersion: registry-operator.dev/v1alpha1
+              kind: Registry
+              metadata:
+                name: empty-dir
+              spec:
+                storage:
+                  emptyDir:
+                    medium: Memory
+                    sizeLimit: 200Mi
+    - name: Wait for Registry status to be ready and resources to be deployed
+      try:
+        - assert:
+            resource:
+              apiVersion: registry-operator.dev/v1alpha1
+              kind: Registry
+              metadata:
+                name: empty-dir
+              status:
+                ready: true
+        - assert:
+            resource:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: empty-dir-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'empty-dir']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: distribution
+                        image: docker.io/library/registry:3.0.0-rc.3
+                        command: [ "registry" ]
+                        args: [ "serve", "/etc/distribution/config.yaml" ]
+                        ports:
+                          - name: distribution
+                            containerPort: 5000
+                            protocol: TCP
+                          - name: metrics
+                            containerPort: 5001
+                            protocol: TCP
+                        volumeMounts:
+                          - name: config
+                            readOnly: true
+                            mountPath: /etc/distribution
+                          - name: storage
+                            mountPath: /var/lib/registry
+                    volumes:
+                      - name: config
+                        configMap:
+                          defaultMode: 420
+                          name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                          items:
+                            - key: config.yaml
+                              path: config.yaml
+                      - name: storage
+                        emptyDir:
+                          sizeLimit: 200Mi
+                    affinity:
+                      nodeAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          nodeSelectorTerms:
+                            - matchExpressions:
+                              - key: kubernetes.io/arch
+                                operator: In
+                                values:
+                                  - amd64
+                                  - arm64
+                                  - ppc64le
+                                  - s390x
+                              - key: kubernetes.io/os
+                                operator: In
+                                values:
+                                  - linux
+              status:
+                availableReplicas: 1
+        - assert:
+            resource:
+              apiVersion: v1
+              kind: ConfigMap
+              metadata:
+                name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'empty-dir']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
+        - assert:
+            resource:
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: empty-dir-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'empty-dir']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"

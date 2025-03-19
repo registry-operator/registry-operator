@@ -82,7 +82,7 @@ func TestLabelsSha256Set(t *testing.T) {
 			Namespace: registryNamespace,
 		},
 		Spec: registryv1alpha1.RegistrySpec{
-			Image: "docker.io/library/registry:3.0.0-rc.3@sha256:ac0192b549007e22998eb74e8d8488dcfe70f1489520c3b144a6047ac5efbe90",
+			Image: "docker.io/library/registry:3.0.0-rc.3@sha256:ac0192b549007e22998eb74e8d8488dcfe70f1489520c3b144a6047ac5efbe90", //nolint:lll // test code
 		},
 	}
 

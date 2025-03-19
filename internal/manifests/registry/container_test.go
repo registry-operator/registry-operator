@@ -43,7 +43,7 @@ func TestContainerDefault(t *testing.T) {
 	assert.Equal(t, version.GetRegistryImage(), c.Image)
 	assert.Equal(t, c.ImagePullPolicy, corev1.PullIfNotPresent)
 	assert.Empty(t, c.Resources)
-	assert.Len(t, c.Ports, 1)
+	assert.Len(t, c.Ports, 2)
 }
 
 func TestContainerWithImageOverridden(t *testing.T) {

@@ -31,7 +31,7 @@ func GenerateConfig(registry registryv1alpha1.RegistrySpec) *configuration.Confi
 			Level: "debug",
 			Fields: map[string]interface{}{
 				"service":     "registry",
-				"environment": "operator-default",
+				"environment": "development",
 			},
 		},
 		Storage: configuration.Storage{
@@ -48,6 +48,9 @@ func GenerateConfig(registry registryv1alpha1.RegistrySpec) *configuration.Confi
 				"uploadpurging": map[string]interface{}{
 					"enabled": false,
 				},
+			},
+			"tag": configuration.Parameters{
+				"concurrencylimit": 8,
 			},
 		},
 		HTTP: configuration.HTTP{

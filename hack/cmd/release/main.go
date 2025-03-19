@@ -25,13 +25,10 @@ import (
 	"strings"
 
 	semver "github.com/Masterminds/semver/v3"
-
-	"sigs.k8s.io/yaml"
 )
 
 const (
 	defaultConfigPath = "./docs/.crd-ref-docs.yaml"
-	defaultImageName  = "controller"
 	defaultImageRef   = "ghcr.io/registry-operator/registry-operator"
 )
 
@@ -143,30 +140,6 @@ func replaceKubernetesVersion(filePath, newVersion string) error {
 	return os.Rename(tempFilePath, filePath)
 }
 
-func createKustomization(resources []string, imageName, newImageName, newTag string) map[string]interface{} {
-	return map[string]interface{}{
-		"namespace":  "registry-operator-system",
-		"namePrefix": "registry-operator-",
-		"resources":  resources,
-		"images": []map[string]string{
-			{
-				"name":    imageName,
-				"newName": newImageName,
-				"newTag":  newTag,
-			},
-		},
-	}
-}
-
-func writeKustomization(kustomization map[string]interface{}, filepath string) error {
-	content, err := yaml.Marshal(kustomization)
-	if err != nil {
-		return fmt.Errorf("failed to marshal kustomization: %w", err)
-	}
-
-	return os.WriteFile(filepath, content, 0644)
-}
-
 func release(version, fullVersion string) error {
 	if err := gitCmd("add", "."); err != nil {
 		return err
@@ -189,12 +162,9 @@ func release(version, fullVersion string) error {
 func main() {
 	versionFlag := flag.String("version", "", "Tagged version to build")
 	configFlag := flag.String("config", defaultConfigPath, "Path to CRD ref-docs config")
-	imageFlag := flag.String("image-name", defaultImageName, "Default image name")
 	newImageFlag := flag.String("image", defaultImageRef, "Default image reference")
 
 	flag.Parse()
-
-	resources := []string{"./config/crd", "./config/manager", "./config/rbac"}
 
 	version, err := parseVersion(*versionFlag)
 	if err != nil {
@@ -218,9 +188,9 @@ func main() {
 		log.Fatalf("Failed to prepare branch: %v", err)
 	}
 
-	kustomization := createKustomization(resources, *imageFlag, *newImageFlag, *versionFlag)
-	if err := writeKustomization(kustomization, "./kustomization.yaml"); err != nil {
-		log.Fatalf("Failed to write kustomization: %v", err)
+	img := fmt.Sprintf("IMG=%s:%s", *newImageFlag, *versionFlag)
+	if err := makeCmd("build-installer", img); err != nil {
+		log.Fatalf("Failed to run make: %v", err)
 	}
 
 	if err := release(version, *versionFlag); err != nil {

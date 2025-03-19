@@ -17,6 +17,11 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+      - run: |
+          make build-installer IMG=ghcr.io/${{ github.event.repository.owner.name }}/registry-operator:${{ github.ref_name }}
       - id: semver_parser
         uses: release-kit/semver@v2
         with:
@@ -37,6 +42,7 @@ jobs:
           name: ${{ github.ref_name }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ github.token }}
+          artifacts: ./dist/*
 
   image:
     runs-on: ubuntu-latest

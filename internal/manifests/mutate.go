@@ -84,6 +84,11 @@ func MutateFuncFor(existing, desired client.Object) controllerutil.MutateFn {
 			wantCm := desired.(*corev1.ConfigMap)
 			mutateConfigMap(cm, wantCm)
 
+		case *corev1.PersistentVolumeClaim:
+			pvc := existing.(*corev1.PersistentVolumeClaim)
+			wantPvc := desired.(*corev1.PersistentVolumeClaim)
+			mutatePersistentVolumeClaim(pvc, wantPvc)
+
 		case *corev1.Service:
 			svc := existing.(*corev1.Service)
 			wantSvc := desired.(*corev1.Service)
@@ -99,6 +104,10 @@ func MutateFuncFor(existing, desired client.Object) controllerutil.MutateFn {
 
 func mergeWithOverride(dst, src interface{}) error {
 	return mergo.Merge(dst, src, mergo.WithOverride)
+}
+
+func mutatePersistentVolumeClaim(existing, desired *corev1.PersistentVolumeClaim) {
+	existing.Spec.Resources.Requests = desired.Spec.Resources.Requests
 }
 
 func mutateService(existing, desired *corev1.Service) {

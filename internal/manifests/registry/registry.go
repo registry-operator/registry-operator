@@ -36,6 +36,7 @@ func Build(params manifests.Params) ([]client.Object, error) {
 		manifests.Factory(Deployment),
 		manifests.Factory(ConfigMap),
 		manifests.Factory(Service),
+		manifests.Factory(PersistentVolumeClaim),
 	}...)
 
 	for _, factory := range manifestFactories {

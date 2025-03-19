@@ -5,7 +5,7 @@
 domain: registry-operator.dev
 layout:
 - go.kubebuilder.io/v4
-projectName: registry-operator-next
+projectName: registry-operator
 repo: github.com/registry-operator/registry-operator
 resources:
 - api:
@@ -16,4 +16,9 @@ resources:
   kind: Registry
   path: github.com/registry-operator/registry-operator/api/v1alpha1
   version: v1alpha1
+  webhooks:
+    conversion: true
+    defaulting: true
+    validation: true
+    webhookVersion: v1
 version: "3"

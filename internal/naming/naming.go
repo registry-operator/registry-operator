@@ -26,6 +26,10 @@ func ConfigVolume() string {
 	return "config"
 }
 
+func StorageVolume() string {
+	return "storage"
+}
+
 func DistributionConfig() string {
 	return "config.yaml"
 }
@@ -42,6 +46,11 @@ func Registry(registry string) string {
 
 // Service builds the service name based on the instance.
 func Service(registry string) string {
+	return DNSName(Truncate("%s-registry", 63, registry))
+}
+
+// PersistentVolumeClaim builds the PVC name based on the instance.
+func PersistentVolumeClaim(registry string) string {
 	return DNSName(Truncate("%s-registry", 63, registry))
 }
 

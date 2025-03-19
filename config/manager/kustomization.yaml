@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: localhost:5005/registry-operator
-  newTag: e2e-ee777e
+  newTag: dev-8b0cc5-dirty

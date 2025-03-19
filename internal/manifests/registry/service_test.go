@@ -45,6 +45,6 @@ func TestDesiredService(t *testing.T) {
 		require.NoError(t, err)
 		assert.Equal(t, "my-instance-registry", actual.Name)
 		assert.Equal(t, naming.Service(params.Registry.Name), actual.Name)
-		assert.Len(t, actual.Spec.Ports, 1)
+		assert.Len(t, actual.Spec.Ports, 2)
 	})
 }
