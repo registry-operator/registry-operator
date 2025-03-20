@@ -39,6 +39,8 @@ spec:
                   requests:
                     cpu: 100m
                     memory: 256Mi
+                storage:
+                  emptyDir: {}
                 affinity:
                   nodeAffinity:
                     requiredDuringSchedulingIgnoredDuringExecution:
@@ -84,6 +86,13 @@ spec:
                         image: docker.io/library/registry:3.0.0-rc.3
                         command: [ "registry" ]
                         args: [ "serve", "/etc/distribution/config.yaml" ]
+                        ports:
+                          - name: distribution
+                            containerPort: 5000
+                            protocol: TCP
+                          - name: metrics
+                            containerPort: 5001
+                            protocol: TCP
                         resources:
                           requests:
                             cpu: 100m
@@ -92,13 +101,18 @@ spec:
                           - name: config
                             readOnly: true
                             mountPath: /etc/distribution
+                          - name: storage
+                            mountPath: /var/lib/registry
                     volumes:
                       - name: config
                         configMap:
-                          name: 011736e51d0d6b0e5b15b6969cdeac2c71ef96871452ad64b7a86c91be61cc
+                          defaultMode: 420
+                          name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
                           items:
                             - key: config.yaml
                               path: config.yaml
+                      - name: storage
+                        emptyDir: {}
                     affinity:
                       nodeAffinity:
                         requiredDuringSchedulingIgnoredDuringExecution:
@@ -120,7 +134,7 @@ spec:
               apiVersion: v1
               kind: ConfigMap
               metadata:
-                name: 011736e51d0d6b0e5b15b6969cdeac2c71ef96871452ad64b7a86c91be61cc
+                name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
                   app.kubernetes.io/instance: (join('.', [$namespace, 'complete']))

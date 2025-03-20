@@ -39,6 +39,37 @@ type RegistrySpec struct {
 	// Affinity specifies the scheduling constraints for Pods.
 	// +optional
 	Affinity *corev1.Affinity `json:"affinity,omitempty"`
+
+	// Storage defines the available storage options for a registry.
+	// It allows specifying different volume sources to manage storage lifecycle and persistence.
+	// +optional
+	Storage Storage `json:"storage,omitempty"`
+}
+
+// Storage specifies various types of volume sources that a registry can use for storage.
+type Storage struct {
+	// EmptyDir represents a temporary directory that shares a pod's lifetime.
+	// +optional
+	EmptyDir *corev1.EmptyDirVolumeSource `json:"emptyDir,omitempty"`
+
+	// Ephemeral represents a volume that is handled by a cluster storage driver.
+	// The volume's lifecycle is tied to the pod that defines it - it will be created before the pod starts,
+	// and deleted when the pod is removed.
+	// +optional
+	Ephemeral *corev1.EphemeralVolumeSource `json:"ephemeral,omitempty"`
+
+	// HostPath represents a directory on the host.
+	// +optional
+	HostPath *corev1.HostPathVolumeSource `json:"hostPath,omitempty"`
+
+	// PersistentVolumeClaim represents a reference to a PersistentVolumeClaim in the same namespace.
+	// +optional
+	PersistentVolumeClaim *corev1.PersistentVolumeClaimVolumeSource `json:"persistentVolumeClaim,omitempty"`
+
+	// PersistentVolumeClaimTemplate allows creating PVCs dynamically.
+	// This defines a PVC template that will be instantiated for the pod.
+	// +optional
+	PersistentVolumeClaimTemplate *corev1.PersistentVolumeClaimSpec `json:"persistentVolumeClaimTemplate,omitempty"`
 }
 
 // RegistryStatus defines the observed state of Registry.
@@ -57,6 +88,8 @@ type RegistryStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
+// +kubebuilder:conversion:hub
 // +kubebuilder:storageversion
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Version",type="string",JSONPath=".status.version"

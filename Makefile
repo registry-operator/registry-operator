@@ -1,5 +1,5 @@
 # Image URL to use all building/pushing image targets
-IMG ?= ghcr.io/registry-operator/registry-operator:main
+IMG ?= localhost:5005/registry-operator:dev-$(shell git describe --match='' --always --abbrev=6 --dirty)
 PLATFORM ?= linux/$(shell go env GOARCH)
 CHAINSAW_ARGS ?=
 
@@ -137,7 +137,7 @@ docker-push: ## Push docker image with the manager.
 build-installer: manifests generate kustomize ## Generate a consolidated YAML with CRDs and deployment.
 	mkdir -p dist
 	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
-	$(KUSTOMIZE) build config/default > dist/install.yaml
+	$(KUSTOMIZE) build config/default > dist/registry-operator.yaml
 
 ##@ Documentation
 
@@ -157,11 +157,12 @@ endif
 
 .PHONY: cluster
 cluster: kind ctlptl
-	$(CTLPTL) apply -f hack/kind.yaml
+	PATH=$(LOCALBIN):$$PATH $(CTLPTL) apply -f hack/kind.yaml
+	$(KUBECTL) apply -f https://github.com/cert-manager/cert-manager/releases/download/$(CERT_MANAGER_VERSION)/cert-manager.yaml
 
 .PHONY: cluster-reset
 cluster-reset: kind ctlptl
-	$(CTLPTL) delete -f hack/kind.yaml
+	PATH=$(LOCALBIN):$$PATH $(CTLPTL) delete -f hack/kind.yaml
 
 .PHONY: deploy
 deploy: manifests kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
@@ -197,6 +198,9 @@ ADDLICENSE_VERSION ?= v1.1.1
 
 # renovate: datasource=github-tags depName=kyverno/chainsaw
 CHAINSAW_VERSION ?= v0.2.12
+
+# renovate: datasource=github-tags depName=cert-manager/cert-manager
+CERT_MANAGER_VERSION ?= v1.17.0
 
 # renovate: datasource=github-tags depName=kubernetes-sigs/controller-tools
 CONTROLLER_TOOLS_VERSION ?= v0.17.2

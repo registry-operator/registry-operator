@@ -9,16 +9,24 @@ Operators are a method of packaging, deploying, and managing a Kubernetes applic
 
 ## Installing the Operator
 
-To install the Registry Operator, run the following commands. This will ensure you're always pulling the latest stable release from the operator’s GitHub repository.
+### Using kustomization
+
+This method applies the latest configuration by fetching the latest release tag from GitHub.
 
 ```sh
 LATEST="$(curl -s 'https://api.github.com/repos/registry-operator/registry-operator/releases/latest' | jq -r '.tag_name')"
-kubectl apply -k "https://github.com/registry-operator/registry-operator/?ref=${LATEST}"
+kubectl apply -k "https://github.com/registry-operator/registry-operator//config/default?ref=${LATEST}"
 ```
 
-This command:
+### Using release manifests
 
-1. Fetches the latest release tag using the GitHub API.
-1. Applies the corresponding version of the Registry Operator to your Kubernetes cluster using `kubectl`.
+Alternatively, you can deploy the operator using the release manifest directly from GitHub.
 
-Once installed, the operator will begin monitoring the appropriate resources in your cluster based on the CRDs defined.
+```sh
+LATEST="$(curl -s 'https://api.github.com/repos/registry-operator/registry-operator/releases/latest' | jq -r '.tag_name')"
+kubectl apply -f "https://github.com/registry-operator/registry-operator/releases/download/${LATEST}/registry-operator.yaml"
+```
+
+## Updating the Operator
+
+To update to the latest version, rerun the installation command for your chosen method.

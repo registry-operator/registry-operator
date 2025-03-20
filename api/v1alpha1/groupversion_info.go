@@ -24,6 +24,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/scheme"
 )
 
+const (
+	RegistryKind = "Registry"
+)
+
 var (
 	// GroupVersion is group version used to register these objects.
 	GroupVersion = schema.GroupVersion{Group: "registry-operator.dev", Version: "v1alpha1"}

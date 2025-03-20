@@ -44,7 +44,7 @@ func TestDesiredConfigMap(t *testing.T) {
 		"app.kubernetes.io/managed-by": "registry-operator",
 		"app.kubernetes.io/part-of":    "registry",
 		"app.kubernetes.io/version":    "latest",
-		"app.kubernetes.io/name":       "011736e51d0d6b0e5b15b6969cdeac2c71ef96871452ad64b7a86c91be61cc",
+		"app.kubernetes.io/name":       "b55b3b877c078fc26cf6a99943bbe500e62945eb59f35c1673cd38279f01ef",
 	}
 
 	t.Run("should return expected collector config map", func(t *testing.T) {

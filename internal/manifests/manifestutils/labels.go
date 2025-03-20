@@ -28,7 +28,7 @@ import (
 	"github.com/registry-operator/registry-operator/internal/naming"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"sigs.k8s.io/yaml"
+	yaml "sigs.k8s.io/yaml/goyaml.v2"
 )
 
 func IsFilteredSet(sourceSet string, filterSet []string) bool {

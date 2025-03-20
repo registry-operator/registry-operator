@@ -21,7 +21,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	yaml "sigs.k8s.io/yaml/goyaml.v3"
+	yaml "sigs.k8s.io/yaml/goyaml.v2"
 )
 
 func ConfigMap(params manifests.Params) (*corev1.ConfigMap, error) {

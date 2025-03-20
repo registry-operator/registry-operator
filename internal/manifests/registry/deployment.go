@@ -18,6 +18,7 @@
 package registry
 
 import (
+	registryv1alpha1 "github.com/registry-operator/registry-operator/api/v1alpha1"
 	"github.com/registry-operator/registry-operator/internal/manifests"
 	"github.com/registry-operator/registry-operator/internal/manifests/manifestutils"
 	"github.com/registry-operator/registry-operator/internal/naming"
@@ -46,6 +47,43 @@ func generateConfigVolume(registry, hash string) corev1.Volume {
 				},
 			},
 		},
+	}
+}
+
+func generateStorageVolume(registry registryv1alpha1.Registry) corev1.Volume {
+	source := corev1.VolumeSource{
+		EmptyDir: &corev1.EmptyDirVolumeSource{},
+	}
+
+	storage := registry.Spec.Storage
+	if storage.EmptyDir != nil {
+		source = corev1.VolumeSource{
+			EmptyDir: storage.EmptyDir,
+		}
+	} else if storage.Ephemeral != nil {
+		source = corev1.VolumeSource{
+			Ephemeral: storage.Ephemeral,
+		}
+	} else if storage.HostPath != nil {
+		source = corev1.VolumeSource{
+			HostPath: storage.HostPath,
+		}
+	} else if storage.PersistentVolumeClaim != nil {
+		source = corev1.VolumeSource{
+			PersistentVolumeClaim: storage.PersistentVolumeClaim,
+		}
+	} else if storage.PersistentVolumeClaimTemplate != nil {
+		source = corev1.VolumeSource{
+			PersistentVolumeClaim: &corev1.PersistentVolumeClaimVolumeSource{
+				ClaimName: naming.PersistentVolumeClaim(registry.Name),
+				ReadOnly:  false,
+			},
+		}
+	}
+
+	return corev1.Volume{
+		Name:         naming.StorageVolume(),
+		VolumeSource: source,
 	}
 }
 
@@ -98,6 +136,7 @@ func Deployment(params manifests.Params) (*appsv1.Deployment, error) {
 					},
 					Volumes: []corev1.Volume{
 						generateConfigVolume(params.Registry.Name, hash),
+						generateStorageVolume(params.Registry),
 					},
 				},
 			},

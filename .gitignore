@@ -19,6 +19,9 @@ go.work
 # Kubernetes Generated files - skip generated files, except for vendored files
 !vendor/**/zz_generated.*
 
+# Generated release manifests
+dist/
+
 # editor and IDE paraphernalia
 .idea
 .vscode
