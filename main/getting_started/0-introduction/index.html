@@ -597,6 +597,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installing the Operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-kustomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using kustomization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-release-manifests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using release manifests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-the-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating the Operator
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -745,6 +778,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Installing the Operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-kustomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using kustomization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-release-manifests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using release manifests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-the-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating the Operator
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -771,16 +837,18 @@
 <h2 id="understanding-operators">Understanding Operators</h2>
 <p>Operators are a method of packaging, deploying, and managing a Kubernetes application. They automate operational tasks, like scaling, backups, updates, and more, through custom controllers that extend Kubernetes functionality. In simpler terms, an Operator watches over your resources and ensures your application maintains a desired state by automating routine tasks.</p>
 <h2 id="installing-the-operator">Installing the Operator</h2>
-<p>To install the Registry Operator, run the following commands. This will ensure you're always pulling the latest stable release from the operator’s GitHub repository.</p>
+<h3 id="using-kustomization">Using kustomization</h3>
+<p>This method applies the latest configuration by fetching the latest release tag from GitHub.</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">LATEST</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">&#39;https://api.github.com/repos/registry-operator/registry-operator/releases/latest&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.tag_name&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;https://github.com/registry-operator/registry-operator/?ref=</span><span class="si">${</span><span class="nv">LATEST</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;https://github.com/registry-operator/registry-operator//config/default?ref=</span><span class="si">${</span><span class="nv">LATEST</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></code></pre></div>
-<p>This command:</p>
-<ol>
-<li>Fetches the latest release tag using the GitHub API.</li>
-<li>Applies the corresponding version of the Registry Operator to your Kubernetes cluster using <code>kubectl</code>.</li>
-</ol>
-<p>Once installed, the operator will begin monitoring the appropriate resources in your cluster based on the CRDs defined.</p>
+<h3 id="using-release-manifests">Using release manifests</h3>
+<p>Alternatively, you can deploy the operator using the release manifest directly from GitHub.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">LATEST</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">&#39;https://api.github.com/repos/registry-operator/registry-operator/releases/latest&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.tag_name&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;https://github.com/registry-operator/registry-operator/releases/download/</span><span class="si">${</span><span class="nv">LATEST</span><span class="si">}</span><span class="s2">/registry-operator.yaml&quot;</span>
+</span></code></pre></div>
+<h2 id="updating-the-operator">Updating the Operator</h2>
+<p>To update to the latest version, rerun the installation command for your chosen method.</p>
 
 
 

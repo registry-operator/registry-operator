@@ -729,6 +729,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -832,6 +841,15 @@
   <a href="#registrystatus" class="md-nav__link">
     <span class="md-ellipsis">
       RegistryStatus
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage
     </span>
   </a>
   
@@ -959,6 +977,12 @@
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td><code>storage</code> <em><a href="#storage">Storage</a></em></td>
+<td>Storage defines the available storage options for a registry.<br />It allows specifying different volume sources to manage storage lifecycle and persistence.</td>
+<td></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h4 id="registrystatus">RegistryStatus</h4>
@@ -990,6 +1014,52 @@
 <tr>
 <td><code>image</code> <em>string</em></td>
 <td>Image indicates the container image to use for the Registry.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="storage">Storage</h4>
+<p>Storage specifies various types of volume sources that a registry can use for storage.</p>
+<p><em>Appears in:</em>
+- <a href="#registryspec">RegistrySpec</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Default</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>emptyDir</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#emptydirvolumesource-v1-core">EmptyDirVolumeSource</a></em></td>
+<td>EmptyDir represents a temporary directory that shares a pod's lifetime.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ephemeral</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#ephemeralvolumesource-v1-core">EphemeralVolumeSource</a></em></td>
+<td>Ephemeral represents a volume that is handled by a cluster storage driver.<br />The volume's lifecycle is tied to the pod that defines it - it will be created before the pod starts,<br />and deleted when the pod is removed.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>hostPath</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#hostpathvolumesource-v1-core">HostPathVolumeSource</a></em></td>
+<td>HostPath represents a directory on the host.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>persistentVolumeClaim</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#persistentvolumeclaimvolumesource-v1-core">PersistentVolumeClaimVolumeSource</a></em></td>
+<td>PersistentVolumeClaim represents a reference to a PersistentVolumeClaim in the same namespace.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>persistentVolumeClaimTemplate</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#persistentvolumeclaimspec-v1-core">PersistentVolumeClaimSpec</a></em></td>
+<td>PersistentVolumeClaimTemplate allows creating PVCs dynamically.<br />This defines a PVC template that will be instantiated for the pod.</td>
 <td></td>
 <td></td>
 </tr>
