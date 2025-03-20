@@ -200,7 +200,7 @@ ADDLICENSE_VERSION ?= v1.1.1
 CHAINSAW_VERSION ?= v0.2.12
 
 # renovate: datasource=github-tags depName=cert-manager/cert-manager
-CERT_MANAGER_VERSION ?= v1.17.0
+CERT_MANAGER_VERSION ?= v1.17.1
 
 # renovate: datasource=github-tags depName=kubernetes-sigs/controller-tools
 CONTROLLER_TOOLS_VERSION ?= v0.17.2
