@@ -27,8 +27,8 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f h1:lO4WD4F/rVNCu3HqELle0jiPLLBs70cWOduZpkS1E78=
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f/go.mod h1:cuUVRXasLTGF7a8hSLbxyZXjz+1KgoB3wDUb6vlszIc=
-github.com/distribution/distribution/v3 v3.0.0-rc.3.0.20250314172025-ebd20d3be77e h1:csSgYUoeI79H3BDzoEf9AwHBGNJ0qv6Ckvar7BR+cYw=
-github.com/distribution/distribution/v3 v3.0.0-rc.3.0.20250314172025-ebd20d3be77e/go.mod h1:CqEv+Z5oBIUZfeVKjyAlVzohYyd4L7nAzE8oTIUBD6A=
+github.com/distribution/distribution/v3 v3.0.0-rc.4 h1:vEPVmN0m6HfROcCZfqfgZySLXJQtzs5Ku+5IgeupYdM=
+github.com/distribution/distribution/v3 v3.0.0-rc.4/go.mod h1:dDvOM74WS/l/Z5Zg5T7D6vcPhvoXgwbgRVzqgAADoKc=
 github.com/emicklei/go-restful/v3 v3.12.1 h1:PJMDIM/ak7btuL8Ex0iYET9hxM3CI2sjZtzpL63nKAU=
 github.com/emicklei/go-restful/v3 v3.12.1/go.mod h1:6n3XBCmQQb25CM2LCACGz8ukIrRry+4bhvbpWn3mrbc=
 github.com/evanphx/json-patch v5.9.0+incompatible h1:fBXyNpNMuTTDdquAq/uisOr2lShz4oaXpDTX2bLe7ls=
