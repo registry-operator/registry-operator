@@ -203,7 +203,7 @@ CHAINSAW_VERSION ?= v0.2.12
 CERT_MANAGER_VERSION ?= v1.17.1
 
 # renovate: datasource=github-tags depName=kubernetes-sigs/controller-tools
-CONTROLLER_TOOLS_VERSION ?= v0.17.2
+CONTROLLER_TOOLS_VERSION ?= v0.17.3
 
 # renovate: datasource=github-tags depName=elastic/crd-ref-docs
 CRD_REF_DOCS_VERSION ?= v0.1.0
