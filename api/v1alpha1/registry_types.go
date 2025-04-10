@@ -99,11 +99,11 @@ type RegistryStatus struct {
 type S3StorageSource struct {
 	// BucketName is an optional reference to the secret key containing the
 	// default bucket name to be used.
-	BucketName corev1.SecretKeySelector `json:"bucketName"`
+	BucketName SecretKeySelector `json:"bucketName"`
 
 	// Region is an optional reference to the secret key containing the S3
 	// region name.
-	Region corev1.SecretKeySelector `json:"region"`
+	Region SecretKeySelector `json:"region"`
 
 	// AccessKey is a reference to the secret key containing the S3 access key.
 	// +optional

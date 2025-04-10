@@ -85,8 +85,8 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `bucketName` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#secretkeyselector-v1-core)_ | BucketName is an optional reference to the secret key containing the<br />default bucket name to be used. |  |  |
-| `region` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#secretkeyselector-v1-core)_ | Region is an optional reference to the secret key containing the S3<br />region name. |  |  |
+| `bucketName` _[SecretKeySelector](#secretkeyselector)_ | BucketName is an optional reference to the secret key containing the<br />default bucket name to be used. |  |  |
+| `region` _[SecretKeySelector](#secretkeyselector)_ | Region is an optional reference to the secret key containing the S3<br />region name. |  |  |
 | `accessKey` _[SecretKeySelector](#secretkeyselector)_ | AccessKey is a reference to the secret key containing the S3 access key. |  |  |
 | `secretKey` _[SecretKeySelector](#secretkeyselector)_ | SecretKey is a reference to the secret key containing the S3 secret key. |  |  |
 | `endpointURL` _[SecretKeySelector](#secretkeyselector)_ | EndpointURL is an optional reference to the secret key containing an<br />override for the S3 endpoint URL. |  |  |

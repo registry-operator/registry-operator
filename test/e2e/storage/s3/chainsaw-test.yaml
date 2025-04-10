@@ -160,3 +160,113 @@ spec:
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
+    - name: Update s3 secret
+      try:
+        - update:
+            resource:
+              apiVersion: v1
+              kind: Secret
+              metadata:
+                name: s3-secret
+              type: Opaque
+              stringData:
+                S3_ACCESS_KEY: Q3AM3UQ867SPQQA43P2F
+                S3_SECRET_KEY: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+                ENDPOINT_URL: play.min.io
+                BUCKET_NAME: s3-registry-test-update
+                REGION: us-east-1
+    - name: Wait for Registry status to be ready and resouces to be updated
+      try:
+        - assert:
+            resource:
+              apiVersion: registry-operator.dev/v1alpha1
+              kind: Registry
+              metadata:
+                name: s3
+              status:
+                ready: true
+        - assert:
+            resource:
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: s3-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 's3']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: distribution
+                        image: docker.io/library/registry:3.0.0-rc.3
+                        command: [ "registry" ]
+                        args: [ "serve", "/etc/distribution/config.yaml" ]
+                        ports:
+                          - name: distribution
+                            containerPort: 5000
+                            protocol: TCP
+                          - name: metrics
+                            containerPort: 5001
+                            protocol: TCP
+                        volumeMounts:
+                          - name: config
+                            readOnly: true
+                            mountPath: /etc/distribution
+                          - name: storage
+                            mountPath: /var/lib/registry
+                    volumes:
+                      - name: config
+                        secret:
+                          defaultMode: 420
+                          secretName: 54fbe34b39bc14dfe48a7d3a0e7a1e114ab4ecf4761f1bbf22b014daf4dfec
+                          items:
+                            - key: config.yaml
+                              path: config.yaml
+                      - name: storage
+                        emptyDir: {}
+                    affinity:
+                      nodeAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          nodeSelectorTerms:
+                            - matchExpressions:
+                              - key: kubernetes.io/arch
+                                operator: In
+                                values:
+                                  - amd64
+                                  - arm64
+                                  - ppc64le
+                                  - s390x
+                              - key: kubernetes.io/os
+                                operator: In
+                                values:
+                                  - linux
+              status:
+                availableReplicas: 1
+        - assert:
+            resource:
+              apiVersion: v1
+              kind: Secret
+              metadata:
+                name: 54fbe34b39bc14dfe48a7d3a0e7a1e114ab4ecf4761f1bbf22b014daf4dfec
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 's3']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
+        - assert:
+            resource:
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: s3-registry
+                labels:
+                  app.kubernetes.io/managed-by: registry-operator
+                  app.kubernetes.io/instance: (join('.', [$namespace, 's3']))
+                  app.kubernetes.io/part-of: registry
+                  app.kubernetes.io/component: registry
+                  app.kubernetes.io/version: "latest"
