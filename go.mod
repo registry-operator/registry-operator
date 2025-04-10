@@ -12,7 +12,7 @@ require (
 	k8s.io/client-go v0.32.3
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/utils v0.0.0-20250321185631-1f6e0b77f77e
-	sigs.k8s.io/container-object-storage-interface/client v0.0.0-20250410092247-9ce2ef8cd9f6
+	sigs.k8s.io/container-object-storage-interface/client v0.0.0-20250410153843-26c27ec0e68d
 	sigs.k8s.io/controller-runtime v0.20.4
 	sigs.k8s.io/yaml v1.4.0
 )
