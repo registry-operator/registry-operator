@@ -18,7 +18,7 @@
 // Package naming is for determining the names for components (containers, services, ...).
 package naming
 
-func ConfigMap(registry, hash string) string {
+func Secret(registry, hash string) string {
 	return DNSName(Truncate("%s-%s", 63, registry, hash))
 }
 

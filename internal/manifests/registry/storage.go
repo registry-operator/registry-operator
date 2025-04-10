@@ -15,6 +15,8 @@
 package registry
 
 import (
+	"context"
+
 	"github.com/registry-operator/registry-operator/internal/manifests"
 	"github.com/registry-operator/registry-operator/internal/manifests/manifestutils"
 	"github.com/registry-operator/registry-operator/internal/naming"
@@ -23,7 +25,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func PersistentVolumeClaim(params manifests.Params) (*corev1.PersistentVolumeClaim, error) {
+func PersistentVolumeClaim(ctx context.Context, params manifests.Params) (*corev1.PersistentVolumeClaim, error) {
 	template := params.Registry.Spec.Storage.PersistentVolumeClaimTemplate
 	if template == nil {
 		return nil, nil

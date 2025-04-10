@@ -45,9 +45,10 @@ var (
 // MutateFuncFor returns a mutate function based on the
 // existing resource's concrete type. It supports currently
 // only the following types or else panics:
-// - ConfigMap
 // - Deployment
+// - Secret
 // - Service
+// - PersistentVolumeClaim
 // In order for the operator to reconcile other types, they must be added here.
 // The function returned takes no arguments but instead uses the existing and desired inputs here. Existing is expected
 // to be set by the controller-runtime package through a client get call.
@@ -79,10 +80,10 @@ func MutateFuncFor(existing, desired client.Object) controllerutil.MutateFn {
 			wantDpl := desired.(*appsv1.Deployment)
 			return mutateDeployment(dpl, wantDpl)
 
-		case *corev1.ConfigMap:
-			cm := existing.(*corev1.ConfigMap)
-			wantCm := desired.(*corev1.ConfigMap)
-			mutateConfigMap(cm, wantCm)
+		case *corev1.Secret:
+			sec := existing.(*corev1.Secret)
+			wantSec := desired.(*corev1.Secret)
+			mutateSecret(sec, wantSec)
 
 		case *corev1.PersistentVolumeClaim:
 			pvc := existing.(*corev1.PersistentVolumeClaim)
@@ -115,9 +116,9 @@ func mutateService(existing, desired *corev1.Service) {
 	existing.Spec.Selector = desired.Spec.Selector
 }
 
-func mutateConfigMap(existing, desired *corev1.ConfigMap) {
-	existing.BinaryData = desired.BinaryData
+func mutateSecret(existing, desired *corev1.Secret) {
 	existing.Data = desired.Data
+	existing.StringData = desired.StringData
 }
 
 func hasImmutableLabelChange(existingSelectorLabels, desiredLabels map[string]string) error {

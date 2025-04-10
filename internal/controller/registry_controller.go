@@ -54,7 +54,7 @@ type RegistryReconciler struct {
 // +kubebuilder:rbac:groups=registry-operator.dev,resources=registries,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=registry-operator.dev,resources=registries/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=registry-operator.dev,resources=registries/finalizers,verbs=update
-// +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=persistentvolumeclaims,verbs=get;list;watch;create;update;patch;delete
@@ -64,7 +64,7 @@ type RegistryReconciler struct {
 func (r *RegistryReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&registryv1alpha1.Registry{}).
-		Owns(&corev1.ConfigMap{}).
+		Owns(&corev1.Secret{}).
 		Owns(&appsv1.Deployment{}).
 		Owns(&corev1.PersistentVolumeClaim{}).
 		Owns(&corev1.Service{}).
@@ -126,7 +126,7 @@ func (r *RegistryReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		}
 	}
 
-	desiredObjects, buildErr := BuildRegistry(params)
+	desiredObjects, buildErr := BuildRegistry(ctx, params)
 	if buildErr != nil {
 		return ctrl.Result{}, buildErr
 	}

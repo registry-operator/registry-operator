@@ -41,12 +41,12 @@ type RegistrySpec struct {
 	Affinity *corev1.Affinity `json:"affinity,omitempty"`
 
 	// Storage defines the available storage options for a registry.
-	// It allows specifying different volume sources to manage storage lifecycle and persistence.
+	// It allows specifying different storage sources to manage storage lifecycle and persistence.
 	// +optional
 	Storage Storage `json:"storage,omitempty"`
 }
 
-// Storage specifies various types of volume sources that a registry can use for storage.
+// Storage specifies various types of storage sources that a registry can use for persistence.
 type Storage struct {
 	// EmptyDir represents a temporary directory that shares a pod's lifetime.
 	// +optional
@@ -70,6 +70,12 @@ type Storage struct {
 	// This defines a PVC template that will be instantiated for the pod.
 	// +optional
 	PersistentVolumeClaimTemplate *corev1.PersistentVolumeClaimSpec `json:"persistentVolumeClaimTemplate,omitempty"`
+
+	// S3 defines an S3-compatible storage source for persisting registry data.
+	// It provides a way to use object storage systems such as Amazon S3 or S3-compatible services
+	// for data persistence. This field is optional and can be configured with an endpoint and appropriate credentials.
+	// +optional
+	S3 *S3StorageSource `json:"s3,omitempty"`
 }
 
 // RegistryStatus defines the observed state of Registry.
@@ -85,6 +91,41 @@ type RegistryStatus struct {
 	// Image indicates the container image to use for the Registry.
 	// +optional
 	Image string `json:"image,omitempty"`
+}
+
+// S3StorageSource defines the configuration for connecting to an S3-compatible
+// storage backend. It holds the necessary secret references to access an S3-compatible
+// storage service.
+type S3StorageSource struct {
+	// BucketName is an optional reference to the secret key containing the
+	// default bucket name to be used.
+	BucketName corev1.SecretKeySelector `json:"bucketName"`
+
+	// Region is an optional reference to the secret key containing the S3
+	// region name.
+	Region corev1.SecretKeySelector `json:"region"`
+
+	// AccessKey is a reference to the secret key containing the S3 access key.
+	// +optional
+	AccessKey *SecretKeySelector `json:"accessKey,omitempty"`
+
+	// SecretKey is a reference to the secret key containing the S3 secret key.
+	// +optional
+	SecretKey *SecretKeySelector `json:"secretKey,omitempty"`
+
+	// EndpointURL is an optional reference to the secret key containing an
+	// override for the S3 endpoint URL.
+	// +optional
+	EndpointURL *SecretKeySelector `json:"endpointURL,omitempty"`
+}
+
+// SecretKeySelector selects a key of a Secret.
+type SecretKeySelector struct {
+	// The name of the secret in the object's namespace to select from.
+	corev1.LocalObjectReference `json:",inline"`
+
+	// The key of the secret to select from. Must be a valid secret key.
+	Key string `json:"key"`
 }
 
 // +kubebuilder:object:root=true

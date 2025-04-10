@@ -39,14 +39,14 @@ import (
 )
 
 // BuildRegistry returns the generation and collected errors of all manifests for a given instance.
-func BuildRegistry(params manifests.Params) ([]client.Object, error) {
+func BuildRegistry(ctx context.Context, params manifests.Params) ([]client.Object, error) {
 	builders := []manifests.Builder[manifests.Params]{
 		registry.Build,
 	}
 
 	var resources []client.Object
 	for _, builder := range builders {
-		objs, err := builder(params)
+		objs, err := builder(ctx, params)
 		if err != nil {
 			return nil, err
 		}

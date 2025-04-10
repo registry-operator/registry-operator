@@ -15,6 +15,8 @@
 package registry
 
 import (
+	"context"
+
 	"github.com/registry-operator/registry-operator/internal/manifests"
 	"github.com/registry-operator/registry-operator/internal/manifests/manifestutils"
 	"github.com/registry-operator/registry-operator/internal/naming"
@@ -24,20 +26,28 @@ import (
 	yaml "sigs.k8s.io/yaml/goyaml.v2"
 )
 
-func ConfigMap(params manifests.Params) (*corev1.ConfigMap, error) {
-	config := manifestutils.GenerateConfig(params.Registry.Spec)
-
-	cfgYaml, err := yaml.Marshal(config)
+func Secret(ctx context.Context, params manifests.Params) (*corev1.Secret, error) {
+	s3, err := manifestutils.NewS3Config(ctx, params)
 	if err != nil {
 		return nil, err
 	}
 
-	hash, err := manifestutils.GetConfigMapSHA(config)
+	cfg, err := manifestutils.GenerateConfig(params.Registry.Spec, s3)
 	if err != nil {
 		return nil, err
 	}
 
-	name := naming.ConfigMap(params.Registry.Name, hash)
+	cfgYaml, err := yaml.Marshal(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	hash, err := manifestutils.CalculateHash(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	name := naming.Secret(params.Registry.Name, hash)
 	labels := manifestutils.Labels(
 		params.Registry.ObjectMeta,
 		name,
@@ -50,14 +60,14 @@ func ConfigMap(params manifests.Params) (*corev1.ConfigMap, error) {
 		return nil, err
 	}
 
-	return &corev1.ConfigMap{
+	return &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        name,
 			Namespace:   params.Registry.Namespace,
 			Labels:      labels,
 			Annotations: annotations,
 		},
-		Data: map[string]string{
+		StringData: map[string]string{
 			naming.DistributionConfig(): string(cfgYaml),
 		},
 	}, nil

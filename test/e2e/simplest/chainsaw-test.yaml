@@ -77,9 +77,9 @@ spec:
                             mountPath: /var/lib/registry
                     volumes:
                       - name: config
-                        configMap:
+                        secret:
                           defaultMode: 420
-                          name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                          secretName: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
                           items:
                             - key: config.yaml
                               path: config.yaml

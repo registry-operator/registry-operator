@@ -18,6 +18,8 @@
 package registry
 
 import (
+	"context"
+
 	registryv1alpha1 "github.com/registry-operator/registry-operator/api/v1alpha1"
 	"github.com/registry-operator/registry-operator/internal/manifests"
 	"github.com/registry-operator/registry-operator/internal/manifests/manifestutils"
@@ -38,12 +40,10 @@ func generateConfigVolume(registry, hash string) corev1.Volume {
 	return corev1.Volume{
 		Name: naming.ConfigVolume(),
 		VolumeSource: corev1.VolumeSource{
-			ConfigMap: &corev1.ConfigMapVolumeSource{
+			Secret: &corev1.SecretVolumeSource{
+				SecretName: naming.Secret(registry, hash),
 				Items: []corev1.KeyToPath{
 					config,
-				},
-				LocalObjectReference: corev1.LocalObjectReference{
-					Name: naming.ConfigMap(registry, hash),
 				},
 			},
 		},
@@ -88,7 +88,7 @@ func generateStorageVolume(registry registryv1alpha1.Registry) corev1.Volume {
 }
 
 // Deployment builds the deployment for the given instance.
-func Deployment(params manifests.Params) (*appsv1.Deployment, error) {
+func Deployment(ctx context.Context, params manifests.Params) (*appsv1.Deployment, error) {
 	name := naming.Registry(params.Registry.Name)
 	labels := manifestutils.Labels(
 		params.Registry.ObjectMeta,
@@ -107,7 +107,17 @@ func Deployment(params manifests.Params) (*appsv1.Deployment, error) {
 		return nil, err
 	}
 
-	hash, err := manifestutils.GetConfigMapSHA(manifestutils.GenerateConfig(params.Registry.Spec))
+	s3, err := manifestutils.NewS3Config(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	cfg, err := manifestutils.GenerateConfig(params.Registry.Spec, s3)
+	if err != nil {
+		return nil, err
+	}
+
+	hash, err := manifestutils.CalculateHash(cfg)
 	if err != nil {
 		return nil, err
 	}

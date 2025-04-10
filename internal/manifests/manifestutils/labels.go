@@ -23,8 +23,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/distribution/distribution/v3/configuration"
-
 	"github.com/registry-operator/registry-operator/internal/naming"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -98,9 +96,9 @@ func SelectorLabels(instance metav1.ObjectMeta, component string) map[string]str
 	}
 }
 
-// GetConfigMapSHA computes a SHA256 checksum for a configuration object.
-func GetConfigMapSHA(config *configuration.Configuration) (string, error) {
-	b, err := yaml.Marshal(config)
+// CalculateHash computes a SHA256 checksum for an object.
+func CalculateHash(object any) (string, error) {
+	b, err := yaml.Marshal(object)
 	if err != nil {
 		return "", err
 	}

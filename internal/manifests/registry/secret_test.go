@@ -37,7 +37,7 @@ var (
 	devConfig string
 )
 
-func TestDesiredConfigMap(t *testing.T) {
+func TestDesiredSecret(t *testing.T) {
 	expectedLables := map[string]string{
 		"app.kubernetes.io/component":  "registry",
 		"app.kubernetes.io/instance":   "my-namespace.my-instance",
@@ -65,12 +65,12 @@ func TestDesiredConfigMap(t *testing.T) {
 		}
 
 		spec := registryv1alpha1.RegistrySpec{}
-		config := manifestutils.GenerateConfig(spec)
-		hash, _ := manifestutils.GetConfigMapSHA(config)
-		expectedName := naming.ConfigMap("test", hash)
+		config, _ := manifestutils.GenerateConfig(spec, nil)
+		hash, _ := manifestutils.CalculateHash(config)
+		expectedName := naming.Secret("test", hash)
 
 		// test
-		actual, err := ConfigMap(params)
+		actual, err := Secret(t.Context(), params)
 
 		// verify
 		assert.NoError(t, err)
@@ -79,7 +79,7 @@ func TestDesiredConfigMap(t *testing.T) {
 		assert.Equal(t, len(expectedData), len(actual.Data))
 		for k, expected := range expectedData {
 			t.Skip("TODO: untagged struct fields are not not omitted when empty")
-			assert.YAMLEq(t, expected, actual.Data[k])
+			assert.YAMLEq(t, expected, actual.StringData[k])
 		}
 	})
 }

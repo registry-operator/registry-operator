@@ -2,7 +2,7 @@
 apiVersion: chainsaw.kyverno.io/v1alpha1
 kind: Test
 metadata:
-  name: pvc-template
+  name: s3
   labels:
     area: 'storage'
 spec:
@@ -24,22 +24,51 @@ spec:
                 namespace: registry-operator-system
               status:
                 availableReplicas: 1
-    - name: Create pvc-template registry
+    - name: Create s3 secret
+      try:
+        - create:
+            resource:
+              apiVersion: v1
+              kind: Secret
+              metadata:
+                name: s3-secret
+              type: Opaque
+              stringData:
+                S3_ACCESS_KEY: Q3AM3UQ867SPQQA43P2F
+                S3_SECRET_KEY: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+                ENDPOINT_URL: play.min.io
+                BUCKET_NAME: s3-registry-test
+                REGION: us-east-1
+    - name: Create s3 registry
       try:
         - create:
             resource:
               apiVersion: registry-operator.dev/v1alpha1
               kind: Registry
               metadata:
-                name: pvc-template
+                name: s3
               spec:
                 storage:
-                  persistentVolumeClaimTemplate:
-                    accessModes:
-                      - ReadWriteOnce
-                    resources:
-                      requests:
-                        storage: 2Gi
+                  s3:
+                    s3Credentials:
+                      accessKey:
+                        name: s3-secret
+                        key: S3_ACCESS_KEY
+                      secretKey:
+                        name: s3-secret
+                        key: S3_SECRET_KEY
+                      bucketName:
+                        name: s3-secret
+                        key: BUCKET_NAME
+                        optional: true
+                      endpointURL:
+                        name: s3-secret
+                        key: ENDPOINT_URL
+                        optional: true
+                      region:
+                        name: s3-secret
+                        key: REGION
+                        optional: true
     - name: Wait for Registry status to be ready and resources to be deployed
       try:
         - assert:
@@ -47,7 +76,7 @@ spec:
               apiVersion: registry-operator.dev/v1alpha1
               kind: Registry
               metadata:
-                name: pvc-template
+                name: s3
               status:
                 ready: true
         - assert:
@@ -55,10 +84,10 @@ spec:
               apiVersion: apps/v1
               kind: Deployment
               metadata:
-                name: pvc-template-registry
+                name: s3-registry
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'pvc-template']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 's3']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
@@ -81,8 +110,6 @@ spec:
                           - name: config
                             readOnly: true
                             mountPath: /etc/distribution
-                          - name: storage
-                            mountPath: /var/lib/registry
                     volumes:
                       - name: config
                         secret:
@@ -91,9 +118,6 @@ spec:
                           items:
                             - key: config.yaml
                               path: config.yaml
-                      - name: storage
-                        persistentVolumeClaim:
-                          claimName: pvc-template-registry
                     affinity:
                       nodeAffinity:
                         requiredDuringSchedulingIgnoredDuringExecution:
@@ -115,22 +139,12 @@ spec:
         - assert:
             resource:
               apiVersion: v1
-              kind: PersistentVolumeClaim
-              metadata:
-                name: pvc-template-registry
-              status:
-                accessModes:
-                  - ReadWriteOnce
-                phase: Bound
-        - assert:
-            resource:
-              apiVersion: v1
               kind: ConfigMap
               metadata:
                 name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'pvc-template']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 's3']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
@@ -139,10 +153,10 @@ spec:
               apiVersion: v1
               kind: Service
               metadata:
-                name: pvc-template-registry
+                name: s3-registry
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'pvc-template']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 's3']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
