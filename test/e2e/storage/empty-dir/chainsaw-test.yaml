@@ -112,7 +112,7 @@ spec:
         - assert:
             resource:
               apiVersion: v1
-              kind: ConfigMap
+              kind: Secret
               metadata:
                 name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
                 labels:

@@ -117,7 +117,7 @@ func NewS3Config(ctx context.Context, params manifests.Params) (configuration.Pa
 		errs error
 	)
 
-	nn.Name = s3.BucketName.Key
+	nn.Name = s3.BucketName.Name
 	key = s3.BucketName.Key
 	s3c["bucket"], err = getDataFromSecret(ctx, params.Client, nn, key)
 	if err != nil {

@@ -50,25 +50,21 @@ spec:
               spec:
                 storage:
                   s3:
-                    s3Credentials:
-                      accessKey:
-                        name: s3-secret
-                        key: S3_ACCESS_KEY
-                      secretKey:
-                        name: s3-secret
-                        key: S3_SECRET_KEY
-                      bucketName:
-                        name: s3-secret
-                        key: BUCKET_NAME
-                        optional: true
-                      endpointURL:
-                        name: s3-secret
-                        key: ENDPOINT_URL
-                        optional: true
-                      region:
-                        name: s3-secret
-                        key: REGION
-                        optional: true
+                    accessKey:
+                      name: s3-secret
+                      key: S3_ACCESS_KEY
+                    secretKey:
+                      name: s3-secret
+                      key: S3_SECRET_KEY
+                    bucketName:
+                      name: s3-secret
+                      key: BUCKET_NAME
+                    endpointURL:
+                      name: s3-secret
+                      key: ENDPOINT_URL
+                    region:
+                      name: s3-secret
+                      key: REGION
     - name: Wait for Registry status to be ready and resources to be deployed
       try:
         - assert:
@@ -110,14 +106,18 @@ spec:
                           - name: config
                             readOnly: true
                             mountPath: /etc/distribution
+                          - name: storage
+                            mountPath: /var/lib/registry
                     volumes:
                       - name: config
                         secret:
                           defaultMode: 420
-                          secretName: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                          secretName: 9ec2a95b46b52a9124ba545f72a1914385bafa75f6166a75fa4b087758454b
                           items:
                             - key: config.yaml
                               path: config.yaml
+                      - name: storage
+                        emptyDir: {}
                     affinity:
                       nodeAffinity:
                         requiredDuringSchedulingIgnoredDuringExecution:
@@ -139,9 +139,9 @@ spec:
         - assert:
             resource:
               apiVersion: v1
-              kind: ConfigMap
+              kind: Secret
               metadata:
-                name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                name: 9ec2a95b46b52a9124ba545f72a1914385bafa75f6166a75fa4b087758454b
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
                   app.kubernetes.io/instance: (join('.', [$namespace, 's3']))
