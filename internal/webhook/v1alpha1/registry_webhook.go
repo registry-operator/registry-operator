@@ -72,6 +72,13 @@ func (d *RegistryCustomDefaulter) Default(
 		}
 	}
 
+	htpasswd := registry.Spec.Auth.Htpasswd
+	if htpasswd != nil &&
+		htpasswd.Secret.Optional != nil &&
+		htpasswd.Secret.Key == "" {
+		htpasswd.Secret.Key = "auth"
+	}
+
 	return nil
 }
 
@@ -166,6 +173,13 @@ func (v *RegistryCustomValidator) warn(registry *registryv1alpha1.Registry) admi
 	if registry.Spec.Replicas > 1 {
 		warns = append(warns,
 			"If replicas > 1 and file/block storage is used, there is no data consistency between Registry replicas.",
+		)
+	}
+
+	htpasswd := registry.Spec.Auth.Htpasswd
+	if htpasswd != nil && htpasswd.Secret.Optional != nil {
+		warns = append(warns,
+			"Htpasswd optional setting is ignored.",
 		)
 	}
 

@@ -40,10 +40,32 @@ type RegistrySpec struct {
 	// +optional
 	Affinity *corev1.Affinity `json:"affinity,omitempty"`
 
+	// Auth
+	// +optional
+	Auth Auth `json:"auth,omitempty"`
+
 	// Storage defines the available storage options for a registry.
 	// It allows specifying different storage sources to manage storage lifecycle and persistence.
 	// +optional
 	Storage Storage `json:"storage,omitempty"`
+}
+
+// Auth
+type Auth struct {
+	// Htpasswd
+	// +optional
+	Htpasswd *Htpasswd `json:"htpasswd,omitempty"`
+}
+
+// Htpasswd
+type Htpasswd struct {
+	// Realm
+	// +default="basic-realm"
+	// +optional
+	Realm string `json:"realm"`
+
+	// Htpasswd
+	Secret corev1.SecretKeySelector `json:"secret"`
 }
 
 // Storage specifies various types of storage sources that a registry can use for persistence.
@@ -129,7 +151,6 @@ type SecretKeySelector struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:conversion:hub
 // +kubebuilder:storageversion
 // +kubebuilder:subresource:status
