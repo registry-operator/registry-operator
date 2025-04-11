@@ -175,7 +175,7 @@ spec:
                 ENDPOINT_URL: play.min.io
                 BUCKET_NAME: s3-registry-test-update
                 REGION: us-east-1
-    - name: Wait for Registry status to be ready and resouces to be updated
+    - name: Wait for Registry status to be ready and resources to be updated
       try:
         - assert:
             resource:

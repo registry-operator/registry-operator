@@ -54,7 +54,7 @@ func GenerateConfig(
 	}
 
 	switch {
-	case s3 != nil:
+	case len(s3) > 0:
 		storage["s3"] = configuration.Parameters{
 			"rootdirectory": "/registry",
 		}
