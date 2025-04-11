@@ -213,10 +213,11 @@ func newS3Config(ctx context.Context, params manifests.Params) (configuration.Pa
 				return nil, fmt.Errorf("invalid endpoint URL: %w", err)
 			}
 
-			if u.Scheme == "" {
+			switch u.Scheme {
+			case "":
 				u.Scheme = "https"
 				endpoint = u.String()
-			} else if u.Scheme == "http" {
+			case "http":
 				s3c["secure"] = false
 			}
 

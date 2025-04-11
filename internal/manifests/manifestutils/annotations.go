@@ -26,8 +26,8 @@ func Annotations(instance registryv1alpha1.Registry, filterAnnotations []string)
 	// new map every time, so that we don't touch the instance's annotations
 	annotations := map[string]string{}
 
-	if nil != instance.ObjectMeta.Annotations {
-		for k, v := range instance.ObjectMeta.Annotations {
+	if nil != instance.Annotations {
+		for k, v := range instance.Annotations {
 			if !IsFilteredSet(k, filterAnnotations) {
 				annotations[k] = v
 			}

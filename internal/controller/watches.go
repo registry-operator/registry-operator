@@ -32,12 +32,12 @@ import (
 
 var watchLogger = ctrl.Log.WithName("watch")
 
-var invalidTypeErr = errors.New("invalid type")
+var errInvalidType = errors.New("invalid type")
 
 func (r *RegistryReconciler) MapS3Secrets(ctx context.Context, obj client.Object) []reconcile.Request {
 	if _, ok := obj.(*corev1.Secret); !ok {
 		t := reflect.TypeOf(obj).String()
-		watchLogger.Error(invalidTypeErr, "Invalid type of Object, expected Secret", "type", t)
+		watchLogger.Error(errInvalidType, "Invalid type of Object, expected Secret", "type", t)
 		return nil
 	}
 
@@ -89,13 +89,13 @@ var (
 			new, ok := e.ObjectNew.(*corev1.Secret)
 			if !ok {
 				t := reflect.TypeOf(new).String()
-				watchLogger.Error(invalidTypeErr, "Invalid type of New, expected Secret", "type", t)
+				watchLogger.Error(errInvalidType, "Invalid type of New, expected Secret", "type", t)
 				return false
 			}
 			old, ok := e.ObjectOld.(*corev1.Secret)
 			if !ok {
 				t := reflect.TypeOf(old).String()
-				watchLogger.Error(invalidTypeErr, "Invalid type of Old, expected Secret", "type", t)
+				watchLogger.Error(errInvalidType, "Invalid type of Old, expected Secret", "type", t)
 				return false
 			}
 
