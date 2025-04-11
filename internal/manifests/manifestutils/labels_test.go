@@ -82,7 +82,7 @@ func TestLabelsSha256Set(t *testing.T) {
 			Namespace: registryNamespace,
 		},
 		Spec: registryv1alpha1.RegistrySpec{
-			Image: "docker.io/library/registry:3.0.0-rc.3@sha256:ac0192b549007e22998eb74e8d8488dcfe70f1489520c3b144a6047ac5efbe90", //nolint:lll // test code
+			Image: "docker.io/library/registry:3.0.0@sha256:ac0192b549007e22998eb74e8d8488dcfe70f1489520c3b144a6047ac5efbe90", //nolint:lll // test code
 		},
 	}
 
@@ -90,7 +90,7 @@ func TestLabelsSha256Set(t *testing.T) {
 	labelsTag := Labels(registryTag.ObjectMeta, registryName, registryTag.Spec.Image, "registry", []string{})
 	assert.Equal(t, "registry-operator", labelsTag["app.kubernetes.io/managed-by"])
 	assert.Equal(t, "my-ns.my-instance", labelsTag["app.kubernetes.io/instance"])
-	assert.Equal(t, "3.0.0-rc.3", labelsTag["app.kubernetes.io/version"])
+	assert.Equal(t, "3.0.0", labelsTag["app.kubernetes.io/version"])
 	assert.Equal(t, "registry", labelsTag["app.kubernetes.io/part-of"])
 	assert.Equal(t, "registry", labelsTag["app.kubernetes.io/component"])
 }

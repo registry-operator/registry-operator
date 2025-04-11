@@ -25,7 +25,7 @@ In a few seconds, a new in-memory instance of Registry will be available, suitab
 ```
 $ kubectl get registries.registry-operator.dev 
 NAME       VERSION      READY   IMAGE
-simplest   3.0.0-rc.3   true    docker.io/library/registry:3.0.0-rc.3
+simplest   3.0.0        true    docker.io/library/registry:3.0.0
 ```
 
 To get the deplpyment name, query for the deployments belonging to the simplest Registry instance:
@@ -48,11 +48,11 @@ Similarly, the logs can be queried from all pods belonging to our instance:
 
 ```
 $ kubectl logs -l app.kubernetes.io/instance=default.simplest
-time="2024-10-09T08:11:02.799689427Z" level=warning msg="No HTTP secret provided - generated random secret. This may cause problems with uploads if multiple registries are behind a load-balancer. To provide a shared secret, fill in http.secret in the configuration file or set the REGISTRY_HTTP_SECRET environment variable." go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0-rc.3 
-time="2024-10-09T08:11:02.799779511Z" level=info msg="redis not configured" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0-rc.3 
-time="2024-10-09T08:11:02.800089011Z" level=info msg="using inmemory blob descriptor cache" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0-rc.3 
-time="2024-10-09T08:11:02.800370261Z" level=info msg="listening on [::]:5000" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0-rc.3 
-time="2024-10-09T08:11:02.800428594Z" level=info msg="Starting upload purge in 16m0s" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0-rc.3 
+time="2024-10-09T08:11:02.799689427Z" level=warning msg="No HTTP secret provided - generated random secret. This may cause problems with uploads if multiple registries are behind a load-balancer. To provide a shared secret, fill in http.secret in the configuration file or set the REGISTRY_HTTP_SECRET environment variable." go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0 
+time="2024-10-09T08:11:02.799779511Z" level=info msg="redis not configured" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0 
+time="2024-10-09T08:11:02.800089011Z" level=info msg="using inmemory blob descriptor cache" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0 
+time="2024-10-09T08:11:02.800370261Z" level=info msg="listening on [::]:5000" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0 
+time="2024-10-09T08:11:02.800428594Z" level=info msg="Starting upload purge in 16m0s" go.version=go1.20.8 instance.id=8ab1846a-75f9-4ac0-840e-4876165f56b2 service=registry version=3.0.0 
 ```
 
 [^1]: Latest image is the latest stable version available at the time of the Registry Operator release.
