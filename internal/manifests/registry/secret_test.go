@@ -44,7 +44,7 @@ func TestDesiredSecret(t *testing.T) {
 		"app.kubernetes.io/managed-by": "registry-operator",
 		"app.kubernetes.io/part-of":    "registry",
 		"app.kubernetes.io/version":    "latest",
-		"app.kubernetes.io/name":       "d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b",
+		"app.kubernetes.io/name":       "ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df",
 	}
 
 	t.Run("should return expected collector config map", func(t *testing.T) {

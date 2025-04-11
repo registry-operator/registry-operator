@@ -33,7 +33,7 @@ spec:
               metadata:
                 name: tagged
               spec:
-                image: docker.io/library/registry:3.0.0-rc.3
+                image: docker.io/library/registry:3.0.0
     - name: Wait for Registry status to be ready and resources to be deployed
       try:
         - assert:
@@ -44,7 +44,7 @@ spec:
                 name: tagged
               status:
                 ready: true
-                version: "3.0.0-rc.3"
+                version: "3.0.0"
         - assert:
             resource:
               apiVersion: apps/v1
@@ -56,13 +56,13 @@ spec:
                   app.kubernetes.io/instance: (join('.', [$namespace, 'tagged']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
-                  app.kubernetes.io/version: "3.0.0-rc.3"
+                  app.kubernetes.io/version: "3.0.0"
               spec:
                 template:
                   spec:
                     containers:
                       - name: distribution
-                        image: docker.io/library/registry:3.0.0-rc.3
+                        image: docker.io/library/registry:3.0.0
                         command: [ "registry" ]
                         args: [ "serve", "/etc/distribution/config.yaml" ]
                         ports:
@@ -82,7 +82,7 @@ spec:
                       - name: config
                         secret:
                           defaultMode: 420
-                          secretName: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                          secretName: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
                           items:
                             - key: config.yaml
                               path: config.yaml
@@ -112,13 +112,13 @@ spec:
               apiVersion: v1
               kind: Secret
               metadata:
-                name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                name: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
                   app.kubernetes.io/instance: (join('.', [$namespace, 'tagged']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
-                  app.kubernetes.io/version: "3.0.0-rc.3"
+                  app.kubernetes.io/version: "3.0.0"
         - assert:
             resource:
               apiVersion: v1
@@ -130,4 +130,4 @@ spec:
                   app.kubernetes.io/instance: (join('.', [$namespace, 'tagged']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
-                  app.kubernetes.io/version: "3.0.0-rc.3"
+                  app.kubernetes.io/version: "3.0.0"
