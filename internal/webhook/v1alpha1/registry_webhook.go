@@ -72,6 +72,12 @@ func (d *RegistryCustomDefaulter) Default(
 		}
 	}
 
+	htpasswd := registry.Spec.Auth.Htpasswd
+	if htpasswd != nil &&
+		htpasswd.Secret.Key == "" {
+		htpasswd.Secret.Key = "auth"
+	}
+
 	return nil
 }
 
