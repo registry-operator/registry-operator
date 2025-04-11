@@ -76,7 +76,7 @@ func TestDesiredSecret(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, expectedName, actual.Name)
 		assert.Equal(t, expectedLables, actual.Labels)
-		assert.Equal(t, len(expectedData), len(actual.Data))
+		assert.Equal(t, len(expectedData), len(actual.StringData))
 		for k, expected := range expectedData {
 			t.Skip("TODO: untagged struct fields are not not omitted when empty")
 			assert.YAMLEq(t, expected, actual.StringData[k])
