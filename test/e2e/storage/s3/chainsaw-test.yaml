@@ -222,7 +222,7 @@ spec:
                       - name: config
                         secret:
                           defaultMode: 420
-                          secretName: 54fbe34b39bc14dfe48a7d3a0e7a1e114ab4ecf4761f1bbf22b014daf4dfec
+                          secretName: e9f1765cd16ab12f733234e41e3db6e9242b1f337f9fd04fe6b0179c7d2ae0
                           items:
                             - key: config.yaml
                               path: config.yaml
@@ -251,7 +251,7 @@ spec:
               apiVersion: v1
               kind: Secret
               metadata:
-                name: 54fbe34b39bc14dfe48a7d3a0e7a1e114ab4ecf4761f1bbf22b014daf4dfec
+                name: e9f1765cd16ab12f733234e41e3db6e9242b1f337f9fd04fe6b0179c7d2ae0
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
                   app.kubernetes.io/instance: (join('.', [$namespace, 's3']))

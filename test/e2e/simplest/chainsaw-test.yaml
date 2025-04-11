@@ -79,7 +79,7 @@ spec:
                       - name: config
                         secret:
                           defaultMode: 420
-                          secretName: ae97d4d7821a68347661a172e37ecd5b1acce920cad2258fe9d296644219c7
+                          secretName: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
                           items:
                             - key: config.yaml
                               path: config.yaml
@@ -109,7 +109,7 @@ spec:
               apiVersion: v1
               kind: Secret
               metadata:
-                name: ae97d4d7821a68347661a172e37ecd5b1acce920cad2258fe9d296644219c7
+                name: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
                   app.kubernetes.io/instance: (join('.', [$namespace, 'simplest']))
