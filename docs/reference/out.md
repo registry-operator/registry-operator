@@ -43,7 +43,7 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `realm` _string_ | Realm |  |  |
-| `secret` _[SecretKeySelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#secretkeyselector-v1-core)_ | Htpasswd |  |  |
+| `secret` _[SecretKeySelector](#secretkeyselector)_ | Htpasswd |  |  |
 
 
 #### Registry
@@ -135,6 +135,7 @@ SecretKeySelector selects a key of a Secret.
 
 
 _Appears in:_
+- [Htpasswd](#htpasswd)
 - [S3StorageSource](#s3storagesource)
 
 | Field | Description | Default | Validation |

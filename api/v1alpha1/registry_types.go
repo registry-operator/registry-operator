@@ -50,22 +50,25 @@ type RegistrySpec struct {
 	Storage Storage `json:"storage,omitempty"`
 }
 
-// Auth
+// Auth defines the authentication configuration for accessing the registry.
 type Auth struct {
-	// Htpasswd
+	// Htpasswd specifies HTTP Basic authentication using an htpasswd file.
+	// If set, this method will be used to authenticate users.
 	// +optional
 	Htpasswd *Htpasswd `json:"htpasswd,omitempty"`
 }
 
-// Htpasswd
+// Htpasswd defines the configuration for HTTP Basic authentication using an htpasswd file.
 type Htpasswd struct {
-	// Realm
-	// +default="basic-realm"
+	// Realm is the authentication realm used in the HTTP Basic Auth challenge.
+	// It is typically displayed in the login dialog presented by the browser.
+	// Defaults to "basic-realm".
 	// +optional
 	Realm string `json:"realm"`
 
-	// Htpasswd
-	Secret corev1.SecretKeySelector `json:"secret"`
+	// Secret is a reference to a Kubernetes Secret that contains the htpasswd file.
+	// The secret key should hold the contents of a valid htpasswd file used for authentication.
+	Secret SecretKeySelector `json:"secret"`
 }
 
 // Storage specifies various types of storage sources that a registry can use for persistence.
