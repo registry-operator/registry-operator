@@ -756,6 +756,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#s3storagesource" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3StorageSource
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secretkeyselector" class="md-nav__link">
+    <span class="md-ellipsis">
+      SecretKeySelector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#storage" class="md-nav__link">
     <span class="md-ellipsis">
       Storage
@@ -867,6 +885,24 @@
   <a href="#registrystatus" class="md-nav__link">
     <span class="md-ellipsis">
       RegistryStatus
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3storagesource" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3StorageSource
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secretkeyselector" class="md-nav__link">
+    <span class="md-ellipsis">
+      SecretKeySelector
     </span>
   </a>
   
@@ -1005,7 +1041,7 @@
 </tr>
 <tr>
 <td><code>storage</code> <em><a href="#storage">Storage</a></em></td>
-<td>Storage defines the available storage options for a registry.<br />It allows specifying different volume sources to manage storage lifecycle and persistence.</td>
+<td>Storage defines the available storage options for a registry.<br />It allows specifying different storage sources to manage storage lifecycle and persistence.</td>
 <td></td>
 <td></td>
 </tr>
@@ -1045,8 +1081,78 @@
 </tr>
 </tbody>
 </table>
+<h4 id="s3storagesource">S3StorageSource</h4>
+<p>S3StorageSource defines the configuration for connecting to an S3-compatible
+storage backend. It holds the necessary secret references to access an S3-compatible
+storage service.</p>
+<p><em>Appears in:</em>
+- <a href="#storage">Storage</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Default</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bucketName</code> <em><a href="#secretkeyselector">SecretKeySelector</a></em></td>
+<td>BucketName is an optional reference to the secret key containing the<br />default bucket name to be used.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>region</code> <em><a href="#secretkeyselector">SecretKeySelector</a></em></td>
+<td>Region is an optional reference to the secret key containing the S3<br />region name.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>accessKey</code> <em><a href="#secretkeyselector">SecretKeySelector</a></em></td>
+<td>AccessKey is a reference to the secret key containing the S3 access key.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>secretKey</code> <em><a href="#secretkeyselector">SecretKeySelector</a></em></td>
+<td>SecretKey is a reference to the secret key containing the S3 secret key.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>endpointURL</code> <em><a href="#secretkeyselector">SecretKeySelector</a></em></td>
+<td>EndpointURL is an optional reference to the secret key containing an<br />override for the S3 endpoint URL.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="secretkeyselector">SecretKeySelector</h4>
+<p>SecretKeySelector selects a key of a Secret.</p>
+<p><em>Appears in:</em>
+- <a href="#s3storagesource">S3StorageSource</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Default</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>key</code> <em>string</em></td>
+<td>The key of the secret to select from. Must be a valid secret key.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h4 id="storage">Storage</h4>
-<p>Storage specifies various types of volume sources that a registry can use for storage.</p>
+<p>Storage specifies various types of storage sources that a registry can use for persistence.</p>
 <p><em>Appears in:</em>
 - <a href="#registryspec">RegistrySpec</a></p>
 <table>
@@ -1086,6 +1192,12 @@
 <tr>
 <td><code>persistentVolumeClaimTemplate</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#persistentvolumeclaimspec-v1-core">PersistentVolumeClaimSpec</a></em></td>
 <td>PersistentVolumeClaimTemplate allows creating PVCs dynamically.<br />This defines a PVC template that will be instantiated for the pod.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>s3</code> <em><a href="#s3storagesource">S3StorageSource</a></em></td>
+<td>S3 defines an S3-compatible storage source for persisting registry data.<br />It provides a way to use object storage systems such as Amazon S3 or S3-compatible services<br />for data persistence. This field is optional and can be configured with an endpoint and appropriate credentials.</td>
 <td></td>
 <td></td>
 </tr>
