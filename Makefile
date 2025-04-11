@@ -63,8 +63,12 @@ test: manifests generate ## Run tests.
 test-e2e: chainsaw ## Run the e2e tests against a k8s instance using Kyverno Chainsaw.
 	$(CHAINSAW) test ${CHAINSAW_ARGS}
 
+.PHONY: fmt
+fmt: golangci-lint ## Run golangci-lint formatters.
+	$(GOLANGCI_LINT) fmt
+
 .PHONY: lint
-lint: golangci-lint ## Run golangci-lint linter.
+lint: golangci-lint ## Run golangci-lint linters.
 	$(GOLANGCI_LINT) run
 
 .PHONY: lint-fix

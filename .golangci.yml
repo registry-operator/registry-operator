@@ -1,53 +1,57 @@
+version: "2"
 run:
-  timeout: 5m
   allow-parallel-runners: true
-
-issues:
-  # don't skip warning about doc comments
-  # don't exclude the default set of lint
-  exclude-use-default: false
-
 linters:
-  disable-all: true
+  default: none
   enable:
-  - dupl
-  - errcheck
-  - gci
-  - ginkgolinter
-  - goconst
-  - gocyclo
-  - godot
-  - gofmt
-  - goimports
-  - gosimple
-  - govet
-  - ineffassign
-  - lll
-  - misspell
-  - nakedret
-  - nolintlint
-  - prealloc
-  - revive
-  - staticcheck
-  - typecheck
-  - unconvert
-  - unparam
-  - unused
-
-linters-settings:
-  gci:
-    sections:
-    - standard
-    - default
-    - blank
-    - dot
-    - prefix(k8s.io,sigs.k8s.io)
-    - prefix(github.com/registry-operator)
-
-  nolintlint:
-    require-explanation: true
-    require-specific: true
-
-  revive:
-    rules:
-    - name: comment-spacings
+    - dupl
+    - errcheck
+    - ginkgolinter
+    - goconst
+    - gocyclo
+    - godot
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - nakedret
+    - nolintlint
+    - prealloc
+    - revive
+    - staticcheck
+    - unconvert
+    - unparam
+    - unused
+  settings:
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+    revive:
+      rules:
+        - name: comment-spacings
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - goimports
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - blank
+        - dot
+        - prefix(k8s.io,sigs.k8s.io)
+        - prefix(github.com/registry-operator)
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

@@ -119,7 +119,7 @@ func (u VersionUpgrade) ManagedInstance(
 			"No upgrade routines are needed for the Registry instance",
 			"registry", klog.KObj(&updated),
 			"version", updated.Status.Version,
-			"latest", Latest.Version.String(),
+			"latest", Latest.String(),
 		)
 
 		registryV, err := semver.NewVersion(u.Version.Registry)
