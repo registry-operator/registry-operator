@@ -64,8 +64,7 @@ func TestDesiredSecret(t *testing.T) {
 			"config.yaml": devConfig,
 		}
 
-		spec := registryv1alpha1.RegistrySpec{}
-		config, _ := manifestutils.GenerateConfig(spec, nil)
+		config, _ := generateConfig(t.Context(), params)
 		hash, _ := manifestutils.CalculateHash(config)
 		expectedName := naming.Secret("test", hash)
 

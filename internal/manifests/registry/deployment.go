@@ -106,13 +106,7 @@ func Deployment(ctx context.Context, params manifests.Params) (*appsv1.Deploymen
 	if err != nil {
 		return nil, err
 	}
-
-	s3, err := manifestutils.NewS3Config(ctx, params)
-	if err != nil {
-		return nil, err
-	}
-
-	cfg, err := manifestutils.GenerateConfig(params.Registry.Spec, s3)
+	cfg, err := generateConfig(ctx, params)
 	if err != nil {
 		return nil, err
 	}
