@@ -7,8 +7,15 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - configmaps
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
   - persistentvolumeclaims
+  - secrets
   - services
   verbs:
   - create
@@ -18,13 +25,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
 - apiGroups:
   - apps
   resources:

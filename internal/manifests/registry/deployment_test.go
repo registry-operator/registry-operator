@@ -43,7 +43,7 @@ func TestDeploymentNewDefault(t *testing.T) {
 	}
 
 	// test
-	d, err := Deployment(params)
+	d, err := Deployment(t.Context(), params)
 	require.NoError(t, err)
 
 	// verify

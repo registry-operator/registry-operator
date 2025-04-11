@@ -18,19 +18,20 @@
 package manifests
 
 import (
+	"context"
 	"reflect"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-type Builder[Params any] func(params Params) ([]client.Object, error)
+type Builder[Params any] func(ctx context.Context, params Params) ([]client.Object, error)
 
-type ManifestFactory[T client.Object, Params any] func(params Params) (T, error)
+type ManifestFactory[T client.Object, Params any] func(ctx context.Context, params Params) (T, error)
 type K8sManifestFactory[Params any] ManifestFactory[client.Object, Params]
 
 func Factory[T client.Object, Params any](f ManifestFactory[T, Params]) K8sManifestFactory[Params] {
-	return func(params Params) (client.Object, error) {
-		return f(params)
+	return func(ctx context.Context, params Params) (client.Object, error) {
+		return f(ctx, params)
 	}
 }
 

@@ -18,6 +18,8 @@
 package registry
 
 import (
+	"context"
+
 	"github.com/registry-operator/registry-operator/internal/manifests"
 	"github.com/registry-operator/registry-operator/internal/manifests/manifestutils"
 	"github.com/registry-operator/registry-operator/internal/naming"
@@ -65,7 +67,7 @@ func convertServicePorts(containerPorts []corev1.ContainerPort) []corev1.Service
 	return servicePorts
 }
 
-func Service(params manifests.Params) (*corev1.Service, error) {
+func Service(ctx context.Context, params manifests.Params) (*corev1.Service, error) {
 	name := naming.Service(params.Registry.Name)
 	labels := manifestutils.Labels(
 		params.Registry.ObjectMeta,

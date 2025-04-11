@@ -41,7 +41,7 @@ func TestDesiredService(t *testing.T) {
 			},
 		}
 
-		actual, err := Service(params)
+		actual, err := Service(t.Context(), params)
 		require.NoError(t, err)
 		assert.Equal(t, "my-instance-registry", actual.Name)
 		assert.Equal(t, naming.Service(params.Registry.Name), actual.Name)
