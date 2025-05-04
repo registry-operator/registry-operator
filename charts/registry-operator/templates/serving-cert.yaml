@@ -9,10 +9,14 @@ spec:
   duration: 2160h   # 90 days
   renewBefore: 360h # 15 days
   dnsNames:
-  - '{{ include "registry-operator.fullname" . }}-webhook-service.{{ .Release.Namespace}}.svc'
-  - '{{ include "registry-operator.fullname" . }}-webhook-service.{{ .Release.Namespace}}.svc.{{ .Values.kubernetesClusterDomain }}'
+  - '{{ include "registry-operator.fullname" . }}-webhook-service.{{ .Release.Namespace }}.svc'
+  - '{{ include "registry-operator.fullname" . }}-webhook-service.{{ .Release.Namespace }}.svc.{{ .Values.kubernetesClusterDomain }}'
   issuerRef:
     kind: Issuer
     name: '{{ include "registry-operator.fullname" . }}-selfsigned-issuer'
   secretName: webhook-server-cert
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
 {{- end }}

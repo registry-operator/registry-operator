@@ -12,5 +12,5 @@ spec:
   issuerRef:
     kind: Issuer
     name: '{{ include "registry-operator.fullname" . }}-selfsigned-issuer'
-  secretName: metrics-server-cert
+  secretName: {{ include "registry-operator.fullname" . }}-metrics-server-cert
 {{- end }}
