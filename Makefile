@@ -196,6 +196,7 @@ KUBE_LINTER    ?= $(LOCALBIN)/kube-linter
 KUSTOMIZE      ?= $(LOCALBIN)/kustomize
 GOLANGCI_LINT  ?= $(LOCALBIN)/golangci-lint
 HELMIFY        ?= $(LOCALBIN)/helmify
+HELM_DOCS      ?= $(LOCALBIN)/helm-docs
 YQ             ?= $(LOCALBIN)/yq
 
 ## Tool Versions
@@ -231,6 +232,9 @@ KUSTOMIZE_VERSION ?= v5.6.0
 
 # renovate: datasource=github-tags depName=arttor/helmify
 HELMIFY_VERSION ?= v0.4.18
+
+# renovate: datasource=github-tags depName=norwoodj/helm-docs
+HELM_DOCS_VERSION ?= v1.14.2
 
 # renovate: datasource=github-tags depName=mikefarah/yq
 YQ_VERSION ?= v4.45.1
@@ -285,10 +289,15 @@ helmify: $(HELMIFY)-$(HELMIFY_VERSION)
 $(HELMIFY)-$(HELMIFY_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(HELMIFY),github.com/arttor/helmify/cmd/helmify,$(HELMIFY_VERSION))
 
+.PHONY: helm-docs
+helm-docs: $(HELM_DOCS)-$(HELM_DOCS_VERSION)
+$(HELM_DOCS)-$(HELM_DOCS_VERSION): $(LOCALBIN)
+	$(call go-install-tool,$(HELM_DOCS),github.com/norwoodj/helm-docs/cmd/helm-docs,$(HELM_DOCS_VERSION))
+
 .PHONY: yq
 yq: $(YQ)-$(YQ_VERSION)
 $(YQ)-$(YQ_VERSION): $(LOCALBIN)
-	$(call go-install-tool,$(YQ),github.com/mikefarah/yq/cmd,$(YQ_VERSION))
+	$(call go-install-tool,$(YQ),github.com/mikefarah/yq/v4,$(YQ_VERSION))
 
 .PHONY: helm-init
 helm-init: manifests kustomize helmify
@@ -299,6 +308,11 @@ helm-crd: manifests kustomize yq
 	rm -rf charts/registry-operator/crds
 	mkdir -p charts/registry-operator/crds
 	$(KUSTOMIZE) build config/default/ | $(YQ) 'select(.kind=="CustomResourceDefinition")' | $(YQ) -s '"charts/registry-operator/crds/" + .metadata.name + "_" + .spec.versions[0].name + ".yaml"'
+
+.PHONY: helm-readme
+helm-readme: manifests helm-crd helm-docs
+	cd charts/registry-operator
+	$(HELM_DOCS) --values-file ./values.yaml --output-file ./README.md
 
 # go-install-tool will 'go install' any package with custom target and name of binary, if it doesn't exist
 # $1 - target path with name of binary
