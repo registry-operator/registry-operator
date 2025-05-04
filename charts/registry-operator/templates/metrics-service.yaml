@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "registry-operator.fullname" . }}-controller-manager-metrics-service
+  labels:
+    control-plane: controller-manager
+    {{- include "registry-operator.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.metricsService.type }}
+  selector:
+    app.kubernetes.io/name: registry-operator
+    control-plane: controller-manager
+    {{- include "registry-operator.selectorLabels" . | nindent 4 }}
+  ports:
+  {{- .Values.metricsService.ports | toYaml | nindent 4 }}

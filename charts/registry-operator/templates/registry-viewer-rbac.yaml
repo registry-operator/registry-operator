@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "registry-operator.fullname" . }}-registry-viewer-role
+  labels:
+    {{- include "registry-operator.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - registry-operator.dev
+  resources:
+  - registries
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - registry-operator.dev
+  resources:
+  - registries/status
+  verbs:
+  - get

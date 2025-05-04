@@ -1,0 +1,8 @@
+apiVersion: v2
+name: registry-operator
+description: Operator for CNCF Distribution Registry 📦
+type: application
+# THe chart version is tied to the make file
+version: 0.1.0
+# THe app version is tied to the make file
+appVersion: "0.1.0"

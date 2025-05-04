@@ -1,0 +1,16 @@
+{{- if .Values.webhook.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "registry-operator.fullname" . }}-webhook-service
+  labels:
+    {{- include "registry-operator.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.webhookService.type }}
+  selector:
+    app.kubernetes.io/name: registry-operator
+    control-plane: controller-manager
+    {{- include "registry-operator.selectorLabels" . | nindent 4 }}
+  ports:
+  {{- .Values.webhookService.ports | toYaml | nindent 2 }}
+{{- end }}

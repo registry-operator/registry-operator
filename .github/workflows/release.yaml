@@ -75,6 +75,20 @@ jobs:
             org.opencontainers.image.base.name="gcr.io/distroless/static:nonroot"
             org.opencontainers.image.created=${{ github.event.created_at }}
 
+  chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: |-
+          mkdir -p bin
+          helm package --version ${{ github.ref_name }} --app-version ${{ github.ref_name }} charts/registry-operator --destination bin
+          helm push ./bin/registry-operator-${{ github.ref_name }}.tgz oci://ghcr.io/${{ github.event.repository.owner.name }}/chart
+
   docs:
     runs-on: ubuntu-latest
     steps:

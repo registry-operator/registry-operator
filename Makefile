@@ -195,6 +195,8 @@ KIND           ?= $(LOCALBIN)/kind
 KUBE_LINTER    ?= $(LOCALBIN)/kube-linter
 KUSTOMIZE      ?= $(LOCALBIN)/kustomize
 GOLANGCI_LINT  ?= $(LOCALBIN)/golangci-lint
+HELMIFY        ?= $(LOCALBIN)/helmify
+YQ             ?= $(LOCALBIN)/yq
 
 ## Tool Versions
 # renovate: datasource=github-tags depName=google/addlicense
@@ -226,6 +228,12 @@ KUBE_LINTER_VERSION ?= v0.7.2
 
 # renovate: datasource=github-tags depName=kubernetes-sigs/kustomize
 KUSTOMIZE_VERSION ?= v5.6.0
+
+# renovate: datasource=github-tags depName=arttor/helmify
+HELMIFY_VERSION ?= v0.4.18
+
+# renovate: datasource=github-tags depName=mikefarah/yq
+YQ_VERSION ?= v4.45.1
 
 .PHONY: addlicense
 addlicense: $(ADDLICENSE)-$(ADDLICENSE_VERSION) ## Download addlicense locally if necessary.
@@ -271,6 +279,26 @@ $(KUBE_LINTER)-$(KUBE_LINTER_VERSION): $(LOCALBIN)
 kustomize: $(KUSTOMIZE)-$(KUSTOMIZE_VERSION) ## Download kustomize locally if necessary.
 $(KUSTOMIZE)-$(KUSTOMIZE_VERSION): $(LOCALBIN)
 	$(call go-install-tool,$(KUSTOMIZE),sigs.k8s.io/kustomize/kustomize/v5,$(KUSTOMIZE_VERSION))
+
+.PHONY: helmify
+helmify: $(HELMIFY)-$(HELMIFY_VERSION)
+$(HELMIFY)-$(HELMIFY_VERSION): $(LOCALBIN)
+	$(call go-install-tool,$(HELMIFY),github.com/arttor/helmify/cmd/helmify,$(HELMIFY_VERSION))
+
+.PHONY: yq
+yq: $(YQ)-$(YQ_VERSION)
+$(YQ)-$(YQ_VERSION): $(LOCALBIN)
+	$(call go-install-tool,$(YQ),github.com/mikefarah/yq/cmd,$(YQ_VERSION))
+
+.PHONY: helm-init
+helm-init: manifests kustomize helmify
+	$(KUSTOMIZE) build config/default | $(HELMIFY) -add-webhook-option -crd-dir charts/registry-operator
+
+.PHONY: helm-crd
+helm-crd: manifests kustomize yq
+	rm -rf charts/registry-operator/crds
+	mkdir -p charts/registry-operator/crds
+	$(KUSTOMIZE) build config/default/ | $(YQ) 'select(.kind=="CustomResourceDefinition")' | $(YQ) -s '"charts/registry-operator/crds/" + .metadata.name + "_" + .spec.versions[0].name + ".yaml"'
 
 # go-install-tool will 'go install' any package with custom target and name of binary, if it doesn't exist
 # $1 - target path with name of binary

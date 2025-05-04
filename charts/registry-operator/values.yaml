@@ -1,0 +1,53 @@
+fullnameOverride: ""
+nameOverride: ""
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+controllerManager:
+  manager:
+    args:
+    - --metrics-bind-address=:8443
+    - --leader-elect
+    - --health-probe-bind-address=:8081
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+    env:
+      enableWebhooks: "true"
+    image:
+      repository: ghcr.io/registry-operator/registry-operator
+      tag: ""
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 64Mi
+  podSecurityContext:
+    runAsNonRoot: true
+  replicas: 1
+  serviceAccount:
+    create: true
+    name: ""
+    annotations: {}
+kubernetesClusterDomain: cluster.local
+metricsService:
+  ports:
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: metrics
+  type: ClusterIP
+webhook:
+  enabled: true
+webhookService:
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 9443
+  type: ClusterIP
