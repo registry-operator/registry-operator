@@ -35,7 +35,9 @@ spec:
                 values:
                 - linux
       containers:
-      - args: {{- toYaml .Values.controllerManager.manager.args | nindent 8 }}
+      - name: manager
+        image: {{ .Values.controllerManager.manager.image.repository }}:{{ .Values.controllerManager.manager.image.tag | default .Chart.AppVersion }}
+        args: {{- toYaml .Values.controllerManager.manager.args | nindent 8 }}
         command:
         - /manager
         env:
@@ -43,14 +45,12 @@ spec:
           value: {{ quote .Values.controllerManager.manager.env.enableWebhooks }}
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
-        image: {{ .Values.controllerManager.manager.image.repository }}:{{ .Values.controllerManager.manager.image.tag | default .Chart.AppVersion }}
         livenessProbe:
           httpGet:
             path: /healthz
             port: 8081
           initialDelaySeconds: 15
           periodSeconds: 20
-        name: manager
         ports:
       {{- if .Values.webhook.enabled }}
         - containerPort: 9443
@@ -68,11 +68,11 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         resources:
-          {{ toYaml .Values.controllerManager.manager.resources | indent 10 }}
+          {{ toYaml .Values.controllerManager.manager.resources | indent 10 | trim }}
         securityContext:
-          {{ toYaml .Values.controllerManager.manager.containerSecurityContext | indent 10 }}
-        volumeMounts:
+          {{ toYaml .Values.controllerManager.manager.containerSecurityContext | indent 10 | trim }}
       {{- if .Values.webhook.enabled }}
+        volumeMounts:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
