@@ -67,10 +67,10 @@ spec:
             port: 8081
           initialDelaySeconds: 5
           periodSeconds: 10
-        resources: {{- toYaml .Values.controllerManager.manager.resources | nindent 10
-          }}
-        securityContext: {{- toYaml .Values.controllerManager.manager.containerSecurityContext
-          | nindent 10 }}
+        resources:
+          {{ toYaml .Values.controllerManager.manager.resources | indent 10 }}
+        securityContext:
+          {{ toYaml .Values.controllerManager.manager.containerSecurityContext | indent 10 }}
         volumeMounts:
       {{- if .Values.webhook.enabled }}
         - mountPath: /tmp/k8s-webhook-server/serving-certs

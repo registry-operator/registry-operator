@@ -4,7 +4,7 @@ kind: Certificate
 metadata:
   name: {{ include "registry-operator.fullname" . }}-metrics-certs
   labels:
-  {{- include "registry-operator.labels" . | nindent 4 }}
+    {{- include "registry-operator.labels" . | nindent 4 }}
 spec:
   dnsNames:
   - '{{ include "registry-operator.fullname" . }}-webhook-service.{{ .Release.Namespace }}.svc'

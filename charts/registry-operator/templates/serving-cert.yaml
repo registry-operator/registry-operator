@@ -6,6 +6,8 @@ metadata:
   labels:
     {{- include "registry-operator.labels" . | nindent 4 }}
 spec:
+  duration: 2160h   # 90 days
+  renewBefore: 360h # 15 days
   dnsNames:
   - '{{ include "registry-operator.fullname" . }}-webhook-service.{{ .Release.Namespace}}.svc'
   - '{{ include "registry-operator.fullname" . }}-webhook-service.{{ .Release.Namespace}}.svc.{{ .Values.kubernetesClusterDomain }}'

@@ -14,7 +14,7 @@ webhooks:
     service:
       name: '{{ include "registry-operator.fullname" . }}-webhook-service'
       namespace: '{{ .Release.Namespace }}'
-      path: /validate-registry-operator-dev-v1alpha1-registry
+      path: "/validate-registry-operator-dev-v1alpha1-registry"
   failurePolicy: Fail
   name: vregistry-v1alpha1.kb.io
   rules:
