@@ -69,7 +69,7 @@ spec:
                   spec:
                     containers:
                       - name: distribution
-                        image: docker.io/library/registry:3.0.0-rc.3
+                        image: docker.io/library/registry:3.0.0
                         command: [ "registry" ]
                         args: [ "serve", "/etc/distribution/config.yaml" ]
                         ports:
@@ -87,9 +87,9 @@ spec:
                             mountPath: /var/lib/registry
                     volumes:
                       - name: config
-                        configMap:
+                        secret:
                           defaultMode: 420
-                          name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                          secretName: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
                           items:
                             - key: config.yaml
                               path: config.yaml
@@ -123,9 +123,9 @@ spec:
         - assert:
             resource:
               apiVersion: v1
-              kind: ConfigMap
+              kind: Secret
               metadata:
-                name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
+                name: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
                   app.kubernetes.io/instance: (join('.', [$namespace, 'ephemeral']))

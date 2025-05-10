@@ -21,6 +21,6 @@ import (
 	registryv1alpha1 "github.com/registry-operator/registry-operator/api/v1alpha1"
 )
 
-func upgrade3_0_0_rc3(u VersionUpgrade, registry *registryv1alpha1.Registry) (*registryv1alpha1.Registry, error) {
+func upgrade3_0_0(u VersionUpgrade, registry *registryv1alpha1.Registry) (*registryv1alpha1.Registry, error) {
 	return registry, nil
 }

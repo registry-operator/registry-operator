@@ -18,6 +18,8 @@
 package registry
 
 import (
+	"context"
+
 	"github.com/registry-operator/registry-operator/internal/manifests"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -28,19 +30,19 @@ const (
 )
 
 // Build creates the manifest for the registry resource.
-func Build(params manifests.Params) ([]client.Object, error) {
+func Build(ctx context.Context, params manifests.Params) ([]client.Object, error) {
 	var resourceManifests []client.Object
 	var manifestFactories []manifests.K8sManifestFactory[manifests.Params]
 
 	manifestFactories = append(manifestFactories, []manifests.K8sManifestFactory[manifests.Params]{
 		manifests.Factory(Deployment),
-		manifests.Factory(ConfigMap),
+		manifests.Factory(Secret),
 		manifests.Factory(Service),
 		manifests.Factory(PersistentVolumeClaim),
 	}...)
 
 	for _, factory := range manifestFactories {
-		res, err := factory(params)
+		res, err := factory(ctx, params)
 		if err != nil {
 			return nil, err
 		} else if manifests.ObjectIsNotNil(res) {
