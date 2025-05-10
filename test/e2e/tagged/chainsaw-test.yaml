@@ -131,3 +131,22 @@ spec:
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "3.0.0"
+    - name: Start I/O validation
+      try:
+        - apply:
+            resource:
+              apiVersion: batch/v1
+              kind: Job
+              metadata:
+                name: validation
+              spec: # TODO
+    - name: Check if I/O validation completed succesfully
+      try:
+        - assert:
+            resource:
+              apiVersion: batch/v1
+              kind: Job
+              metadata:
+                name: validation
+              status:
+                succeeded: 1
