@@ -4,10 +4,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: controller
-<<<<<<< HEAD
   newName: ghcr.io/registry-operator/registry-operator
-  newTag: v0.3.0
-=======
-  newName: localhost:5005/registry-operator
-  newTag: dev-eeb077-dirty
->>>>>>> origin/main
+  newTag: v0.3.1
