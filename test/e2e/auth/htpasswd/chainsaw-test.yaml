@@ -2,9 +2,9 @@
 apiVersion: chainsaw.kyverno.io/v1alpha1
 kind: Test
 metadata:
-  name: empty-dir
+  name: htpasswd
   labels:
-    area: 'storage'
+    area: 'auth'
 spec:
   timeouts:
     apply: 5s
@@ -24,19 +24,32 @@ spec:
                 namespace: registry-operator-system
               status:
                 availableReplicas: 1
-    - name: Create empty-dir registry
+    - name: Create htpasswd
+      try:
+        - create:
+            resource:
+              apiVersion: v1
+              kind: Secret
+              metadata:
+                name: htpasswd
+              type: Opaque
+              data:
+                # htpasswd -Bbn testuser testpassword
+                auth: |
+                  testuser:$2y$05$RQyrk0CrVzHu4.kBVoR0b.g.jgPXcZuEqZi3zCwkxI6CqPIqt3AfS
+    - name: Create htpasswd registry
       try:
         - create:
             resource:
               apiVersion: registry-operator.dev/v1alpha1
               kind: Registry
               metadata:
-                name: empty-dir
+                name: htpasswd
               spec:
-                storage:
-                  emptyDir:
-                    medium: Memory
-                    sizeLimit: 200Mi
+                auth:
+                  htpasswd:
+                    secret:
+                      name: htpasswd
     - name: Wait for Registry status to be ready and resources to be deployed
       try:
         - assert:
@@ -44,7 +57,7 @@ spec:
               apiVersion: registry-operator.dev/v1alpha1
               kind: Registry
               metadata:
-                name: empty-dir
+                name: htpasswd
               status:
                 ready: true
         - assert:
@@ -52,10 +65,10 @@ spec:
               apiVersion: apps/v1
               kind: Deployment
               metadata:
-                name: empty-dir-registry
+                name: htpasswd-registry
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'empty-dir']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'htpasswd']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
@@ -64,7 +77,7 @@ spec:
                   spec:
                     containers:
                       - name: distribution
-                        image: docker.io/library/registry:3.0.0
+                        image: docker.io/library/registry:3.0.0-rc.3
                         command: [ "registry" ]
                         args: [ "serve", "/etc/distribution/config.yaml" ]
                         ports:
@@ -78,16 +91,22 @@ spec:
                           - name: config
                             readOnly: true
                             mountPath: /etc/distribution
+                          - name: htpasswd
+                            readOnly: true
+                            mountPath: /usr/local/apache/passwd
                           - name: storage
                             mountPath: /var/lib/registry
                     volumes:
                       - name: config
-                        secret:
+                        configMap:
                           defaultMode: 420
-                          secretName: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
+                          name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
                           items:
                             - key: config.yaml
                               path: config.yaml
+                      - name: htpasswd
+                        secret:
+                          secretName: htpasswd
                       - name: storage
                         emptyDir:
                           sizeLimit: 200Mi
@@ -112,12 +131,12 @@ spec:
         - assert:
             resource:
               apiVersion: v1
-              kind: Secret
+              kind: ConfigMap
               metadata:
-                name: ae186ab07d93dc7277fdad13e5337340647ecc9be8c0e907dbc9953ada43df
+                name: d4f6e0d090e2219a53b40993a8514e4035b8077bd5cf8643b9683282eaaf8b
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'empty-dir']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'htpasswd']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"
@@ -126,10 +145,10 @@ spec:
               apiVersion: v1
               kind: Service
               metadata:
-                name: empty-dir-registry
+                name: htpasswd-registry
                 labels:
                   app.kubernetes.io/managed-by: registry-operator
-                  app.kubernetes.io/instance: (join('.', [$namespace, 'empty-dir']))
+                  app.kubernetes.io/instance: (join('.', [$namespace, 'htpasswd']))
                   app.kubernetes.io/part-of: registry
                   app.kubernetes.io/component: registry
                   app.kubernetes.io/version: "latest"

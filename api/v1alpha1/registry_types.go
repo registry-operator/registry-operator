@@ -40,10 +40,35 @@ type RegistrySpec struct {
 	// +optional
 	Affinity *corev1.Affinity `json:"affinity,omitempty"`
 
+	// Auth
+	// +optional
+	Auth Auth `json:"auth,omitempty"`
+
 	// Storage defines the available storage options for a registry.
 	// It allows specifying different storage sources to manage storage lifecycle and persistence.
 	// +optional
 	Storage Storage `json:"storage,omitempty"`
+}
+
+// Auth defines the authentication configuration for accessing the registry.
+type Auth struct {
+	// Htpasswd specifies HTTP Basic authentication using an htpasswd file.
+	// If set, this method will be used to authenticate users.
+	// +optional
+	Htpasswd *Htpasswd `json:"htpasswd,omitempty"`
+}
+
+// Htpasswd defines the configuration for HTTP Basic authentication using an htpasswd file.
+type Htpasswd struct {
+	// Realm is the authentication realm used in the HTTP Basic Auth challenge.
+	// It is typically displayed in the login dialog presented by the browser.
+	// Defaults to "basic-realm".
+	// +optional
+	Realm string `json:"realm"`
+
+	// Secret is a reference to a Kubernetes Secret that contains the htpasswd file.
+	// The secret key should hold the contents of a valid htpasswd file used for authentication.
+	Secret SecretKeySelector `json:"secret"`
 }
 
 // Storage specifies various types of storage sources that a registry can use for persistence.
@@ -129,7 +154,6 @@ type SecretKeySelector struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:storageversion
 // +kubebuilder:conversion:hub
 // +kubebuilder:storageversion
 // +kubebuilder:subresource:status

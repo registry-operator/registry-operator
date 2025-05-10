@@ -13,6 +13,39 @@ Package v1alpha1 contains API Schema definitions for the registry v1alpha1 API g
 
 
 
+#### Auth
+
+
+
+Auth
+
+
+
+_Appears in:_
+- [RegistrySpec](#registryspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `htpasswd` _[Htpasswd](#htpasswd)_ | Htpasswd |  |  |
+
+
+#### Htpasswd
+
+
+
+Htpasswd
+
+
+
+_Appears in:_
+- [Auth](#auth)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `realm` _string_ | Realm |  |  |
+| `secret` _[SecretKeySelector](#secretkeyselector)_ | Htpasswd |  |  |
+
+
 #### Registry
 
 
@@ -49,6 +82,7 @@ _Appears in:_
 | `replicas` _integer_ | Replicas indicates the number of the pod replicas that will be created. |  |  |
 | `resources` _[ResourceRequirements](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#resourcerequirements-v1-core)_ | Resources describe the compute resource requirements. |  |  |
 | `affinity` _[Affinity](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core)_ | Affinity specifies the scheduling constraints for Pods. |  |  |
+| `auth` _[Auth](#auth)_ | Auth |  |  |
 | `storage` _[Storage](#storage)_ | Storage defines the available storage options for a registry.<br />It allows specifying different storage sources to manage storage lifecycle and persistence. |  |  |
 
 
@@ -101,6 +135,7 @@ SecretKeySelector selects a key of a Secret.
 
 
 _Appears in:_
+- [Htpasswd](#htpasswd)
 - [S3StorageSource](#s3storagesource)
 
 | Field | Description | Default | Validation |
