@@ -33,7 +33,7 @@ jobs:
           tag: ${{ github.ref_name }}
           excludeTypes: ""
           excludeScopes: ""
-      - uses: ncipollo/release-action@v1.17.0
+      - uses: ncipollo/release-action@v1.18.0
         with:
           allowUpdates: true
           draft: false
