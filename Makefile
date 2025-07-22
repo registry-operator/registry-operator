@@ -210,7 +210,7 @@ CERT_MANAGER_VERSION ?= v1.18.2
 CONTROLLER_TOOLS_VERSION ?= v0.18.0
 
 # renovate: datasource=github-tags depName=elastic/crd-ref-docs
-CRD_REF_DOCS_VERSION ?= v0.1.0
+CRD_REF_DOCS_VERSION ?= v0.2.0
 
 # renovate: datasource=github-tags depName=tilt-dev/ctlptl
 CTLPTL_VERSION ?= v0.8.42
