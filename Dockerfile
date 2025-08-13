@@ -3,7 +3,7 @@
 FROM --platform=$BUILDPLATFORM tonistiigi/xx AS xx
 
 # Build the manager binary
-FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.24 AS builder
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.25 AS builder
 ARG TARGETOS
 ARG TARGETARCH
 ARG TARGETPLATFORM
