@@ -198,7 +198,7 @@ GOLANGCI_LINT  ?= $(LOCALBIN)/golangci-lint
 
 ## Tool Versions
 # renovate: datasource=github-tags depName=google/addlicense
-ADDLICENSE_VERSION ?= v1.1.1
+ADDLICENSE_VERSION ?= v1.2.0
 
 # renovate: datasource=github-tags depName=kyverno/chainsaw
 CHAINSAW_VERSION ?= v0.2.12
