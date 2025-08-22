@@ -201,7 +201,7 @@ GOLANGCI_LINT  ?= $(LOCALBIN)/golangci-lint
 ADDLICENSE_VERSION ?= v1.2.0
 
 # renovate: datasource=github-tags depName=kyverno/chainsaw
-CHAINSAW_VERSION ?= v0.2.12
+CHAINSAW_VERSION ?= v0.2.13
 
 # renovate: datasource=github-tags depName=cert-manager/cert-manager
 CERT_MANAGER_VERSION ?= v1.18.2
