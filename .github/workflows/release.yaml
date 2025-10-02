@@ -65,6 +65,8 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.event.repository.owner.name }}/registry-operator:${{ github.ref_name }}
           build-args: VERSION=${{ github.ref_name }}
+          annotations: |
+            org.opencontainers.image.description
           labels: |
             org.opencontainers.image.title="registry-operator"
             org.opencontainers.image.authors="The Registry Operator Authors"
