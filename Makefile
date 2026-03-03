@@ -219,7 +219,7 @@ CTLPTL_VERSION ?= v0.8.43
 GOLANGCI_LINT_VERSION ?= v2.6.1
 
 # renovate: datasource=github-tags depName=kubernetes-sigs/kind
-KIND_VERSION ?= v0.30.0
+KIND_VERSION ?= v0.31.0
 
 # renovate: datasource=github-tags depName=stackrox/kube-linter
 KUBE_LINTER_VERSION ?= v0.7.6
