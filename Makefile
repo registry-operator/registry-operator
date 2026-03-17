@@ -216,7 +216,7 @@ CRD_REF_DOCS_VERSION ?= v0.3.0
 CTLPTL_VERSION ?= v0.9.0
 
 # renovate: datasource=github-tags depName=golangci/golangci-lint
-GOLANGCI_LINT_VERSION ?= v2.6.1
+GOLANGCI_LINT_VERSION ?= v2.11.3
 
 # renovate: datasource=github-tags depName=kubernetes-sigs/kind
 KIND_VERSION ?= v0.31.0
