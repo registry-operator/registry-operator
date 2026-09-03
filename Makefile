@@ -213,7 +213,7 @@ CONTROLLER_TOOLS_VERSION ?= v0.20.1
 CRD_REF_DOCS_VERSION ?= v0.3.0
 
 # renovate: datasource=github-tags depName=tilt-dev/ctlptl
-CTLPTL_VERSION ?= v0.9.0
+CTLPTL_VERSION ?= v0.9.5
 
 # renovate: datasource=github-tags depName=golangci/golangci-lint
 GOLANGCI_LINT_VERSION ?= v2.11.3
